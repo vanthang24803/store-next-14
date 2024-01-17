@@ -6,6 +6,7 @@ export type Product = {
   information?: Information;
   categories: Category[];
   options: Option[];
+  images: Image[];
 
   createdAt: string;
   updateAt: string;
@@ -53,6 +54,15 @@ export type Information = {
   price: string;
   released: string;
   introduce: string;
+
+  createdAt: string;
+  updateAt: string;
+};
+
+export type Billboard = {
+  id: string;
+  thumbnail: string;
+  url: string;
 
   createdAt: string;
   updateAt: string;

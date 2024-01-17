@@ -9,7 +9,7 @@ export default function HomeLayout({
     <html lang="en">
       <body>
         <Navbar />
-        <div className="bg-[#f2f3f5] h-screen mt-14">{children}</div>
+        <div className="bg-[#f2f3f5] mt-14">{children}</div>
       </body>
     </html>
   );

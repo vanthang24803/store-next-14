@@ -1,9 +1,10 @@
-import type { Metadata } from 'next'
-import { Quicksand } from 'next/font/google'
-import './globals.css'
-import { siteConfig } from '@/config/site';
+import type { Metadata } from "next";
+import { Quicksand } from "next/font/google";
+import "./globals.css";
+import { siteConfig } from "@/config/site";
+import { ToastProvider } from "@/components/provider/toater-provider";
 
-const font = Quicksand({ subsets: ['latin'] })
+const font = Quicksand({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: {
@@ -21,11 +22,14 @@ export const metadata: Metadata = {
 export default function RootLayout({
   children,
 }: {
-  children: React.ReactNode
+  children: React.ReactNode;
 }) {
   return (
     <html lang="en">
-      <body className={font.className}>{children}</body>
+      <body className={font.className}>
+        <ToastProvider />
+        {children}
+      </body>
     </html>
-  )
+  );
 }
