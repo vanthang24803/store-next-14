@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { CartIcon } from "@/components/icon-cart";
 import { ItemModal } from "./modal/item-modal";
 import { formatPrice, price } from "@/lib/format-price";
+import Link from "next/link";
 
 interface CardItemProps {
   product: Product;
@@ -26,7 +27,9 @@ export const CardItem = ({ product }: CardItemProps) => {
         <span className="text-neutral-500 font-medium text-sm">
           {product.brand}
         </span>
-        <p className="font-semibold text-sm line-clamp-2">{product.name}</p>
+        <Link href={`/products/${product.id}`}>
+          <p className="font-semibold text-sm line-clamp-2">{product.name}</p>
+        </Link>
         <span className="text-neutral-500 font-medium text-sm">
           {product.options.length} phiên bản
         </span>

@@ -1,3 +1,4 @@
+import { Footer } from "@/components/footer";
 import { Navbar } from "@/components/navbar";
 
 export default function HomeLayout({
@@ -10,6 +11,7 @@ export default function HomeLayout({
       <body>
         <Navbar />
         <div className="bg-[#f2f3f5] mt-14">{children}</div>
+        <Footer />
       </body>
     </html>
   );
