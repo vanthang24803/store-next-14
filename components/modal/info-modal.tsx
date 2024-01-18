@@ -5,6 +5,7 @@ import { useState } from "react";
 import { Button } from "../ui/button";
 import { Minus, Plus } from "lucide-react";
 import { Share } from "./share-modal";
+import { formatPrice, price } from "@/lib/format-price";
 
 interface InforModalProps {
   data?: Product | null;
@@ -13,7 +14,7 @@ interface InforModalProps {
 export const InforModal = ({ data }: InforModalProps) => {
   const [option, setOption] = useState<Option | undefined>(data?.options[0]);
 
-  const [total, setTotal] = useState(0);
+  const [total, setTotal] = useState(1);
 
   const handleOptionChange = (id: string) => {
     const newOption = data?.options.find((option) => option.id === id);
@@ -46,14 +47,10 @@ export const InforModal = ({ data }: InforModalProps) => {
         <span className="font-semibold">Giá:</span>
         <div className="flex items-center space-x-2">
           <span className="text-red-500 font-bold text-2xl">
-            {(
-              Number(option?.price) -
-              (Number(option?.price) * Number(option?.sale)) / 100
-            ).toLocaleString("de-DE")}
-            ₫
+            {formatPrice(option?.price , option?.sale)}₫
           </span>
           <span className="text-neutral-400 text-lg line-through">
-            {Number(option?.price).toLocaleString("de-DE")}₫
+            {price(option?.price)}₫
           </span>
         </div>
         {Number(option?.sale) > 0 && (

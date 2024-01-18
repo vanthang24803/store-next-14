@@ -11,18 +11,18 @@ interface CardItemProps {
   product: Product;
 }
 
-export const CardItem = ({ product }: CardItemProps) => {
+export const CardItemSmall = ({ product }: CardItemProps) => {
   return (
-    <div className="w-full pb-4 bg-white rounded-md hover:shadow-md hover:cursor-pointer flex flex-col overflow-hidden group">
+    <div className="w-full pb-2 bg-white rounded-md hover:shadow-md hover:cursor-pointer flex flex-col overflow-hidden group lg:max-h-[62vh]">
       <div className="relative">
         <img
           src={product.thumbnail}
           alt={product.name}
-          className="md:h-[40vh] object-fill rounded-md hover:scale-105 transform transition-transform duration-500 p-2 w-full"
+          className="w-full object-fill rounded-md hover:scale-105 transform transition-transform duration-500 p-2 "
         />
         <ItemModal productId={product.id} />
       </div>
-      <div className="flex flex-col space-y-1 px-4">
+      <div className="flex flex-col px-4">
         <span className="text-neutral-500 font-medium text-sm">
           {product.brand}
         </span>
@@ -31,7 +31,7 @@ export const CardItem = ({ product }: CardItemProps) => {
           {product.options.length} phiên bản
         </span>
 
-        <div className="flex items-center justify-between py-2">
+        <div className="flex items-center justify-between py-1">
           {product.options[0].sale > 0 ? (
             <div className="flex flex-col">
               <span className="font-bold text-sm text-red-600">
@@ -55,11 +55,11 @@ export const CardItem = ({ product }: CardItemProps) => {
           )}
         </div>
         {product.options[0].quantity > 0 ? (
-          <div className="my-2 flex items-center space-x-4">
+          <div className="my-1 flex items-center space-x-4">
             <div className="w-9 h-9 flex items-center justify-center bg-[#65b10d] rounded-full">
               <CartIcon />
             </div>
-            <span className="font-semibold text-[12px] uppercase">
+            <span className="font-semibold md:text-[12px] text-[10px] uppercase">
               Thêm vào giỏ
             </span>
           </div>
@@ -68,7 +68,7 @@ export const CardItem = ({ product }: CardItemProps) => {
             <div className="w-9 h-9 flex items-center justify-center bg-neutral-300/90 rounded-full cursor-not-allowed">
               <CartIcon />
             </div>
-            <span className="font-semibold text-[12px] uppercase text-neutral-400 cursor-not-allowed">
+            <span className="font-semibold md:text-[12px] text-[10px] uppercase text-neutral-400 cursor-not-allowed">
               Hết hàng
             </span>
           </div>

@@ -6,7 +6,7 @@ import { MobileMenu } from "@/components/mobile-menu";
 
 export const ActionMenu = () => {
   return (
-    <div className="flex items-center space-x-4">
+    <div className="flex items-center space-x-8">
       <UserAction />
       <CartAction />
       <div className="block md:hidden">

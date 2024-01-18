@@ -41,6 +41,7 @@ export const Slider = ({ billboard }: SliderProps) => {
                   src={item.thumbnail}
                   alt={item.thumbnail}
                   fill
+                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                   className="rounded-md object-cover"
                 />
               </Link>
@@ -63,6 +64,7 @@ export function Loading() {
         src="https://images.unsplash.com/photo-1588345921523-c2dcdb7f1dcd?w=800&dpr=2&q=80"
         alt="Photo by Drew Beamer"
         fill
+        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
         className="rounded-md object-cover"
       />
     </AspectRatio>

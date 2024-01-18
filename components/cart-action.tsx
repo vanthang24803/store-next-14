@@ -26,9 +26,6 @@ export const CartAction = () => {
               <span className="text-white text-[12px]">{num}</span>
             </div>
           </div>
-          <span className="lg:block hidden text-sm font-medium text-[#417505]">
-            Giỏ hàng
-          </span>
         </div>
       </SheetTrigger>
       <SheetContent>
