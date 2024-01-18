@@ -1,10 +1,10 @@
 "use client";
 
-import { Option, Product } from "@/types";
 import { useState } from "react";
-import { Button } from "../ui/button";
+import { Option, Product } from "@/types";
 import { Minus, Plus } from "lucide-react";
-import { Share } from "./share-modal";
+import { Button } from "@/components/ui/button";
+import { Share } from "@/components/modal/share-modal";
 import { formatPrice, price } from "@/lib/format-price";
 
 interface InforModalProps {
@@ -118,7 +118,7 @@ export const InforModal = ({ data }: InforModalProps) => {
         </Button>
       )}
 
-      <Share productId={data?.id} />
+      <Share productId={data?.id} show={true} />
     </div>
   );
 };

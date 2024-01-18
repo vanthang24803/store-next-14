@@ -1,5 +1,9 @@
+import { Quicksand } from "next/font/google";
 import { Footer } from "@/components/footer";
 import { Navbar } from "@/components/navbar";
+
+
+const font = Quicksand({ subsets: ["latin"] });
 
 export default function HomeLayout({
   children,
@@ -8,9 +12,9 @@ export default function HomeLayout({
 }) {
   return (
     <html lang="en">
-      <body>
+      <body className={font.className}>
         <Navbar />
-        <div className="bg-[#f2f3f5] mt-14">{children}</div>
+        <div className="mt-14  bg-[#f2f3f5] ">{children}</div>
         <Footer />
       </body>
     </html>

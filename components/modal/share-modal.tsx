@@ -6,9 +6,10 @@ import toast from "react-hot-toast";
 
 interface ShareProps {
   productId: string | undefined;
+  show?: boolean;
 }
 
-export const Share = ({ productId }: ShareProps) => {
+export const Share = ({ productId, show }: ShareProps) => {
   const onCopy = () => {
     navigator.clipboard.writeText(
       `${process.env.NEXT_PUBLIC_URL}/products/${productId}` || ""
@@ -31,12 +32,14 @@ export const Share = ({ productId }: ShareProps) => {
         </div>
       </div>
 
-      <span
-        className="underline hover:cursor-pointer text-sm"
-        onClick={() => router.push(`/products/${productId}`)}
-      >
-        Xem chi tiết sản phẩm
-      </span>
+      {show && (
+        <span
+          className="underline hover:cursor-pointer text-sm"
+          onClick={() => router.push(`/products/${productId}`)}
+        >
+          Xem chi tiết sản phẩm
+        </span>
+      )}
     </div>
   );
 };

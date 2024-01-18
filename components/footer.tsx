@@ -15,7 +15,7 @@ import {
 export const Footer = () => {
   return (
     <>
-      <div className="max-w-screen-xl lg:block hidden mx-auto  py-8">
+      <div className="max-w-screen-xl lg:block hidden mx-auto  py-8 border-t-[1px]">
         <div className="flex justify-between pb-6">
           <div className="flex flex-col space-y-3">
             <p className="text-xl font-semibold text-[#417505]">{info.title}</p>

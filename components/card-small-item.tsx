@@ -22,6 +22,11 @@ export const CardItemSmall = ({ product }: CardItemProps) => {
           className="w-full object-fill rounded-md hover:scale-105 transform transition-transform duration-500 p-2 "
         />
         <ItemModal productId={product.id} />
+        {!product.options[0].status && (
+          <div className="absolute top-2 left-2  bg-neutral-800/80 rounded-md text-white flex items-center justify-center text-sm px-2 py-1">
+          Hết hàng
+        </div>
+        )}
       </div>
       <div className="flex flex-col px-4">
         <span className="text-neutral-500 font-medium text-sm">

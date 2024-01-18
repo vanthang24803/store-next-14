@@ -21,7 +21,14 @@ export const CardItem = ({ product }: CardItemProps) => {
           alt={product.name}
           className="md:h-[40vh] object-fill rounded-md hover:scale-105 transform transition-transform duration-500 p-2 w-full"
         />
-        <ItemModal productId={product.id} />
+       <div className="hidden md:block">
+       <ItemModal productId={product.id} />
+       </div>
+        {!product.options[0].status && (
+          <div className="absolute top-3 left-3  bg-neutral-800/80 rounded-md text-white flex items-center justify-center text-sm px-2 py-1">
+            Hết hàng
+          </div>
+        )}
       </div>
       <div className="flex flex-col space-y-1 px-4">
         <span className="text-neutral-500 font-medium text-sm">
