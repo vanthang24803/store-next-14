@@ -7,12 +7,15 @@ import { Button } from "@/components/ui/button";
 import { CartIcon } from "@/components/icon-cart";
 import { formatPrice, price } from "@/lib/format-price";
 import { ItemModal } from "@/components/modal/item-modal";
+import useCart from "@/hooks/use-cart";
 
 interface CardItemProps {
   product: Product;
 }
 
 export const CardItemSmall = ({ product }: CardItemProps) => {
+  const cart = useCart();
+
   return (
     <div className="w-full pb-2 bg-white rounded-md hover:shadow-md hover:cursor-pointer flex flex-col overflow-hidden group lg:max-h-[62vh]">
       <div className="relative">
@@ -24,8 +27,8 @@ export const CardItemSmall = ({ product }: CardItemProps) => {
         <ItemModal productId={product.id} />
         {!product.options[0].status && (
           <div className="absolute top-2 left-2  bg-neutral-800/80 rounded-md text-white flex items-center justify-center text-sm px-2 py-1">
-          Hết hàng
-        </div>
+            Hết hàng
+          </div>
         )}
       </div>
       <div className="flex flex-col px-4">
@@ -64,7 +67,10 @@ export const CardItemSmall = ({ product }: CardItemProps) => {
         </div>
         {product.options[0].quantity > 0 ? (
           <div className="my-1 flex items-center space-x-4">
-            <div className="w-9 h-9 flex items-center justify-center bg-[#65b10d] rounded-full">
+            <div
+              className="w-9 h-9 flex items-center justify-center bg-[#65b10d] rounded-full"
+              onClick={() => cart.addItem(product, 1)}
+            >
               <CartIcon />
             </div>
             <span className="font-semibold md:text-[12px] text-[10px] uppercase">

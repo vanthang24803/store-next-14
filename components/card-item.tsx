@@ -7,12 +7,15 @@ import { CartIcon } from "@/components/icon-cart";
 import { ItemModal } from "./modal/item-modal";
 import { formatPrice, price } from "@/lib/format-price";
 import Link from "next/link";
+import useCart from "@/hooks/use-cart";
 
 interface CardItemProps {
   product: Product;
 }
 
 export const CardItem = ({ product }: CardItemProps) => {
+  const cart = useCart();
+
   return (
     <div className="w-full pb-4 bg-white rounded-md hover:shadow-md hover:cursor-pointer flex flex-col overflow-hidden group">
       <div className="relative">
@@ -21,9 +24,9 @@ export const CardItem = ({ product }: CardItemProps) => {
           alt={product.name}
           className="md:h-[40vh] object-fill rounded-md hover:scale-105 transform transition-transform duration-500 p-2 w-full"
         />
-       <div className="hidden md:block">
-       <ItemModal productId={product.id} />
-       </div>
+        <div className="hidden md:block">
+          <ItemModal productId={product.id} />
+        </div>
         {!product.options[0].status && (
           <div className="absolute top-3 left-3  bg-neutral-800/80 rounded-md text-white flex items-center justify-center text-sm px-2 py-1">
             Hết hàng
@@ -65,7 +68,10 @@ export const CardItem = ({ product }: CardItemProps) => {
           )}
         </div>
         {product.options[0].quantity > 0 ? (
-          <div className="my-2 flex items-center space-x-4">
+          <div
+            className="my-2 flex items-center space-x-4"
+            onClick={() => cart.addItem(product, 1)}
+          >
             <div className="w-9 h-9 flex items-center justify-center bg-[#65b10d] rounded-full">
               <CartIcon />
             </div>

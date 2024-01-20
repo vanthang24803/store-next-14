@@ -6,6 +6,7 @@ import { Minus, Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Share } from "@/components/modal/share-modal";
 import { formatPrice, price } from "@/lib/format-price";
+import useCart from "@/hooks/use-cart";
 
 interface InforModalProps {
   data?: Product | null;
@@ -20,6 +21,21 @@ export const InforModal = ({ data }: InforModalProps) => {
     const newOption = data?.options.find((option) => option.id === id);
     setOption(newOption);
   };
+
+  const cart = useCart();
+
+  const addToCart = () => {
+    if (data && option) {
+      const productCopy = { ...data };
+  
+      productCopy.options = [option];
+  
+      cart.addItem(productCopy, total);
+    } else {
+      console.error("Data or option is undefined");
+    }
+  };
+  
 
   return (
     <div className="flex flex-col space-y-2 p-4">
@@ -47,7 +63,7 @@ export const InforModal = ({ data }: InforModalProps) => {
         <span className="font-semibold">Giá:</span>
         <div className="flex items-center space-x-2">
           <span className="text-red-500 font-bold text-2xl">
-            {formatPrice(option?.price , option?.sale)}₫
+            {formatPrice(option?.price, option?.sale)}₫
           </span>
           <span className="text-neutral-400 text-lg line-through">
             {price(option?.price)}₫
@@ -105,13 +121,22 @@ export const InforModal = ({ data }: InforModalProps) => {
         </div>
       </div>
 
-      {total > 0 ? (
-        <Button
-          variant="default"
-          className="bg-[#417505] text-white font-medium  hover:bg-[#65b10d]"
-        >
-          Thêm vào giỏ hàng
-        </Button>
+      {option?.status ? (
+        <>
+          {total > 0 ? (
+            <Button
+              variant="default"
+              className="bg-[#417505] text-white font-medium  hover:bg-[#65b10d]"
+              onClick={addToCart}
+            >
+              Thêm vào giỏ hàng
+            </Button>
+          ) : (
+            <Button variant="secondary" className="cursor-not-allowed">
+              Thêm vào giỏ hàng
+            </Button>
+          )}
+        </>
       ) : (
         <Button variant="secondary" className="cursor-not-allowed">
           Thêm vào giỏ hàng

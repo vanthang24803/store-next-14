@@ -35,7 +35,7 @@ export const ItemModal = ({ productId }: ItemModal) => {
   }, [productId]);
 
   return (
-    <Dialog>
+    <Dialog >
       <DialogTrigger>
         <div className="w-8 h-8 rounded-full items-center justify-center absolute top-[40%] left-[45%] bg-white text-neutral-600  hidden group-hover:flex hover:bg-black hover:text-white ">
           <Eye />

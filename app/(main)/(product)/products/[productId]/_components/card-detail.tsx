@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/button";
 import { Minus, Plus } from "lucide-react";
 import { Policy } from "./policy";
 import { Share } from "@/components/modal/share-modal";
+import useCart from "@/hooks/use-cart";
 
 interface DetailCardProp {
   product: Product | undefined;
@@ -22,6 +23,20 @@ export const DetailCard = ({ product }: DetailCardProp) => {
   const handleOptionChange = (id: string) => {
     const newOption = product?.options.find((option) => option.id === id);
     setOption(newOption);
+  };
+
+  const cart = useCart();
+
+  const addToCart = () => {
+    if (product && option) {
+      const productCopy = { ...product };
+
+      productCopy.options = [option];
+
+      cart.addItem(productCopy, total);
+    } else {
+      console.error("Data or option is undefined");
+    }
   };
 
   return (
@@ -121,13 +136,22 @@ export const DetailCard = ({ product }: DetailCardProp) => {
                 </div>
               </div>
 
-              {total > 0 ? (
-                <Button
-                  variant="default"
-                  className="bg-[#417505] text-white font-medium  hover:bg-[#65b10d]"
-                >
-                  Thêm vào giỏ hàng
-                </Button>
+              {product?.options[0].status ? (
+                <>
+                  {total > 0 ? (
+                    <Button
+                      variant="default"
+                      className="bg-[#417505] text-white font-medium  hover:bg-[#65b10d]"
+                      onClick={addToCart}
+                    >
+                      Thêm vào giỏ hàng
+                    </Button>
+                  ) : (
+                    <Button variant="secondary" className="cursor-not-allowed">
+                      Thêm vào giỏ hàng
+                    </Button>
+                  )}
+                </>
               ) : (
                 <Button variant="secondary" className="cursor-not-allowed">
                   Thêm vào giỏ hàng

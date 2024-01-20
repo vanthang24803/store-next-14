@@ -23,6 +23,7 @@
     "embla-carousel-react": "^8.0.0-rc19",
     "lucide-react": "^0.309.0",
     "next": "14.0.4",
+    "next-auth": "^4.24.5",
     "query-string": "^8.1.0",
     "react": "^18",
     "react-dom": "^18",
