@@ -67,3 +67,13 @@ export type Billboard = {
   createdAt: string;
   updateAt: string;
 };
+
+export type Profile = {
+  firstName: string;
+  lastName: string;
+  email: string;
+  fullName: string;
+  avatar: string;
+  address: string;
+  role: [string];
+};

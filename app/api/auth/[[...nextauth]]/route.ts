@@ -1,5 +1,6 @@
 import NextAuth, { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
+import { use } from "react";
 
 export const authOptions: NextAuthOptions = {
   providers: [
@@ -11,7 +12,7 @@ export const authOptions: NextAuthOptions = {
       },
       async authorize(credentials) {
         const response = await fetch(
-          `${process.env.NEXTAUTH_URL}/api/auth/login`,
+          `${process.env.API_URL}/api/auth/login`,
           {
             method: "POST",
             body: JSON.stringify(credentials),
@@ -20,6 +21,8 @@ export const authOptions: NextAuthOptions = {
         );
 
         const user = await response.json();
+
+        console.log(user);
         return user;
       },
     }),

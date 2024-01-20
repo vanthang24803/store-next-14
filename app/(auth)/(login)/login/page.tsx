@@ -5,12 +5,12 @@ import { Logo } from "@/components/logo";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 import { FormControl, FormField, FormItem } from "@/components/ui/form";
-import { useRouter } from "next/navigation";
+import { redirect, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { signIn } from "next-auth/react";
+import { signIn, useSession } from "next-auth/react";
 import toast from "react-hot-toast";
 
 const formSchema = z.object({
@@ -22,6 +22,12 @@ type CreateFormValue = z.infer<typeof formSchema>;
 
 export default function Login() {
   const router = useRouter();
+
+  const { data: session } = useSession();
+
+  if (session) {
+    redirect("/");
+  }
 
   const [loading, setLoading] = useState(false);
 
