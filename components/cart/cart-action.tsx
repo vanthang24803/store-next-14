@@ -13,7 +13,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Separator } from "@/components/ui/separator";
-import { CartIcon } from "@/components/icon-cart";
+import { CartIcon } from "@/components/icons/icon-cart";
 import useCart from "@/hooks/use-cart";
 import { useEffect, useState } from "react";
 import { Plus, X } from "lucide-react";

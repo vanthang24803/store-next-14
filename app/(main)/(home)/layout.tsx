@@ -3,13 +3,15 @@ import { Footer } from "@/components/footer";
 import { Navbar } from "@/components/navbar";
 
 
+
 const font = Quicksand({ subsets: ["latin"] });
 
-export default function HomeLayout({
+export default async function HomeLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+
   return (
     <html lang="en">
       <body className={font.className}>

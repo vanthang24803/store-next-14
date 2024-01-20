@@ -4,7 +4,7 @@
 import Link from "next/link";
 import { Product } from "@/types";
 import { Button } from "@/components/ui/button";
-import { CartIcon } from "@/components/icon-cart";
+import { CartIcon } from "@/components/icons/icon-cart";
 import { formatPrice, price } from "@/lib/format-price";
 import { ItemModal } from "@/components/modal/item-modal";
 import useCart from "@/hooks/use-cart";

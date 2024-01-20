@@ -1,7 +1,7 @@
 "use client";
 
 import useCart from "@/hooks/use-cart";
-import { Button } from "./ui/button";
+import { Button } from "../ui/button";
 import { useState } from "react";
 
 interface UpdateCart {
@@ -18,7 +18,7 @@ export const UpdateCart = ({ productId, optionId, quantity }: UpdateCart) => {
   const handleMinus = () => {
     setTotal((prevTotal) => {
       const newTotal = prevTotal > 0 ? prevTotal - 1 : 0;
-      if (newTotal === 0) {
+      if (newTotal < 1) {
         cart.removeItem(productId, optionId);
       } else {
         cart.updateItemQuantity(productId, optionId, newTotal);
