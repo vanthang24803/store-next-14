@@ -1,7 +1,7 @@
 import { Quicksand } from "next/font/google";
 import { Footer } from "@/components/footer";
 import { Navbar } from "@/components/navbar";
-import Provider from "@/components/provider/provider";
+import { ToastProvider } from "@/components/provider/toater-provider";
 
 export async function generateMetadata() {
   return {
@@ -20,6 +20,7 @@ export default function ProfileLayout({
     <html lang="en">
         <body className={font.className}>
           <Navbar />
+          <ToastProvider />
           <div className="mt-14 bg-[#f2f3f5] p-8">{children}</div>
           <Footer />
         </body>

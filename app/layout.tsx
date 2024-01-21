@@ -5,7 +5,6 @@ import { siteConfig } from "@/config/site";
 import { ToastProvider } from "@/components/provider/toater-provider";
 import Provider from "@/components/provider/provider";
 
-const font = Quicksand({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: {
@@ -27,7 +26,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={font.className}>
+      <body>
         <Provider>
           <ToastProvider />
           {children}

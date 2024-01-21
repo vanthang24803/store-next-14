@@ -30,7 +30,7 @@ export const ActionMenu = () => {
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Avatar>
-              <AvatarImage src={session.user.avatar} className="hover:cursor-pointer" />
+              <AvatarImage src={session?.user?.avatar} className="hover:cursor-pointer" />
               <AvatarFallback>A</AvatarFallback>
             </Avatar>
           </DropdownMenuTrigger>

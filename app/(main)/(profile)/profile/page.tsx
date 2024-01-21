@@ -8,30 +8,33 @@ import axios from "axios";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { AvatarFallback, AvatarImage, Avatar } from "@/components/ui/avatar";
+import { UpdateForm } from "./_components/update-form";
 
 export default function Profile() {
-  const { data: session, status } = useSession();
-
-  const router = useRouter();
+  const { data: session } = useSession();
 
   const [profile, setProfile] = useState<Profile>();
+
+  const [update, setUpdate] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
       const response = await axios.get(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/auth/profile/${session?.user.id}`,
-        { headers: { Authorization: `Bearer ${session?.token.token}` } }
+        `${process.env.NEXT_PUBLIC_API_URL}/api/auth/profile/${session?.user?.id}`,
+        { headers: { Authorization: `Bearer ${session?.token?.token}` } }
       );
 
       if (response.status == 200) {
         setProfile(response.data);
+      } else {
+        console.log("Error");
       }
     };
 
     fetchData();
-  }, [session?.user.id, session?.token]);
+  }, [session?.user?.id, session?.token]);
 
-  if (!session?.user) {
+  if (!session) {
     redirect("/");
   }
 
@@ -58,7 +61,14 @@ export default function Profile() {
           >
             Địa chỉ
           </Link>
-          <span className="hover:text-[#417505] font-medium text-sm hover:cursor-pointer"
+          <Link
+            href="/profile/order"
+            className="hover:text-[#417505] font-medium text-sm"
+          >
+            Đơn hàng
+          </Link>
+          <span
+            className="hover:text-[#417505] font-medium text-sm hover:cursor-pointer"
             onClick={() => signOut()}
           >
             Đăng xuất
@@ -68,24 +78,41 @@ export default function Profile() {
         <div className="flex flex-col space-y-4 w-full bg-white p-4 rounded-md">
           <h2 className="uppercase font-semibold">THÔNG TIN TÀI KHOẢN</h2>
 
-          <div className="flex flex-col text-[14px] space-y-3 pb-4">
-            <div className="flex items-center justify-center my-4">
-              <Avatar className="w-20 h-20">
-                <AvatarImage src={profile?.avatar} />
-                <AvatarFallback>A</AvatarFallback>
-              </Avatar>
-            </div>
-            <span>
-              Tên: {profile?.firstName} {profile?.lastName}
-            </span>
-            <span>Email: {profile?.email}</span>
-            {profile?.address != "" ? (
-              <span>Địa chỉ: {profile?.address}</span>
-            ) : (
-              <span>Địa chỉ: Đang cập nhật</span>
-            )}
-          </div>
-          <Button className="lg:w-[200px] w-full">Cập nhật thông tin</Button>
+          {update ? (
+            <UpdateForm
+              update={update}
+              setUpdate={setUpdate}
+              profile={profile}
+              id={session?.user.id}
+              token={session?.token.token}
+            />
+          ) : (
+            <>
+              <div className="flex flex-col text-[14px] space-y-3 pb-4">
+                <div className="flex items-center justify-center my-4">
+                  <Avatar className="w-20 h-20">
+                    <AvatarImage src={session?.user.avatar} />
+                    <AvatarFallback>A</AvatarFallback>
+                  </Avatar>
+                </div>
+                <span>
+                  Tên: {profile?.firstName} {profile?.lastName}
+                </span>
+                <span>Email: {profile?.email}</span>
+                {profile?.address != "" ? (
+                  <span>Địa chỉ: {profile?.address}</span>
+                ) : (
+                  <span>Địa chỉ: Đang cập nhật</span>
+                )}
+              </div>
+              <Button
+                className="lg:w-[200px] w-full"
+                onClick={() => setUpdate(!update)}
+              >
+                Cập nhật thông tin
+              </Button>
+            </>
+          )}
         </div>
       </div>
     </div>

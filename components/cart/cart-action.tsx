@@ -3,7 +3,6 @@
 
 import {
   Sheet,
-  SheetClose,
   SheetContent,
   SheetDescription,
   SheetHeader,
@@ -74,7 +73,9 @@ export const CartAction = () => {
                       src={item.product.thumbnail}
                       alt="thumbnail"
                       className="w-[20%] object-cover"
-                      onClick={() => router.push(`/products/${item.product.id}`)}
+                      onClick={() =>
+                        router.push(`/products/${item.product.id}`)
+                      }
                     />
                     <div className="flex flex-col">
                       <div className="flex items-center space-x-5">
@@ -107,7 +108,7 @@ export const CartAction = () => {
                         />
 
                         <div className="flex items-center space-x-2">
-                          <span className="font-semibold">
+                          <span className="font-semibold ">
                             {formatPrice(
                               item.product.options[0].price,
                               item.product.options[0].sale
@@ -115,7 +116,7 @@ export const CartAction = () => {
                             ₫
                           </span>
 
-                          <span className="text-[12px] line-through">
+                          <span className="text-[12px] line-through hidden md:block">
                             {price(item.product.options[0].price)}₫
                           </span>
                         </div>
@@ -133,7 +134,10 @@ export const CartAction = () => {
               {totalPrice.toLocaleString("de-DE")}₫
             </span>
           </div>
-          <Button className="w-full bg-[#417505] hover:bg-[#65b10d]">
+          <Button
+            className="w-full bg-[#417505] hover:bg-[#65b10d]"
+            onClick={() => router.push("/checkout")}
+          >
             Thanh toán
           </Button>
         </div>

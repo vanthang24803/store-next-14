@@ -2,7 +2,6 @@ import { Quicksand } from "next/font/google";
 import { Footer } from "@/components/footer";
 import { Navbar } from "@/components/navbar";
 import getDetailProduct from "@/actions/get-detail";
-import Provider from "@/components/provider/provider";
 
 export async function generateMetadata({
   params,
@@ -25,13 +24,11 @@ export default function ProductLayout({
 }) {
   return (
     <html lang="en">
-      <Provider>
         <body className={font.className}>
           <Navbar />
           <div className="mt-14  bg-[#f2f3f5] ">{children}</div>
           <Footer />
         </body>
-      </Provider>
     </html>
   );
 }

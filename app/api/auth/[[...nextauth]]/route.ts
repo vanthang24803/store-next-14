@@ -22,7 +22,6 @@ export const authOptions: NextAuthOptions = {
 
         const user = await response.json();
 
-        console.log(user);
         return user;
       },
     }),

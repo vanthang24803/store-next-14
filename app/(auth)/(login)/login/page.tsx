@@ -60,7 +60,7 @@ export default function Login() {
         }
 
         if (callback?.ok) {
-          router.back();
+          redirect("/");
         }
       })
       .finally(() => setLoading(false));
@@ -73,7 +73,7 @@ export default function Login() {
       <div className="flex flex-col">
         <h2 className="text-xl font-semibold">Login</h2>
         <span className="text-neutral-800 text-sm">
-          to continue to MangaDex
+          to continue to AMAK Store
         </span>
       </div>
 
