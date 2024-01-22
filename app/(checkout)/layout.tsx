@@ -2,8 +2,13 @@ import { Inter } from "next/font/google";
 
 const font = Inter({ subsets: ["latin"] });
 
-const AuthLayout = ({ children }: { children: React.ReactNode }) => {
+export async function generateMetadata() {
+  return { title: "Thanh toán" };
+}
+
+
+const CheckOutLayout = ({ children }: { children: React.ReactNode }) => {
   return <body className={font.className}>{children}</body>;
 };
 
-export default AuthLayout;
+export default CheckOutLayout;

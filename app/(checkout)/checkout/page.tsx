@@ -6,11 +6,14 @@ import { ChevronRight } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { signOut, useSession } from "next-auth/react";
 import { AvatarFallback } from "@radix-ui/react-avatar";
-import { Avatar, AvatarImage } from "@/components/ui/avatar"
-;
+import { Avatar, AvatarImage } from "@/components/ui/avatar";
 import { Payment } from "./_components/payment";
-import { Method } from "./_components/Method";
 import { Button } from "@/components/ui/button";
+import { Method } from "./_components/method";
+import { Cart } from "./_components/cart";
+import { MobileCart } from "./_components/mobile-cart";
+import useCart from "@/hooks/use-cart";
+import toast from "react-hot-toast";
 
 type CheckboxType = "send" | "store";
 type PaymentType = "cod" | "bank" | "momo";
@@ -36,6 +39,8 @@ const Checkout = () => {
       setCod((current) => !current);
       setBank(false);
       setMomo(false);
+      setStoreChecked(false);
+      setSendChecked(true);
     } else if (paymentType === "bank") {
       setBank((current) => !current);
       setCod(false);
@@ -51,20 +56,42 @@ const Checkout = () => {
     if (checkboxType === "send") {
       setSendChecked((current) => !current);
       setStoreChecked(false);
+      setCod(true);
     } else if (checkboxType === "store") {
       setStoreChecked((current) => !current);
       setSendChecked(false);
+      setCod(false);
     }
+  };
+
+  const cart = useCart();
+
+  const totalPrice = cart.items.reduce((total, item) => {
+    return total + item.product.options[0].price * item.quantity;
+  }, 0);
+
+  const priceShip = totalPrice + 35000;
+
+  const handleBill = () => {
+    toast.success("Thành công");
   };
 
   return (
     <>
       {isClient && (
-        <div className="flex flex-col lg:flex-row p-8 lg:px-52">
-          <div className="flex flex-col space-y-3">
+        <div className="flex flex-col lg:flex-row lg:px-52 lg:space-x-8">
+          <div className="flex flex-col space-y-3 p-8">
             <Link href={`/`} className="font-semibold text-2xl">
               AMAK Store
             </Link>
+
+            <div className="lg:hidden">
+              <MobileCart
+                ship={sendChecked}
+                totalPrice={totalPrice}
+                priceShip={priceShip}
+              />
+            </div>
 
             <div className="flex items-center space-x-3 text-[12px] text-neutral-500 font-medium">
               <Link href={`/cart`}>Giỏ hàng</Link>
@@ -124,12 +151,18 @@ const Checkout = () => {
               <div className="flex justify-between">
                 <Link href={`/cart`}>Giỏ hàng</Link>
 
-                <Button type="submit" variant="primary">
+                <Button type="submit" variant="primary" onClick={handleBill}>
                   Hoàn tất đơn hàng
                 </Button>
               </div>
             </form>
           </div>
+
+          <Cart
+            ship={sendChecked}
+            totalPrice={totalPrice}
+            priceShip={priceShip}
+          />
         </div>
       )}
     </>
