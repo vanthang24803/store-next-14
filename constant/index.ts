@@ -1,7 +1,7 @@
 export const menubar: { title: string; href: string }[] = [
   {
     title: "Tất cả",
-    href: "/",
+    href: "/collections/all",
   },
   {
     title: "Sách mới",
