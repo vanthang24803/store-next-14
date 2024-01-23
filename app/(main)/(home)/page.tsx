@@ -17,7 +17,7 @@ export default async function Home() {
   const bestSeller = await getBestSeller();
   const topBook = await getTopBook(3, 4, "Light Novel");
   const newBooks = await getByCategory(10, "Sách mới");
-  const manga = await getByCategory(10, "Truyện tranh");
+  const manga = await getByCategory(10, "Manga");
 
   return (
     <main className="md:max-w-screen-xl mx-auto p-4 flex flex-col space-y-6 md:space-y-8">
