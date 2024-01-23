@@ -5,27 +5,27 @@ export const menubar: { title: string; href: string }[] = [
   },
   {
     title: "Sách mới",
-    href: "/",
+    href: "/collections/sach-moi",
   },
   {
     title: "Tiểu thuyết",
-    href: "/",
+    href: "/collections/tieu-thuyet",
   },
   {
     title: "Kỹ năng",
-    href: "/",
+    href: "/collections/ky-nang",
   },
   {
     title: "Light Novel",
-    href: "/",
+    href: "/collections/light-novel",
   },
   {
     title: "Manga - Comic",
-    href: "/",
+    href: "/collections/manga-comic",
   },
   {
     title: "Phụ kiện",
-    href: "/",
+    href: "/collections/phu-kien",
   },
 ];
 
@@ -55,28 +55,28 @@ export const subBillboard = [
 export const categories = [
   {
     name: "Light Novel",
-    url: "/",
+    url: "/collections/light-novel",
     thumbnail:
       "https://theme.hstatic.net/200000294254/1001077164/14/categorybanner_1_img.jpg?v=320",
   },
 
   {
     name: "Truyện Tranh",
-    url: "/",
+    url: "/collections/manga-comic",
     thumbnail:
       "https://theme.hstatic.net/200000294254/1001077164/14/categorybanner_2_img.jpg?v=320",
   },
 
   {
     name: "Tiểu thuyết",
-    url: "/",
+    url: "/collections/tieu-thuyet",
     thumbnail:
       "https://theme.hstatic.net/200000294254/1001077164/14/categorybanner_3_img.jpg?v=320",
   },
 
   {
     name: "Kỹ năng",
-    url: "/",
+    url: "/collections/ky-nang",
     thumbnail:
       "https://theme.hstatic.net/200000294254/1001077164/14/categorybanner_4_img.jpg?v=320",
   },

@@ -34,7 +34,7 @@ export const Filter = ({ price, handlePriceFilter }: FilterProp) => {
         {open && (
           <div className="my-1 flex flex-col space-y-2 text-sm font-medium">
             <Separator />
-            <Link href={`/collections/onsale`}>Sản phẩm khuyến mãi</Link>
+            <Link href={`/collections/sale`}>Sản phẩm khuyến mãi</Link>
             <Link href={`/collections/hot-products`}>Sản phẩm nổi bật</Link>
             <Link href={`/collections/all`}>Tất cả sản phẩm</Link>
           </div>

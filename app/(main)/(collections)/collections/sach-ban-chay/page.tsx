@@ -19,7 +19,7 @@ import {
 import { Skeleton } from "@/components/ui/skeleton";
 import { MobileFilter } from "../_components/mobile-filter";
 
-export default function AllCategory() {
+export default function Category() {
   const [price, setPrice] = useState<PriceType | null>(null);
   const [filter, setFilter] = useState<FilterType | null>(null);
 
@@ -40,6 +40,7 @@ export default function AllCategory() {
   const itemsPerPage = 20;
 
   const [data, setData] = useState<Product[]>();
+
 
   useEffect(() => {
     const fetchData = async () => {
@@ -68,7 +69,7 @@ export default function AllCategory() {
       <div className="flex items-center space-x-3 text-sm font-medium">
         <Link href={`/`}>Trang chủ</Link>
         <ChevronRight className="w-4 h-4" />
-        <span>Tất cả sản phẩm</span>
+        <span>Sách bán chạy</span>
       </div>
       <div className="lg:flex w-full lg:space-x-12">
         <div className="flex lg:flex-row flex-col space-y-4 lg:space-y-0 my-4">
@@ -84,7 +85,7 @@ export default function AllCategory() {
           <div className="flex space-y-2 flex-col">
             <div className="flex items-center justify-between">
               <div className="flex lg:flex-row flex-col space-y-2 lg:space-y-0 lg:items-center lg:space-x-6 w-full">
-                <h1 className="text-2xl font-bold">Tất cả sản phẩm</h1>
+                <h1 className="text-2xl font-bold">Sách bán chạy</h1>
                 <div className="flex items-center space-x-1">
                   <span className="font-bold">{data?.length || 0}</span>
                   <div className="flex items-center justify-between w-full">

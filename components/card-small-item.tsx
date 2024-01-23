@@ -22,7 +22,7 @@ export const CardItemSmall = ({ product }: CardItemProps) => {
         <img
           src={product.thumbnail}
           alt={product.name}
-          className="w-full object-fill rounded-md hover:scale-105 transform transition-transform duration-500 p-2 "
+          className="w-full object-fill rounded-md hover:scale-105 transform transition-transform duration-500 p-2 lg:h-[28vh] "
         />
         <ItemModal productId={product.id} />
         {!product.options[0].status && (
@@ -73,7 +73,7 @@ export const CardItemSmall = ({ product }: CardItemProps) => {
             >
               <CartIcon />
             </div>
-            <span className="font-semibold md:text-[12px] text-[10px] uppercase">
+            <span className="font-semibold text-[11px] uppercase">
               Thêm vào giỏ
             </span>
           </div>
