@@ -86,3 +86,29 @@ export type FilterType =
   | "LowToHigh"
   | "Lasted"
   | "Oldest";
+
+
+export type Order = {
+  id:string;
+  name:string;
+  email:string;
+  address:string;
+  numberPhone:string;
+  products: ProductOrder[];
+  status:string;
+  payment: string;
+  shipping: boolean;
+  quanity:number;
+  totalPrice: number;
+  createAt:string;
+}
+
+export type ProductOrder = {
+  productId:string;
+  name:string;
+  thumbnail:string;
+  option:string;
+  price:number;
+  sale:number;
+  quantity:number;
+}

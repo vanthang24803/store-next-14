@@ -7,18 +7,11 @@ import { Check } from "lucide-react";
 type PaymentType = "cod" | "bank" | "momo";
 
 interface PaymentTypeProp {
-  cod: boolean;
-  bank: boolean;
-  momo: boolean;
+  payment: PaymentType | null;
   handleBankChange: (paymentType: PaymentType) => void;
 }
 
-export const Payment = ({
-  cod,
-  bank,
-  momo,
-  handleBankChange,
-}: PaymentTypeProp) => {
+export const Payment = ({ payment, handleBankChange }: PaymentTypeProp) => {
   return (
     <>
       <span className="font-bold text-lg">Phương thức thanh toán</span>
@@ -29,7 +22,7 @@ export const Payment = ({
               className="w-4 h-4 rounded flex items-center justify-center border border-neutral-700"
               onClick={() => handleBankChange("cod")}
             >
-              {cod && <Check className="w-4 h-4" />}
+              {payment === "cod" && <Check className="w-4 h-4" />}
             </div>
             <Label htmlFor="cod">Thanh toán khi giao hàng (COD)</Label>
           </div>
@@ -42,7 +35,7 @@ export const Payment = ({
               className="w-4 h-4 rounded flex items-center justify-center border border-neutral-700"
               onClick={() => handleBankChange("bank")}
             >
-              {bank && <Check className="w-4 h-4" />}
+              {payment === "bank" && <Check className="w-4 h-4" />}
             </div>
             <Label htmlFor="bank">Chuyển khoản qua ngân hàng</Label>
           </div>
@@ -55,7 +48,7 @@ export const Payment = ({
               className="w-4 h-4 rounded flex items-center justify-center border border-neutral-700"
               onClick={() => handleBankChange("momo")}
             >
-              {momo && <Check className="w-4 h-4" />}
+              {payment === "momo" && <Check className="w-4 h-4" />}
             </div>
             <Label htmlFor="momo">Ví MoMo</Label>
           </div>

@@ -15,8 +15,25 @@ import { MobileCart } from "./_components/mobile-cart";
 import useCart from "@/hooks/use-cart";
 import toast from "react-hot-toast";
 
+import * as z from "zod";
+import { FormProvider, useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { FormControl, FormField, FormItem } from "@/components/ui/form";
+import axios from "axios";
+import { randomUUID } from "crypto";
+import { useRouter } from "next/navigation";
+
 type CheckboxType = "send" | "store";
 type PaymentType = "cod" | "bank" | "momo";
+
+const formSchema = z.object({
+  email: z.string().min(1),
+  name: z.string().min(1),
+  address: z.string().min(1),
+  numberPhone: z.string().min(1),
+});
+
+type CreateFormValue = z.infer<typeof formSchema>;
 
 const Checkout = () => {
   const [isClient, setIsClient] = useState(false);
@@ -30,41 +47,27 @@ const Checkout = () => {
   const [sendChecked, setSendChecked] = useState(true);
   const [storeChecked, setStoreChecked] = useState(false);
 
-  const [cod, setCod] = useState(true);
-  const [bank, setBank] = useState(false);
-  const [momo, setMomo] = useState(false);
+  const [payment, setPayment] = useState<PaymentType | null>("cod");
 
   const handleBankChange = (paymentType: PaymentType) => {
-    if (paymentType === "cod") {
-      setCod((current) => !current);
-      setBank(false);
-      setMomo(false);
-      setStoreChecked(false);
-      setSendChecked(true);
-    } else if (paymentType === "bank") {
-      setBank((current) => !current);
-      setCod(false);
-      setMomo(false);
-    } else if (paymentType === "momo") {
-      setMomo((current) => !current);
-      setCod(false);
-      setBank(false);
-    }
+    setPayment((current) => (current === paymentType ? "cod" : paymentType));
   };
 
   const handleCheckboxChange = (checkboxType: CheckboxType) => {
     if (checkboxType === "send") {
       setSendChecked((current) => !current);
       setStoreChecked(false);
-      setCod(true);
+      setPayment("cod");
     } else if (checkboxType === "store") {
       setStoreChecked((current) => !current);
       setSendChecked(false);
-      setCod(false);
+      setPayment(null);
     }
   };
 
   const cart = useCart();
+
+  const router = useRouter();
 
   const totalPrice = cart.items.reduce((total, item) => {
     return total + item.product.options[0].price * item.quantity;
@@ -72,8 +75,60 @@ const Checkout = () => {
 
   const priceShip = totalPrice + 35000;
 
-  const handleBill = () => {
-    toast.success("Thành công");
+  const form = useForm({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      email: "",
+      address: "",
+      name: "",
+      numberPhone: "",
+    },
+  });
+
+  const uuid = self.crypto.randomUUID();
+
+  const onSubmit = async (data: CreateFormValue) => {
+    const dataSend = {
+      ...data,
+      id: uuid,
+      products: cart.items.map((item) => ({
+        productId: item.product.id,
+        name: item.product.name,
+        thumbnail: item.product.thumbnail,
+        option: item.product.options[0].name,
+        price: item.product.options[0].price,
+        sale: item.product.options[0].sale,
+        quantity: item.quantity,
+      })),
+      payment: payment?.toUpperCase(),
+      shipping: sendChecked,
+      quantity: cart.items.length,
+      totalPrice: totalPrice,
+      userId: session?.user.id || "",
+    };
+
+    console.log(dataSend);
+
+    try {
+      const response = await axios.post(
+        `http://localhost:7002/api/order/create`,
+        dataSend,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      if (response.status == 200) {
+        toast.success("Thành công");
+        router.push(`/checkout/${uuid}`);
+      } else {
+        toast.error("Thất bại");
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
@@ -128,34 +183,73 @@ const Checkout = () => {
               </span>
             )}
 
-            <form className="w-full lg:w-[500px] flex flex-col space-y-3">
-              <Input placeholder="Họ và tên" />
-              <div className="flex md:flex-row flex-col md:space-x-3 space-y-3 md:space-y-0">
-                <Input placeholder="Email" type="email" />
-                <Input placeholder="Số điện thoại" className="md:w-2/3" />
-              </div>
+            <FormProvider {...form}>
+              <form
+                className="w-full lg:w-[500px] flex flex-col space-y-3"
+                onSubmit={form.handleSubmit(onSubmit)}
+              >
+                <FormField
+                  control={form.control}
+                  name="name"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormControl>
+                        <Input placeholder="Họ và tên" {...field} />
+                      </FormControl>
+                    </FormItem>
+                  )}
+                />
 
-              <Method
-                handleCheckboxChange={handleCheckboxChange}
-                sendChecked={sendChecked}
-                storeChecked={storeChecked}
-              />
+                <div className="flex w-full justify-between md:flex-row flex-col space-y-3 md:space-y-0">
+                  <FormField
+                    control={form.control}
+                    name="email"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormControl>
+                          <Input
+                            placeholder="Email"
+                            type="email"
+                            {...field}
+                            className="lg:w-[280px]"
+                          />
+                        </FormControl>
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="numberPhone"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormControl>
+                          <Input placeholder="Số điện thoại" {...field} />
+                        </FormControl>
+                      </FormItem>
+                    )}
+                  />
+                </div>
 
-              <Payment
-                bank={bank}
-                momo={momo}
-                cod={cod}
-                handleBankChange={handleBankChange}
-              />
+                <Method
+                  handleCheckboxChange={handleCheckboxChange}
+                  sendChecked={sendChecked}
+                  storeChecked={storeChecked}
+                />
 
-              <div className="flex justify-between">
-                <Link href={`/cart`}>Giỏ hàng</Link>
+                <Payment
+                  payment={payment}
+                  handleBankChange={handleBankChange}
+                />
 
-                <Button type="submit" variant="primary" onClick={handleBill}>
-                  Hoàn tất đơn hàng
-                </Button>
-              </div>
-            </form>
+                <div className="flex justify-between">
+                  <Link href={`/cart`}>Giỏ hàng</Link>
+
+                  <Button type="submit" variant="primary">
+                    Hoàn tất đơn hàng
+                  </Button>
+                </div>
+              </form>
+            </FormProvider>
           </div>
 
           <Cart

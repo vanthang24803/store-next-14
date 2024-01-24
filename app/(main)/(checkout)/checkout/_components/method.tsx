@@ -5,6 +5,8 @@ import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import { Check, MapPin, Package2 } from "lucide-react";
 import { info } from "@/constant";
+import { FormControl, FormField, FormItem } from "@/components/ui/form";
+import { useFormContext } from "react-hook-form";
 
 type CheckboxType = "send" | "store";
 
@@ -19,6 +21,9 @@ export const Method = ({
   storeChecked,
   handleCheckboxChange,
 }: MethodProps) => {
+
+  const {control} = useFormContext();
+  
   return (
     <>
       <div className="w-full rounded-md border border-neutral-200 p-4 flex flex-col space-y-4">
@@ -34,7 +39,17 @@ export const Method = ({
         {sendChecked && (
           <>
             <Separator />
-            <Input placeholder="Địa chỉ" />
+            <FormField
+              control={control}
+              name="address"
+              render={({ field }) => (
+                <FormItem>
+                  <FormControl>
+                    <Input placeholder="Địa chỉ" {...field} />
+                  </FormControl>
+                </FormItem>
+              )}
+            />
           </>
         )}
 
