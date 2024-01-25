@@ -16,7 +16,6 @@ interface CartProp {
 export const Cart = ({ ship , totalPrice , priceShip }: CartProp) => {
   const cart = useCart();
 
-
   return (
     <div className="hidden lg:block w-full  bg-neutral-50 p-8">
       <ScrollArea className="max-h-svh">

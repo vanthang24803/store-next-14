@@ -2,7 +2,12 @@ import {  Inter } from "next/font/google";
 
 const font = Inter({ subsets: ["latin"] });
 
-const AuthLayout = ({ children }: { children: React.ReactNode }) => { 
+export async function generateMetadata() {
+  return { title: "Thông tin đơn hàng" };
+}
+
+
+const Layout = ({ children }: { children: React.ReactNode }) => { 
 
   return (
     <body className={font.className}>
@@ -13,4 +18,4 @@ const AuthLayout = ({ children }: { children: React.ReactNode }) => {
   );
 };
 
-export default AuthLayout;
+export default Layout;

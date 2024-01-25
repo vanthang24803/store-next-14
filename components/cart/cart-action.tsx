@@ -24,7 +24,12 @@ export const CartAction = () => {
   const cart = useCart();
 
   const totalPrice = cart.items.reduce((total, item) => {
-    return total + item.product.options[0].price * item.quantity;
+    return (
+      total +
+      (item.product.options[0].price -
+        (item.product.options[0].price * item.product.options[0].sale) / 100) *
+        item.quantity
+    );
   }, 0);
 
   const router = useRouter();

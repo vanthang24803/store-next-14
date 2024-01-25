@@ -18,7 +18,12 @@ export default function Cart() {
   const router = useRouter();
 
   const totalPrice = cart.items.reduce((total, item) => {
-    return total + item.product.options[0].price * item.quantity;
+    return (
+      total +
+      (item.product.options[0].price -
+        (item.product.options[0].price * item.product.options[0].sale) / 100) *
+        item.quantity
+    );
   }, 0);
 
   const [isClient, setIsClient] = useState(false);
@@ -65,8 +70,9 @@ export default function Cart() {
                           />
                           <div className="flex flex-col w-full">
                             <div className="flex items-center justify-between ">
-                              <Link href={`/products/${item.product.id}`} 
-                              target="_blank"
+                              <Link
+                                href={`/products/${item.product.id}`}
+                                target="_blank"
                                 className="font-semibold line-clamp-2"
                               >
                                 {item.product.name}

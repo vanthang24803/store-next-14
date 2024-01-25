@@ -20,7 +20,6 @@ import { FormProvider, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { FormControl, FormField, FormItem } from "@/components/ui/form";
 import axios from "axios";
-import { randomUUID } from "crypto";
 import { useRouter } from "next/navigation";
 
 type CheckboxType = "send" | "store";
@@ -70,7 +69,12 @@ const Checkout = () => {
   const router = useRouter();
 
   const totalPrice = cart.items.reduce((total, item) => {
-    return total + item.product.options[0].price * item.quantity;
+    return (
+      total +
+      (item.product.options[0].price -
+        (item.product.options[0].price * item.product.options[0].sale) / 100) *
+        item.quantity
+    );
   }, 0);
 
   const priceShip = totalPrice + 35000;
@@ -111,7 +115,7 @@ const Checkout = () => {
 
     try {
       const response = await axios.post(
-        `http://localhost:7002/api/order/create`,
+        `${process.env.NEXT_PUBLIC_API_URL}/api/order/create`,
         dataSend,
         {
           headers: {
