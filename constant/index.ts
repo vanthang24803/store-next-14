@@ -27,6 +27,10 @@ export const menubar: { title: string; href: string }[] = [
     title: "Phụ kiện",
     href: "/collections/phu-kien",
   },
+  {
+    title: "Tra cứu đơn hàng",
+    href: "/tra-cuu",
+  },
 ];
 
 export const subBillboard = [

@@ -6,7 +6,6 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { format } from "date-fns";
-import { Orelega_One } from "next/font/google";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 import { Spinner } from "@/components/spinner";
