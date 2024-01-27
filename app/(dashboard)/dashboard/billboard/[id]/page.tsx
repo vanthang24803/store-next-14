@@ -73,8 +73,8 @@ export default function BillboardId({ params }: BillboardProp) {
         formData.append("file", file[0]);
       }
 
-      const response = await axios.post(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/product/billboard`,
+      const response = await axios.put(
+        `${process.env.NEXT_PUBLIC_API_URL}/api/product/billboard/${params.id}`,
         formData,
         {
           headers: {
