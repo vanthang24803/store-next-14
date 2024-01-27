@@ -169,3 +169,30 @@ export const footer = [
     ],
   },
 ];
+
+export const DashboardMenu = [
+  {
+    name : "Overview",
+    href: "/dashboard",
+  },
+  {
+    name: "Billboard",
+    href: "/dashboard/billboard",
+  },
+  {
+    name: "Category",
+    href: "/dashboard/category",
+  },
+  {
+    name: "Voucher",
+    href: "/dashboard/voucher",
+  },
+  {
+    name: "Product",
+    href: "/dashboard/product",
+  },
+  {
+    name : "Order",
+    href : "/dashboard/order"
+  },
+];

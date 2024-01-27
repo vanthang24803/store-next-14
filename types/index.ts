@@ -8,7 +8,7 @@ export type Product = {
   options: Option[];
   images: Image[];
 
-  createdAt: string;
+  createAt: string;
   updateAt: string;
 };
 
@@ -16,7 +16,7 @@ export type Category = {
   id: string;
   name: string;
 
-  createdAt: string;
+  createAt: string;
   updateAt: string;
 };
 
@@ -28,7 +28,7 @@ export type Option = {
   price: number;
   status: boolean;
 
-  createdAt: string;
+  createAt: string;
   updateAt: string;
 };
 
@@ -36,7 +36,7 @@ export type Image = {
   id: string;
   url: string;
 
-  createdAt: string;
+  createAt: string;
   updateAt: string;
 };
 
@@ -55,7 +55,7 @@ export type Information = {
   released: string;
   introduce: string;
 
-  createdAt: string;
+  createAt: string;
   updateAt: string;
 };
 
@@ -64,7 +64,7 @@ export type Billboard = {
   thumbnail: string;
   url: string;
 
-  createdAt: string;
+  createAt: string;
   updateAt: string;
 };
 
@@ -77,6 +77,24 @@ export type Profile = {
   address: string;
   role: [string];
 };
+
+export type Voucher = {
+  id:string;
+  name:string;
+  title:string;
+  code :string;
+  quantity: number;
+  type:boolean;
+  day:number;
+  expire: boolean;
+  shelfLife:string;
+
+  createAt: string;
+  updateAt: string;
+}
+
+
+
 
 export type PriceType = "Low" | "Medium" | "High" | "Highest" | "Max";
 export type FilterType =

@@ -2,7 +2,7 @@ import { Product } from "@/types";
 
 const getProducts = async (
   page: any = 1,
-  limit:number,
+  limit:number = 20,
 ): Promise<Product[]> => {
   const URL = `${process.env.API_URL}/api/product?Limit=${limit}&Page=${page}`;
 

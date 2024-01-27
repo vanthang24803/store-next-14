@@ -34,7 +34,7 @@ const formSchema = z.object({
 
 type CreateFormValue = z.infer<typeof formSchema>;
 
-const Checkout = () => {
+export default function Checkout() {
   const [isClient, setIsClient] = useState(false);
 
   useEffect(() => {
@@ -267,4 +267,4 @@ const Checkout = () => {
   );
 };
 
-export default Checkout;
+
