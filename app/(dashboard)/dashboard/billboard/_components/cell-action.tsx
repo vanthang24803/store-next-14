@@ -23,14 +23,32 @@ interface CellActionProps {
 }
 
 export const CellAction = ({ data }: CellActionProps) => {
-    const router = useRouter();
+  const router = useRouter();
 
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  const onConfirm = async () => {};
+  const onConfirm = async () => {
+    toast.loading("Waiting");
+    try {
+      setLoading(true);
+      await axios.delete(
+        `${process.env.NEXT_PUBLIC_API_URL}/api/product/billboard/${data.id}`
+      );
+      toast.dismiss();
+      toast.success("Billboard deleted.");
+      router.refresh();
+    } catch (error) {
+      toast.dismiss();
+      console.log(error);
+      toast.error("Something went wrong!");
+    } finally {
+      toast.dismiss();
+      setOpen(false);
+      setLoading(false);
+    }
+  };
 
-  
   const onCopy = (id: string) => {
     navigator.clipboard.writeText(id);
     toast.success("Billboard ID copied to clipboard.");
@@ -58,9 +76,7 @@ export const CellAction = ({ data }: CellActionProps) => {
             <Copy className="mr-2 h-4 w-4" /> Copy Id
           </DropdownMenuItem>
           <DropdownMenuItem
-            onClick={() =>
-              router.push(`/dashboard/billboard/${data.id}`)
-            }
+            onClick={() => router.push(`/dashboard/billboard/${data.id}`)}
           >
             <Edit className="mr-2 h-4 w-4" /> Update
           </DropdownMenuItem>
