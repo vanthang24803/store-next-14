@@ -6,7 +6,7 @@
 
 <h2 align="center">AMAK Store</h2>
 
-<p align="center">Website using NextJS 14 + TailwindCss + Next Auth + Microservice NET 8 API</p>
+<p align="center">An E-commerce website using  <a href="https://nextjs.org/">NextJS 14</a>   ·  <a href="https://tailwindcss.com/">Tailwindcss</a>  ·  <a href="https://ui.shadcn.com/">SadcnUi</a> ·  <a href="https://next-auth.js.org/">Next Auth</a> ·   <a href="https://github.com/vanthang24803/microservice-store"> Microservice NET 8 Web Api</a> ·   <a href="https://www.docker.com/">Docker</a></p>
 
 
 ## Environment Variables
