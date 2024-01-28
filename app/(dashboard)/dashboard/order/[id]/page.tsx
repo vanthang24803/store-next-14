@@ -5,8 +5,7 @@ import axios from "axios";
 import { useState, useEffect } from "react";
 import { Heading } from "../../_components/heading";
 import { Separator } from "@/components/ui/separator";
-import { Category, Order } from "@/types";
-import { Input } from "@/components/ui/input";
+import { Order } from "@/types";
 import { Button } from "@/components/ui/button";
 
 import * as z from "zod";

@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Quicksand } from "next/font/google";
+import "@uploadthing/react/styles.css";
 import "./globals.css";
 import { siteConfig } from "@/config/site";
 import { ToastProvider } from "@/components/provider/toater-provider";
