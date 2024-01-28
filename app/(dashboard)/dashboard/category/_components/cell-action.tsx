@@ -36,7 +36,7 @@ export const CellAction = ({ data }: CellActionProps) => {
         `${process.env.NEXT_PUBLIC_API_URL}/api/product/category/${data.id}`
       );
       toast.dismiss();
-      toast.success("Billboard deleted.");
+      toast.success("Category deleted.");
       router.refresh();
     } catch (error) {
       toast.dismiss();

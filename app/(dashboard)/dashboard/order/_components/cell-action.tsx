@@ -23,14 +23,13 @@ interface CellActionProps {
 }
 
 export const CellAction = ({ data }: CellActionProps) => {
-    const router = useRouter();
+  const router = useRouter();
 
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
 
   const onConfirm = async () => {};
 
-  
   const onCopy = (id: string) => {
     navigator.clipboard.writeText(id);
     toast.success("Order ID copied to clipboard.");
@@ -58,15 +57,15 @@ export const CellAction = ({ data }: CellActionProps) => {
             <Copy className="mr-2 h-4 w-4" /> Copy Id
           </DropdownMenuItem>
           <DropdownMenuItem
-            onClick={() =>
-              router.push(`/dashboard/order/${data.id}`)
-            }
+            onClick={() => router.push(`/dashboard/order/${data.id}`)}
           >
             <Edit className="mr-2 h-4 w-4" /> Update
           </DropdownMenuItem>
-          <DropdownMenuItem onClick={() => setOpen(true)}>
-            <Trash className="mr-2 h-4 w-4" /> Delete
-          </DropdownMenuItem>
+          {(data.status == "PENDING" || data.status == "SUCCESS") && (
+            <DropdownMenuItem onClick={() => setOpen(true)}>
+              <Trash className="mr-2 h-4 w-4" /> Delete
+            </DropdownMenuItem>
+          )}
         </DropdownMenuContent>
       </DropdownMenu>
     </>

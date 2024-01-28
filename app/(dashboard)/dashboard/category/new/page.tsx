@@ -1,8 +1,7 @@
 "use client";
 
 import axios from "axios";
-import { useEffect, useState } from "react";
-import Image from "next/image";
+import { useState } from "react";
 
 import { useRouter } from "next/navigation";
 
@@ -11,7 +10,6 @@ import { Button } from "@/components/ui/button";
 
 import { Separator } from "@/components/ui/separator";
 import { Heading } from "../../_components/heading";
-import { Label } from "@radix-ui/react-label";
 import toast from "react-hot-toast";
 
 import * as z from "zod";
@@ -23,7 +21,7 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { Form, FormProvider, useForm } from "react-hook-form";
+import { FormProvider, useForm } from "react-hook-form";
 
 const formSchema = z.object({
   name: z.string().min(1),
@@ -95,6 +93,7 @@ export default function CreateCategory() {
                       {...field}
                     />
                   </FormControl>
+                  <FormMessage />
                 </FormItem>
               )}
             />

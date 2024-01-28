@@ -6,6 +6,13 @@ import { CellAction } from "./cell-action";
 import { format, parseISO } from "date-fns";
 import { price } from "@/lib/format-price";
 
+const statusList: { [key: string]: string } = {
+  PENDING: "#dc2626",
+  CREATE: "#f59e0b",
+  SHIPPING: "#0284c7",
+  SUCCESS: "#16a34a",
+};
+
 export type OrderColumn = {
   id: string;
   email: string;
@@ -42,11 +49,21 @@ export const columns: ColumnDef<OrderColumn>[] = [
   {
     accessorKey: "status",
     header: "Status",
+    cell: ({ row }) => (
+      <div className="flex items-center space-x-2">
+        <div
+          className="w-3 h-3 rounded-full"
+          style={{ backgroundColor: statusList[row.original.status] }}
+        ></div>
+
+        <span>{row.original.status}</span>
+      </div>
+    ),
   },
   {
     accessorKey: "totalPrice",
     header: "Price",
-    cell: ({ row }) => <span>{price(row.original.totalPrice)}</span>,
+    cell: ({ row }) => <span>{price(row.original.totalPrice)}₫</span>,
   },
   {
     accessorKey: "createAt",

@@ -116,7 +116,7 @@ export type Order = {
   status:string;
   payment: string;
   shipping: boolean;
-  quanity:number;
+  quantity:number;
   totalPrice: number;
   createAt:string;
 }
