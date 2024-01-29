@@ -37,6 +37,7 @@ export type Option = {
 export type Image = {
   id: string;
   url: string;
+  bookId: string;
 
   createAt: string;
   updateAt: string;

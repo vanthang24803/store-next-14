@@ -1,7 +1,7 @@
 import { Product } from "@/types";
 
 const getAllProducts = async (limit: number): Promise<Product[]> => {
-  const URL = `${process.env.API_URL}/api/product?Limit=${limit}`;
+  const URL = `${process.env.API_URL}/api/product?Limit=${limit}&Filter=Lasted`;
 
   const response = await fetch(URL, { cache: "no-cache" });
 

@@ -5,7 +5,6 @@ import { siteConfig } from "@/config/site";
 import { ToastProvider } from "@/components/provider/toater-provider";
 import Provider from "@/components/provider/provider";
 
-
 export const metadata: Metadata = {
   title: {
     default: siteConfig.name,

@@ -37,7 +37,7 @@ export default function AllCategory() {
   };
 
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 20;
+  const itemsPerPage = 1000;
 
   const [data, setData] = useState<Product[]>();
 
