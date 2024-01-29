@@ -3,7 +3,6 @@
 
 import { Product } from "@/types";
 import { useState } from "react";
-import Image from "next/image";
 
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -18,10 +17,11 @@ import { FormProvider, useForm } from "react-hook-form";
 import { Input } from "@/components/ui/input";
 import { Settings2, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { UploadButton, UploadDropzone } from "@/utils/uploadthing";
+import { UploadDropzone } from "@/utils/uploadthing";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import axios from "axios";
+import { Spinner } from "@/components/spinner";
 
 const formSchema = z.object({
   name: z.string().min(1),
@@ -84,10 +84,12 @@ export const UpdateForm = ({ product }: UpdateFormProp) => {
     <div className="flex flex-col  w-3/4 space-y-5">
       <div className="flex flex-col">
         <h2 className="text-lg font-medium tracking-tight">Overview product</h2>
-        <p className="text-sm text-muted-foreground">Introduction of product.</p>
+        <p className="text-sm text-muted-foreground">
+          Introduction of product.
+        </p>
       </div>
       <div className="rounded-md border border-neutral-200 p-4">
-        {product && (
+        {product ? (
           <>
             <div className="flex justify-between w-full space-x-4">
               {image?.length ? (
@@ -191,6 +193,10 @@ export const UpdateForm = ({ product }: UpdateFormProp) => {
               )}
             </div>
           </>
+        ) : (
+          <div className="flex items-center justify-center">
+            <Spinner />
+          </div>
         )}
       </div>
     </div>

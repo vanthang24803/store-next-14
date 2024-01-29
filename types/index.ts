@@ -28,6 +28,8 @@ export type Option = {
   price: number;
   status: boolean;
 
+  bookId: string;
+
   createAt: string;
   updateAt: string;
 };
@@ -79,22 +81,19 @@ export type Profile = {
 };
 
 export type Voucher = {
-  id:string;
-  name:string;
-  title:string;
-  code :string;
+  id: string;
+  name: string;
+  title: string;
+  code: string;
   quantity: number;
-  type:boolean;
-  day:number;
+  type: boolean;
+  day: number;
   expire: boolean;
-  shelfLife:string;
+  shelfLife: string;
 
   createAt: string;
   updateAt: string;
-}
-
-
-
+};
 
 export type PriceType = "Low" | "Medium" | "High" | "Highest" | "Max";
 export type FilterType =
@@ -105,28 +104,27 @@ export type FilterType =
   | "Lasted"
   | "Oldest";
 
-
 export type Order = {
-  id:string;
-  name:string;
-  email:string;
-  address:string;
-  numberPhone:string;
+  id: string;
+  name: string;
+  email: string;
+  address: string;
+  numberPhone: string;
   products: ProductOrder[];
-  status:string;
+  status: string;
   payment: string;
   shipping: boolean;
-  quantity:number;
+  quantity: number;
   totalPrice: number;
-  createAt:string;
-}
+  createAt: string;
+};
 
 export type ProductOrder = {
-  productId:string;
-  name:string;
-  thumbnail:string;
-  option:string;
-  price:number;
-  sale:number;
-  quantity:number;
-}
+  productId: string;
+  name: string;
+  thumbnail: string;
+  option: string;
+  price: number;
+  sale: number;
+  quantity: number;
+};

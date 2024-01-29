@@ -3,8 +3,6 @@
 import { Order } from "@/types";
 import { Heading } from "../../_components/heading";
 import { useRouter } from "next/navigation";
-import { Button } from "@/components/ui/button";
-import { Plus } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
 import { DataTable } from "@/components/ui/data-table";
 
@@ -15,7 +13,6 @@ interface OrderClientProp {
 }
 
 export const OrderClient = ({ data }: OrderClientProp) => {
-  const router = useRouter();
   return (
     <>
       {data && (
