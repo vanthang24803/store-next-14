@@ -1,8 +1,8 @@
-import getProducts from "@/actions/get-products";
 import { ProductClient } from "./_components/product-client";
+import getAllProducts from "@/actions/get-all-products";
 
 export default async function Product() {
-  const product = await getProducts();
+  const product = await getAllProducts(1000);
 
   return (
     <div className="flex-col">

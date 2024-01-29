@@ -22,7 +22,7 @@ export const CardItemSmall = ({ product }: CardItemProps) => {
         <img
           src={product.thumbnail}
           alt={product.name}
-          className="w-full object-fill rounded-md hover:scale-105 transform transition-transform duration-500 p-2 lg:h-[28vh] "
+          className="w-full object-fill rounded-md hover:scale-105 transform transition-transform duration-500 p-2 lg:max-h-[28vh] "
         />
         <ItemModal productId={product.id} />
         {!product.options[0].status && (

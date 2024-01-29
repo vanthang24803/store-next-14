@@ -15,7 +15,7 @@ interface ProductClientProp {
 }
 
 export const ProductClient = ({ data }: ProductClientProp) => {
-  const router = useRouter();
+  const router = useRouter();  
   return (
     <>
       {data && (

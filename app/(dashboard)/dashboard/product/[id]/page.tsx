@@ -44,10 +44,10 @@ export default function ProductId({ params }: ProductIdProp) {
     try {
       setLoading(true);
       await axios.delete(
-        `http://localhost:8080/api/product/${params.id}`
+        `${process.env.NEXT_PUBLIC_API_URL}/api/product/${params.id}`
       );
       toast.dismiss();
-      toast.success("Category deleted.");
+      toast.success("Product deleted.");
       router.refresh();
     } catch (error) {
       toast.dismiss();

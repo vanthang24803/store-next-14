@@ -19,16 +19,34 @@ import { UploadDropzone } from "@/utils/uploadthing";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import axios from "axios";
+import { Category } from "@/types";
+import {
+  SelectContent,
+  SelectTrigger,
+  SelectValue,
+  Select,
+  SelectItem,
+} from "@/components/ui/select";
+import { X } from "lucide-react";
 
 const formSchema = z.object({
   name: z.string().min(1),
   brand: z.string().min(1),
   thumbnail: z.string().min(1),
+  category: z.string().min(1),
+  option: z.string().min(1),
+  sale: z.coerce.number().min(0),
+  quantity: z.coerce.number().min(1),
+  price: z.coerce.number().min(1),
 });
 
 type CreateFormValue = z.infer<typeof formSchema>;
 
-export const CreateForm = () => {
+interface CreateFormProp {
+  data: Category[] | null;
+}
+
+export const CreateForm = ({ data }: CreateFormProp) => {
   const [loading, setLoading] = useState(false);
   const [image, setImage] = useState("");
 
@@ -40,17 +58,37 @@ export const CreateForm = () => {
       name: "",
       brand: "",
       thumbnail: "",
+      category: "",
+      option: "",
+      sale: 0,
+      quantity: 0,
+      price: 0,
     },
   });
 
   const onSubmit = async (data: CreateFormValue) => {
+    const dataSend = {
+      name: data.name,
+      brand: data.brand,
+      thumbnail: data.thumbnail,
+      category: data.category,
+      options: [
+        {
+          name: data.option,
+          sale: data.sale,
+          quantity: data.quantity,
+          price: data.price,
+        },
+      ],
+    };
+
     toast.loading("Waiting");
     try {
       setLoading(true);
 
       const response = await axios.post(
         `${process.env.NEXT_PUBLIC_API_URL}/api/product`,
-        data,
+        dataSend,
         {
           headers: {
             "Content-Type": "application/json",
@@ -72,60 +110,30 @@ export const CreateForm = () => {
   };
 
   return (
-    <div className="flex flex-col  w-2/3 space-y-5">
-      <div className="rounded-md border border-neutral-200 p-4">
+    <div className="flex flex-col space-y-5 w-full">
+      <div className="rounded-md border border-neutral-200 p-8">
         <>
-          <div className="flex justify-between w-full space-x-4">
-            {image.length > 0 && (
-              <img
-                src={image}
-                alt="product"
-                className="w-[30%] object-cover"
-                loading="lazy"
-              />
-            )}
-
-            <FormProvider {...form}>
-              <form
-                onSubmit={form.handleSubmit(onSubmit)}
-                className="space-y-4 w-full"
-              >
-                <FormField
-                  control={form.control}
-                  name="name"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Name</FormLabel>
-                      <FormControl>
-                        <Input
-                          disabled={!open}
-                          placeholder={"Product name"}
-                          {...field}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-
-                <FormField
-                  control={form.control}
-                  name="brand"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Name</FormLabel>
-                      <FormControl>
-                        <Input
-                          disabled={!open}
-                          placeholder={"Product brand"}
-                          {...field}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-
+          <FormProvider {...form}>
+            <form
+              onSubmit={form.handleSubmit(onSubmit)}
+              className="flex w-full space-x-8"
+            >
+              {image.length > 0 ? (
+                <div className="relative">
+                  <img
+                    src={image}
+                    alt="product"
+                    className="w-[300px] object-cover"
+                    loading="lazy"
+                  />
+                  <div
+                    className="w-8 h-8 rounded-full bg-red-600 flex items-center justify-center text-white absolute -top-3  -right-3 hover:cursor-pointer"
+                    onClick={() => setImage("")}
+                  >
+                    <X />
+                  </div>
+                </div>
+              ) : (
                 <FormField
                   control={form.control}
                   name="thumbnail"
@@ -144,12 +152,163 @@ export const CreateForm = () => {
                     </FormItem>
                   )}
                 />
+              )}
+
+              <div className="space-y-4 w-full">
+                <div className="grid grid-cols-3 gap-4">
+                  <FormField
+                    control={form.control}
+                    name="name"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Name</FormLabel>
+                        <FormControl>
+                          <Input
+                            disabled={!open}
+                            placeholder={"Product name"}
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
+                  <FormField
+                    control={form.control}
+                    name="brand"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Brand</FormLabel>
+                        <FormControl>
+                          <Input
+                            disabled={!open}
+                            placeholder={"Product brand"}
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
+                  <FormField
+                    control={form.control}
+                    name="category"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Category</FormLabel>
+                        <Select
+                          disabled={loading}
+                          onValueChange={field.onChange}
+                          value={field.value}
+                          defaultValue={field.value}
+                        >
+                          <FormControl>
+                            <SelectTrigger>
+                              <SelectValue
+                                defaultValue={field.value}
+                                placeholder="Select a category"
+                              />
+                            </SelectTrigger>
+                          </FormControl>
+                          <SelectContent>
+                            {data?.map((item) => (
+                              <SelectItem key={item.id} value={item.id}>
+                                {item.name}
+                              </SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </div>
+
+                <div className="grid grid-cols-4 gap-4">
+                  <FormField
+                    control={form.control}
+                    name="option"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Option</FormLabel>
+                        <FormControl>
+                          <Input
+                            disabled={!open}
+                            placeholder={"Option"}
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
+                  <FormField
+                    control={form.control}
+                    name="price"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Price</FormLabel>
+                        <FormControl>
+                          <Input
+                            type="number"
+                            disabled={!open}
+                            placeholder={"Price"}
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
+                  <FormField
+                    control={form.control}
+                    name="sale"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Sale</FormLabel>
+                        <FormControl>
+                          <Input
+                            type="number"
+                            disabled={!open}
+                            placeholder={"Sale"}
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
+                  <FormField
+                    control={form.control}
+                    name="quantity"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Quantity</FormLabel>
+                        <FormControl>
+                          <Input
+                            type="number"
+                            disabled={!open}
+                            placeholder={"Quantity"}
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </div>
+
                 <Button disabled={loading} className="ml-auto" type="submit">
                   Create
                 </Button>
-              </form>
-            </FormProvider>
-          </div>
+              </div>
+            </form>
+          </FormProvider>
         </>
       </div>
     </div>
