@@ -26,7 +26,7 @@ import { Heading } from "@/app/(dashboard)/dashboard/_components/heading";
 const formSchema = z.object({
   name: z.string().min(1),
   sale: z.coerce.number().min(0),
-  quantity: z.coerce.number().min(1),
+  quantity: z.coerce.number().min(0),
   price: z.coerce.number().min(1),
 });
 
