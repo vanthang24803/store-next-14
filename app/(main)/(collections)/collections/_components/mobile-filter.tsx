@@ -3,6 +3,7 @@
 import { FilterType, PriceType } from "@/types";
 import {
   Sheet,
+  SheetClose,
   SheetContent,
   SheetHeader,
   SheetTitle,
@@ -42,7 +43,7 @@ export const MobileFilter = ({
           <Filter className="w-6 h-6" />
         </div>
       </SheetTrigger>
-      <SheetContent >
+      <SheetContent>
         <SheetHeader>
           <SheetTitle>Bộ lọc</SheetTitle>
         </SheetHeader>
@@ -217,13 +218,15 @@ export const MobileFilter = ({
             )}
           </div>
 
-          <Button
-            variant="primary"
-            className="absolute bottom-5 w-[90%]"
-            onClick={reset}
-          >
-            Bỏ Lọc
-          </Button>
+          <SheetClose className="absolute bottom-5 w-[90%]">
+            <Button
+              variant="primary"
+              className="w-full"
+              onClick={reset}
+            >
+              Bỏ Lọc
+            </Button>
+          </SheetClose>
         </div>
       </SheetContent>
     </Sheet>
