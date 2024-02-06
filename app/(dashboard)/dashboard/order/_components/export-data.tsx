@@ -5,22 +5,30 @@ import FileSaver from "file-saver";
 import { Sheet } from "lucide-react";
 import toast from "react-hot-toast";
 
-export const ExportData = () => {
+interface ExportDataProps {
+  url: string;
+  fileName: string;
+}
+
+export const ExportData = ({ url, fileName }: ExportDataProps) => {
   const downloadFile = async () => {
-    const response = await axios.get("http://localhost:7002/api/order/export", {
+    const response = await axios.get(`${url}`, {
       responseType: "blob",
     });
 
-    FileSaver.saveAs(new Blob([response.data]), "Order.xlsx");
+    FileSaver.saveAs(new Blob([response.data]), `${fileName}`);
     toast.success("File downloaded");
   };
 
   return (
-    <div
-      className="flex justify-end items-center hover:cursor-pointer"
-      onClick={downloadFile}
-    >
-      <Sheet />
+    <div className="flex items-center justify-between pb-4">
+      <p className="text-sm text-muted-foreground">Export Excel</p>
+      <div
+        className="flex justify-end items-center hover:cursor-pointer"
+        onClick={downloadFile}
+      >
+        <Sheet />
+      </div>
     </div>
   );
 };

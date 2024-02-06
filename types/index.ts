@@ -129,3 +129,10 @@ export type ProductOrder = {
   sale: number;
   quantity: number;
 };
+
+export type Statistical = {
+  totalPrice: number;
+  totalOrder: number;
+  totalProduct: number;
+  orders: Order[];
+};

@@ -17,7 +17,7 @@ export const CardItem = ({ product }: CardItemProps) => {
   const cart = useCart();
 
   return (
-    <div className="w-full pb-4 bg-white rounded-md hover:shadow-md hover:cursor-pointer flex flex-col overflow-hidden group">
+    <div className="w-full pb-4 bg-white rounded-md hover:shadow-md hover:cursor-pointer flex flex-col overflow-hidden group lg:h-[70vh] md:h-[60vh]">
       <div className="relative">
         <img
           src={product.thumbnail}

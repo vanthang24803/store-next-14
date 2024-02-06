@@ -127,6 +127,7 @@ export default function Checkout() {
       if (response.status == 200) {
         toast.success("Thành công");
         router.push(`/checkout/${uuid}`);
+        cart.removeAll();
       } else {
         toast.error("Thất bại");
       }

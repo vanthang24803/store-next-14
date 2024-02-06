@@ -66,16 +66,18 @@ export const DetailCard = ({ product }: DetailCardProp) => {
           </div>
 
           <div className="flex flex-col lg:flex-row py-4 space-y-4 lg:space-y-0">
-            <div className="flex flex-col space-y-4">
+            <div className="flex flex-col space-y-4 w-1/2">
               <div className="flex items-center space-x-6 md:space-x-12 text-sm p-2 w-full bg-neutral-100/80 rounded-md">
                 <span className="font-semibold">Giá:</span>
                 <div className="flex items-center space-x-2">
                   <span className="text-red-500 font-bold text-2xl">
                     {formatPrice(option?.price, option?.sale)}₫
                   </span>
-                  <span className="text-neutral-400 text-lg line-through">
-                    {price(option?.price)}₫
-                  </span>
+                  {Number(option?.sale) > 0 && (
+                    <span className="text-neutral-400 text-lg line-through">
+                      {price(option?.price)}₫
+                    </span>
+                  )}
                 </div>
                 {Number(option?.sale) > 0 && (
                   <Button

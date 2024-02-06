@@ -8,7 +8,10 @@ export default async function Product() {
     <div className="flex-col">
       <div className="flex-1 space-y-4 px-8 py-4">
         <OrderClient data={orders} />
-        <ExportData/>        
+        <ExportData
+          url={`${process.env.API_URL}/api/order/export`}
+          fileName="Order.xlsx"
+        />
       </div>
     </div>
   );

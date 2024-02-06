@@ -17,21 +17,23 @@ interface ProductIdProp {
   };
 }
 
-export default function CreateImage({ params }: ProductIdProp) {
+export default function CreateImages({ params }: ProductIdProp) {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
 
-  const [file, setFile] = useState<FileList | null>(null);
-  const [imgSrc, setImgSrc] = useState<string | null>(null);
+  const [files, setFiles] = useState<FileList | null>(null);
+  const [imgSrcs, setImgSrcs] = useState<string[]>([]);
 
   useEffect(() => {
-    if (file) {
-      const objectUrl = URL.createObjectURL(file[0]);
-      setImgSrc(objectUrl);
+    if (files) {
+      const objectUrls = Array.from(files).map((file) =>
+        URL.createObjectURL(file)
+      );
+      setImgSrcs(objectUrls);
 
-      return () => URL.revokeObjectURL(objectUrl);
+      return () => objectUrls.forEach((url) => URL.revokeObjectURL(url));
     }
-  }, [file]);
+  }, [files]);
 
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -40,8 +42,10 @@ export default function CreateImage({ params }: ProductIdProp) {
     try {
       setLoading(true);
       const formData = new FormData();
-      if (file) {
-        formData.append("file", file[0]);
+      if (files) {
+        Array.from(files).forEach((file) => {
+          formData.append('files', file);
+        });
       }
 
       const response = await axios.post(
@@ -73,25 +77,33 @@ export default function CreateImage({ params }: ProductIdProp) {
         <div className="flex items-center justify-between">
           <Heading
             title="Create images"
-            description={`Create an image for product ${params.id}`}
+            description={`Create images for product ${params.id}`}
           />
         </div>
         <Separator />
-        <div className="flex justify-between space-x-4">
-          {imgSrc && (
-            <Image src={imgSrc} height="300" width={300} alt="billboard" />
-          )}
+        <div className="flex flex-col space-y-4">
+          <div className="grid grid-cols-4 gap-4">
+            {imgSrcs.map((src, index) => (
+              <Image
+                key={index}
+                src={src}
+                height={300}
+                width={300}
+                alt="images"
+              />
+            ))}
+          </div>
 
           <form onSubmit={onSubmit} className="space-y-8 w-full">
-          
             <div className="flex flex-col space-y-2">
-              <Label className="font-medium text-sm">File:</Label>
+              <Label className="font-medium text-sm">Files:</Label>
               <Input
                 disabled={loading}
-                name="file"
+                name="files"
                 type="file"
-                placeholder="Billboard file"
-                onChange={(e) => setFile(e.target.files)}
+                placeholder="Billboard files"
+                onChange={(e) => setFiles(e.target.files)}
+                multiple
               />
             </div>
 

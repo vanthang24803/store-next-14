@@ -27,15 +27,14 @@ export const InforModal = ({ data }: InforModalProps) => {
   const addToCart = () => {
     if (data && option) {
       const productCopy = { ...data };
-  
+
       productCopy.options = [option];
-  
+
       cart.addItem(productCopy, total);
     } else {
       console.error("Data or option is undefined");
     }
   };
-  
 
   return (
     <div className="flex flex-col space-y-2 p-4">
@@ -65,9 +64,11 @@ export const InforModal = ({ data }: InforModalProps) => {
           <span className="text-red-500 font-bold text-2xl">
             {formatPrice(option?.price, option?.sale)}₫
           </span>
-          <span className="text-neutral-400 text-lg line-through">
-            {price(option?.price)}₫
-          </span>
+          {Number(option?.sale) > 0 && (
+            <span className="text-neutral-400 text-lg line-through">
+              {price(option?.price)}₫
+            </span>
+          )}
         </div>
         {Number(option?.sale) > 0 && (
           <Button
