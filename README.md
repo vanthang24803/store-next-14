@@ -1,5 +1,5 @@
 <div align="center">
-  <a href="https://github.com/vanthang24803/manga-nextjs-14">
+  <a href="https://github.com/vanthang24803/store-next-14">
     <img src="https://theme.hstatic.net/200000294254/1001077164/14/favicon.png?v=325" alt="logo" width="100" height="100">
   </a>
 </div>
