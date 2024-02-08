@@ -133,11 +133,15 @@ export default function SearchOrder() {
                         </div>
                         <div className="flex items-center space-x-2">
                           <span>SĐT:</span>
-                          <span>{order?.numberPhone}</span>
+                          <span className="font-semibold">
+                            {order?.numberPhone}
+                          </span>
                         </div>
                         <div className="flex items-center space-x-2 overflow-hidden">
                           <span>Địa chỉ:</span>
-                          <span className="line-clamp-1">{order?.address}</span>
+                          <span className="line-clamp-1 font-semibold">
+                            {order?.address}
+                          </span>
                         </div>
 
                         <div className="flex items-center space-x-2">

@@ -9,6 +9,7 @@ import { format } from "date-fns";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 import { Spinner } from "@/components/spinner";
+import Confetti from "react-confetti";
 
 interface OrderIdProp {
   params: {
@@ -20,6 +21,8 @@ export default function OrderId({ params }: OrderIdProp) {
   const router = useRouter();
 
   const [order, setOrder] = useState<Order | null>(null);
+
+  const [showConfetti, setShowConfetti] = useState(false);
 
   const statusList: { [key: string]: string } = {
     PENDING: "Chờ xác nhận",
@@ -41,6 +44,11 @@ export default function OrderId({ params }: OrderIdProp) {
 
       if (response.status == 200) {
         setOrder(response.data);
+        setShowConfetti(true);
+
+        setTimeout(() => {
+          setShowConfetti(false);
+        }, 5000);
       }
     };
 
@@ -49,9 +57,9 @@ export default function OrderId({ params }: OrderIdProp) {
 
   return (
     <div className="md:w-[500px] w-[360px] py-4 px-6 bg-white/90 rounded-lg  flex flex-col space-y-1">
+      {showConfetti && <Confetti />}
       {order ? (
         <>
-          {" "}
           <h1 className="text-xl font-bold text-center uppercase">Chúc Mừng</h1>
           <span className="text-center text-sm">
             Đơn hàng của bạn đã được đặt thành công!
@@ -72,11 +80,13 @@ export default function OrderId({ params }: OrderIdProp) {
             </div>
             <div className="flex items-center space-x-2">
               <span>SĐT:</span>
-              <span>{order?.numberPhone}</span>
+              <span className="font-semibold">{order?.numberPhone}</span>
             </div>
             <div className="flex items-center space-x-2 overflow-hidden">
               <span>Địa chỉ:</span>
-              <span className="line-clamp-1">{order?.address}</span>
+              <span className="line-clamp-1 font-semibold">
+                {order?.address}
+              </span>
             </div>
 
             <div className="flex items-center space-x-2">

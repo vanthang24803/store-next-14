@@ -96,6 +96,7 @@ export default function Checkout() {
       ...data,
       id: uuid,
       products: cart.items.map((item) => ({
+        optionId: item.product.options[0].id,
         productId: item.product.id,
         name: item.product.name,
         thumbnail: item.product.thumbnail,
@@ -110,8 +111,6 @@ export default function Checkout() {
       totalPrice: totalPrice,
       userId: session?.user.id || "",
     };
-
-    console.log(dataSend);
 
     try {
       const response = await axios.post(
