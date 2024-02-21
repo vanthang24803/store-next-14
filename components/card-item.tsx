@@ -17,7 +17,7 @@ export const CardItem = ({ product }: CardItemProps) => {
   const cart = useCart();
 
   return (
-    <div className="w-full pb-4 bg-white rounded-md hover:shadow-md hover:cursor-pointer flex flex-col overflow-hidden group lg:h-[70vh] md:h-[60vh]">
+    <div className="w-full pb-4 bg-white rounded-md hover:shadow-md hover:cursor-pointer flex flex-col overflow-hidden group lg:h-[70vh] md:h-[60vh] relative">
       <div className="relative">
         <img
           src={product.thumbnail}
@@ -69,7 +69,7 @@ export const CardItem = ({ product }: CardItemProps) => {
         </div>
         {product.options[0].quantity > 0 ? (
           <div
-            className="my-2 flex items-center space-x-4"
+            className="my-2 flex items-center space-x-4 md:absolute md:bottom-4"
             onClick={() => cart.addItem(product, 1)}
           >
             <div className="w-9 h-9 flex items-center justify-center bg-[#65b10d] rounded-full">
@@ -80,7 +80,7 @@ export const CardItem = ({ product }: CardItemProps) => {
             </span>
           </div>
         ) : (
-          <div className="my-2 flex items-center space-x-4">
+          <div className="my-2 flex items-center space-x-4 md:absolute md:bottom-4">
             <div className="w-9 h-9 flex items-center justify-center bg-neutral-300/90 rounded-full cursor-not-allowed">
               <CartIcon />
             </div>

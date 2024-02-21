@@ -17,14 +17,8 @@ export default function Cart() {
 
   const router = useRouter();
 
-  const totalPrice = cart.items.reduce((total, item) => {
-    return (
-      total +
-      (item.product.options[0].price -
-        (item.product.options[0].price * item.product.options[0].sale) / 100) *
-        item.quantity
-    );
-  }, 0);
+  console.log(cart.totalPrice())
+
 
   const [isClient, setIsClient] = useState(false);
 
@@ -39,7 +33,7 @@ export default function Cart() {
           <p className="py-2 flex items-center space-x-3 text-sm">
             <Link href={`/`}>Trang chủ</Link>
             <span>/</span>
-            <span>Giỏ hàng ({cart.items.length})</span>
+            <span>Giỏ hàng ({cart.totalItems()})</span>
           </p>
 
           <div className="flex lg:flex-row flex-col justify-between  lg:space-x-4 w-full">
@@ -48,7 +42,7 @@ export default function Cart() {
               <Separator />
 
               <span>
-                Bạn đang có <b>{cart.items.length} sản phẩm</b> trong giỏ hàng
+                Bạn đang có <b>{cart.totalItems()} sản phẩm</b> trong giỏ hàng
               </span>
 
               <div className="w-full rounded-md border border-neutral-200 p-4">
@@ -132,7 +126,7 @@ export default function Cart() {
               <div className="flex items-center justify-between">
                 <h2 className="text-base font-bold">Tổng tiền:</h2>
                 <p className="text-2xl font-bold text-[#ff0000]">
-                  {price(totalPrice)}₫
+                  {price(cart.totalPrice())}₫
                 </p>
               </div>
               <Separator />

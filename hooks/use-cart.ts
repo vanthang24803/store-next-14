@@ -11,6 +11,8 @@ interface CartItem {
 
 interface CartStore {
   items: CartItem[];
+  totalItems: () => number;
+  totalPrice: () => number;
   addItem: (data: Product, quantity: number) => void;
   removeItem: (id: string, optionId: string) => void;
   updateItemQuantity: (id: string, optionId: string, quantity: number) => void;
@@ -21,6 +23,20 @@ const useCart = create(
   persist<CartStore>(
     (set, get) => ({
       items: [],
+      totalItems: () => {
+        return get().items.reduce((total, item) => total + item.quantity, 0);
+      },
+      totalPrice: () => {
+        return get().items.reduce(
+          (total, item) =>
+            total +
+            (item.product.options[0].price -
+              (item.product.options[0].price * item.product.options[0].sale) /
+                100) *
+              item.quantity,
+          0
+        );
+      },
       addItem: (data: Product, quantity: number = 1) => {
         const currentItems = get().items;
         const existingItemIndex = currentItems.findIndex(
