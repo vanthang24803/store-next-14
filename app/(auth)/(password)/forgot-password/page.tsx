@@ -3,31 +3,23 @@
 import * as z from "zod";
 import { Logo } from "@/components/logo";
 import { zodResolver } from "@hookform/resolvers/zod";
-
+import axios from "axios";
 import { FormControl, FormField, FormItem } from "@/components/ui/form";
-import { redirect, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { signIn, useSession } from "next-auth/react";
 import toast from "react-hot-toast";
 
 const formSchema = z.object({
   email: z.string().min(1),
-  password: z.string().min(1),
 });
 
 type CreateFormValue = z.infer<typeof formSchema>;
 
-export default function Login() {
+export default function ForgotPassword() {
   const router = useRouter();
-
-  const { data: session } = useSession();
-
-  if (session) {
-    redirect("/");
-  }
 
   const [loading, setLoading] = useState(false);
 
@@ -35,32 +27,41 @@ export default function Login() {
     resolver: zodResolver(formSchema),
     defaultValues: {
       email: "",
-      password: "",
     },
   });
+
+  const onSubmit = async (data: CreateFormValue) => {
+    try {
+      setLoading(true);
+      const response = await axios.post(
+        `${process.env.NEXT_PUBLIC_API_URL}/api/auth/forgot-password`,
+        data,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      if (response.status == 200) {
+        toast.success("Check your password");
+        setLoading(false);
+        router.push("/login");
+      } else {
+        toast.error("Something went wrong");
+        setLoading(false);
+      }
+    } catch (error) {
+      setLoading(false);
+      console.log(error);
+    }
+  };
 
   const [isClient, setIsClient] = useState(false);
 
   useEffect(() => {
     setIsClient(true);
   }, []);
-
-  const onSubmit = async (data: CreateFormValue) => {
-    signIn("credentials", {
-      ...data,
-      redirect: false,
-    })
-      .then((callback) => {
-        if (callback?.error) {
-          toast.error(callback.error);
-        }
-
-        if (callback?.ok) {
-          redirect("/");
-        }
-      })
-      .finally(() => setLoading(false));
-  };
 
   return (
     <>
@@ -69,7 +70,7 @@ export default function Login() {
           <Logo />
 
           <div className="flex flex-col">
-            <h2 className="text-xl font-semibold">Login</h2>
+            <h2 className="text-xl font-semibold">Forgot Password</h2>
             <span className="text-neutral-800 text-sm">
               to continue to AMAK Store
             </span>
@@ -96,28 +97,6 @@ export default function Login() {
                   </FormItem>
                 )}
               />
-
-              <FormField
-                control={form.control}
-                name="password"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormControl>
-                      <div className="flex flex-col space-y-1">
-                        <span className="font-medium text-sm">Password</span>
-                        <Input type="password" {...field} autoComplete="off" />
-                      </div>
-                    </FormControl>
-                  </FormItem>
-                )}
-              />
-
-              <Button variant="link" className="flex justify-end"
-                onClick={() => router.push(`/forgot-password`)}
-              >
-                Forgot password
-              </Button>
-
               <Button type="submit" disabled={loading}>
                 Submit
               </Button>

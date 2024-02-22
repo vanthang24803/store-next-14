@@ -10,7 +10,7 @@ import { useEffect, useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { signIn, useSession } from "next-auth/react";
+import { useSession } from "next-auth/react";
 import toast from "react-hot-toast";
 import axios from "axios";
 
@@ -68,11 +68,10 @@ export default function Register() {
       );
 
       if (response.status == 200) {
-        toast.success("Thành công");
-        router.push("/login");
+        toast.success("Verify your email");
         setLoading(false);
       } else {
-        toast.error("Thất bại");
+        toast.error("Something went wrong");
         setLoading(false);
       }
     } catch (error) {
