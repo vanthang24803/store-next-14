@@ -75,7 +75,7 @@ export const CartAction = () => {
                           }
                         />
                         <div className="flex flex-col">
-                          <div className="flex items-center space-x-5">
+                          <div className="relative w-[250px]">
                             <span
                               className="font-semibold line-clamp-2"
                               onClick={() =>
@@ -85,7 +85,7 @@ export const CartAction = () => {
                               {item.product.name}
                             </span>
                             <X
-                              className="w-4 h-4"
+                              className="w-4 h-4 absolute top-0 -right-0"
                               onClick={() =>
                                 cart.removeItem(
                                   item.product.id,

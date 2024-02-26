@@ -21,11 +21,18 @@ export const SearchPage = () => {
   const searchParams = useSearchParams();
   const ref = useRef<HTMLDivElement | null>(null);
 
-  const search = searchParams.get("Name");
+  const search = searchParams.get("search");
 
   const [content, setContent] = useState(search || "");
 
   const [product, setProduct] = useState<Product[]>([]);
+
+  const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      router.push(`/search/?product=${content}`);
+    }
+  };
 
   useEffect(() => {
     const checkIfClickedOutside = (e: MouseEvent) => {
@@ -62,7 +69,7 @@ export const SearchPage = () => {
 
   useEffect(() => {
     const query = {
-      Name: content,
+      search: content,
     };
 
     const url = qs.stringifyUrl(
@@ -82,6 +89,7 @@ export const SearchPage = () => {
         className="lg:w-[500px] md:w-[300px] h-10 font-medium"
         onClick={() => setOpen(true)}
         onChange={handleInputChange}
+        onKeyPress={handleKeyPress}
         placeholder="Tìm kiếm sản phẩm..."
       />
       <div className="absolute top-1 right-1 w-14 h-5/6 flex items-center justify-center bg-[#417505] rounded-md cursor-pointer hover:bg-[#65b10d]">
@@ -126,12 +134,14 @@ export const SearchPage = () => {
                   </div>
                 ))}
               </div>
-              <Link
-                href={`/search`}
-                className="flex items-center justify-center pt-1"
-              >
-                Xem thêm {product.length} sản phẩm
-              </Link>
+              {product.length > 6 && (
+                <Link
+                  href={`/search/?product=${search}`}
+                  className="flex items-center justify-center pt-1"
+                >
+                  Xem thêm {product.length - 5} sản phẩm
+                </Link>
+              )}
             </div>
           )}
         </div>
