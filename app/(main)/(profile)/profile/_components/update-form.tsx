@@ -7,7 +7,6 @@ import { Button } from "@/components/ui/button";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { FormProvider, useForm } from "react-hook-form";
 import { Profile } from "@/types";
-import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { FormControl, FormField, FormItem } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
@@ -18,6 +17,7 @@ interface UpdateFormProp {
   profile: Profile | undefined;
   id: string | undefined;
   token: string | undefined;
+  fetchData : () => void;
 }
 
 const formSchema = z.object({
@@ -35,6 +35,7 @@ export const UpdateForm = ({
   profile,
   id,
   token,
+  fetchData
 }: UpdateFormProp) => {
 
   const [loading, setLoading] = useState(false);
@@ -66,7 +67,8 @@ export const UpdateForm = ({
         if (response.status == 200) {
           setLoading(false);
           setUpdate(!update);
-          toast.success("Thành công")
+          toast.success("Thành công");
+          fetchData();
         } else {
           toast.success("Vui lòng thử lại")
           setLoading(false);

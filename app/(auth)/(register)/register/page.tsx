@@ -26,11 +26,11 @@ type CreateFormValue = z.infer<typeof formSchema>;
 export default function Register() {
   const router = useRouter();
 
-  const { data: session } = useSession();
+  // const { data: session } = useSession();
 
-  if (session) {
-    redirect("/");
-  }
+  // if (session) {
+  //   redirect("/");
+  // }
 
   const [loading, setLoading] = useState(false);
 

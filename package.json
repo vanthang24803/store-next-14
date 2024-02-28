@@ -38,9 +38,9 @@
     "embla-carousel-autoplay": "^8.0.0-rc19",
     "embla-carousel-react": "^8.0.0-rc19",
     "file-saver": "^2.0.5",
+    "js-cookie": "^3.0.5",
     "lucide-react": "^0.309.0",
     "next": "14.0.4",
-    "next-auth": "^4.24.5",
     "next-themes": "^0.2.1",
     "query-string": "^8.1.0",
     "react": "^18",
@@ -57,6 +57,7 @@
     "zustand": "^4.4.7"
   },
   "devDependencies": {
+    "@types/js-cookie": "^3.0.6",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",

@@ -1,7 +1,7 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable @next/next/no-img-element */
 "use client";
 
-import { redirect, useRouter } from "next/navigation";
-import { signOut, useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 import { Profile } from "@/types";
 import axios from "axios";
@@ -9,32 +9,34 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { AvatarFallback, AvatarImage, Avatar } from "@/components/ui/avatar";
 import { UpdateForm } from "./_components/update-form";
+import useAuth from "@/hooks/use-auth";
+import { redirect } from "next/navigation";
 
 export default function Profile() {
-  const { data: session } = useSession();
-
   const [profile, setProfile] = useState<Profile>();
+
+  const auth = useAuth();
 
   const [update, setUpdate] = useState(false);
 
+  const fetchData = async () => {
+    const response = await axios.get(
+      `${process.env.NEXT_PUBLIC_API_URL}/api/auth/profile/${auth.user?.id}`,
+      { headers: { Authorization: `Bearer ${auth.token}` } }
+    );
+
+    if (response.status == 200) {
+      setProfile(response.data);
+    } else {
+      console.log("Error");
+    }
+  };
+
   useEffect(() => {
-    const fetchData = async () => {
-      const response = await axios.get(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/auth/profile/${session?.user?.id}`,
-        { headers: { Authorization: `Bearer ${session?.token?.token}` } }
-      );
-
-      if (response.status == 200) {
-        setProfile(response.data);
-      } else {
-        console.log("Error");
-      }
-    };
-
     fetchData();
-  }, [session?.user?.id, session?.token]);
+  }, []);
 
-  if (!session) {
+  if (!auth.isLogin) {
     redirect("/");
   }
 
@@ -69,7 +71,7 @@ export default function Profile() {
           </Link>
           <span
             className="hover:text-[#417505] font-medium text-sm hover:cursor-pointer"
-            onClick={() => signOut()}
+            onClick={() => auth.logout()}
           >
             Đăng xuất
           </span>
@@ -81,24 +83,37 @@ export default function Profile() {
           {update ? (
             <UpdateForm
               update={update}
+              fetchData={fetchData}
               setUpdate={setUpdate}
               profile={profile}
-              id={session?.user.id}
-              token={session?.token.token}
+              id={auth.user?.id}
+              token={auth.token}
             />
           ) : (
             <>
               <div className="flex flex-col text-[14px] space-y-3 pb-4">
-                <div className="flex items-center justify-center my-4">
-                  <Avatar className="w-20 h-20">
-                    <AvatarImage src={session?.user.avatar} />
-                    <AvatarFallback>A</AvatarFallback>
-                  </Avatar>
+                <div className="flex items-center justify-center my-4 ">
+                  <div className="relative">
+                    <Avatar className="w-20 h-20">
+                      <AvatarImage src={auth.user?.avatar} />
+                      <AvatarFallback>A</AvatarFallback>
+                    </Avatar>
+                    {auth.user?.role.includes("ADMIN") && (
+                      <img
+                        className="absolute -top-2 -right-4 w-8 h-8"
+                        src="https://fullstack.edu.vn/static/media/crown.8edf462029b3c37a7f673303d8d3bedc.svg"
+                        alt="admin"
+                      />
+                    )}
+                  </div>
                 </div>
                 <span>
                   Tên: {profile?.firstName} {profile?.lastName}
                 </span>
                 <span>Email: {profile?.email}</span>
+
+                {auth.user?.role.includes("ADMIN") && <span>Role: ADMIN</span>}
+
                 {profile?.address != "" ? (
                   <span>Địa chỉ: {profile?.address}</span>
                 ) : (

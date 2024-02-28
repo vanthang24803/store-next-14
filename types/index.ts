@@ -136,3 +136,13 @@ export type Statistical = {
   totalProduct: number;
   orders: Order[];
 };
+
+export type User = {
+  id: string;
+  email: string;
+  name: string;
+  avatar: string;
+  role: string[];
+};
+
+

@@ -5,13 +5,12 @@ import { Logo } from "@/components/logo";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 import { FormControl, FormField, FormItem } from "@/components/ui/form";
-import { redirect, useRouter } from "next/navigation";
+import {  useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { signIn, useSession } from "next-auth/react";
-import toast from "react-hot-toast";
+import useAuth from "@/hooks/use-auth";
 
 const formSchema = z.object({
   email: z.string().min(1),
@@ -23,11 +22,7 @@ type CreateFormValue = z.infer<typeof formSchema>;
 export default function Login() {
   const router = useRouter();
 
-  const { data: session } = useSession();
-
-  if (session) {
-    redirect("/");
-  }
+  const auth = useAuth();
 
   const [loading, setLoading] = useState(false);
 
@@ -46,20 +41,15 @@ export default function Login() {
   }, []);
 
   const onSubmit = async (data: CreateFormValue) => {
-    signIn("credentials", {
-      ...data,
-      redirect: false,
-    })
-      .then((callback) => {
-        if (callback?.error) {
-          toast.error(callback.error);
-        }
-
-        if (callback?.ok) {
-          redirect("/");
-        }
-      })
-      .finally(() => setLoading(false));
+    setLoading(true);
+    try {
+      await auth.login(data.email, data.password);
+      router.push("/");
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -112,7 +102,9 @@ export default function Login() {
                 )}
               />
 
-              <Button variant="link" className="flex justify-end"
+              <Button
+                variant="link"
+                className="flex justify-end"
                 onClick={() => router.push(`/forgot-password`)}
               >
                 Forgot password

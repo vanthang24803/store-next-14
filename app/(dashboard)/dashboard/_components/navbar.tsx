@@ -4,14 +4,17 @@ import { Logo } from "@/components/logo";
 import { ModeToggle } from "@/components/mode-toggle";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { DashboardMenu } from "@/constant";
-import { useSession } from "next-auth/react";
+import useAuth from "@/hooks/use-auth";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
 export const Navbar = () => {
-  const { data: session } = useSession();
 
   const router = useRouter();
+
+  const auth = useAuth();
+
+  console.log(auth.user?.role);
 
   return (
     <nav className="fixed top-0 w-full h-14 border-b px-6 shadow-sm bg-white dark:bg-black flex items-center z-50 ">
@@ -36,7 +39,7 @@ export const Navbar = () => {
             onClick={() => router.push("/profile")}
             className="hover:cursor-pointer"
           >
-            <AvatarImage src={session?.user.avatar} />
+            <AvatarImage src={auth.user?.avatar} />
             <AvatarFallback>A</AvatarFallback>
           </Avatar>
         </div>

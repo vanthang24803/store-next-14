@@ -8,6 +8,7 @@ import { Overview } from "./_components/overview";
 import getGraphRevenue from "@/actions/get-graph-revenue";
 import getTotalProduct from "@/actions/get-total-product";
 import getTotalRevenue from "@/actions/get-total-revenue";
+import { cookies } from "next/headers";
 
 export default async function Dashboard() {
   const totalRevenue = await getTotalRevenue();

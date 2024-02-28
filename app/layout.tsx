@@ -3,7 +3,6 @@ import "@uploadthing/react/styles.css";
 import "./globals.css";
 import { siteConfig } from "@/config/site";
 import { ToastProvider } from "@/components/provider/toater-provider";
-import Provider from "@/components/provider/provider";
 
 export const metadata: Metadata = {
   title: {
@@ -26,12 +25,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <Provider>
-          <ToastProvider />
-          {children}
-        </Provider>
+        <ToastProvider />
+        {children}
       </body>
     </html>
   );
 }
-  

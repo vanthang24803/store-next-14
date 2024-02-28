@@ -196,3 +196,11 @@ export const DashboardMenu = [
     href : "/dashboard/order"
   },
 ];
+
+
+export const statusList: { [key: string]: string } = {
+  PENDING: "Chờ xác nhận",
+  CREATE: "Khởi tạo thành công",
+  SHIPPING: "Đơn hàng đang trên đường giao",
+  SUCCESS: "Giao hàng thành công",
+};

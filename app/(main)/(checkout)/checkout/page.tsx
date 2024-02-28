@@ -4,7 +4,6 @@ import Link from "next/link";
 import { useState, useEffect } from "react";
 import { ChevronRight } from "lucide-react";
 import { Input } from "@/components/ui/input";
-import { signOut, useSession } from "next-auth/react";
 import { AvatarFallback } from "@radix-ui/react-avatar";
 import { Avatar, AvatarImage } from "@/components/ui/avatar";
 import { Payment } from "./_components/payment";
@@ -21,6 +20,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { FormControl, FormField, FormItem } from "@/components/ui/form";
 import axios from "axios";
 import { useRouter } from "next/navigation";
+import useAuth from "@/hooks/use-auth";
 
 type CheckboxType = "send" | "store";
 type PaymentType = "cod" | "bank" | "momo";
@@ -41,7 +41,7 @@ export default function Checkout() {
     setIsClient(true);
   }, []);
 
-  const { data: session } = useSession();
+  const auth = useAuth();
 
   const [sendChecked, setSendChecked] = useState(true);
   const [storeChecked, setStoreChecked] = useState(false);
@@ -89,6 +89,12 @@ export default function Checkout() {
     },
   });
 
+  useEffect(() => {
+    form.setValue("email", auth.user?.email || "");
+    form.setValue("name", auth.user?.name || "");
+  
+  }, [auth.user, form]);
+
   const uuid = self.crypto.randomUUID();
 
   const onSubmit = async (data: CreateFormValue) => {
@@ -109,7 +115,7 @@ export default function Checkout() {
       shipping: sendChecked,
       quantity: cart.items.length,
       totalPrice: totalPrice,
-      userId: session?.user.id || "",
+      userId: auth.user?.id || "",
     };
 
     try {
@@ -160,20 +166,17 @@ export default function Checkout() {
 
             <span className="font-bold stext-xl">Thông tin giao hàng</span>
 
-            {session ? (
+            {auth.user ? (
               <div className="flex items-center space-x-4">
                 <Avatar>
-                  <AvatarImage src={session.user.avatar} />
+                  <AvatarImage src={auth.user.avatar} />
                   <AvatarFallback>A</AvatarFallback>
                 </Avatar>
-                <div className="flex flex-col">
-                  <span className="text-neutral-600 text-[15px]">
-                    {session.user.name} ({session.user.email})
-                  </span>
-                  <span
-                    onClick={() => signOut()}
-                    className="hover:cursor-pointer text-sm"
-                  >
+                <div className="flex flex-col space-y-1">
+                  <p className="tracking-tighter text-[15px] font-semibold">
+                    {auth.user.name} 
+                  </p>
+                  <span className="hover:cursor-pointer hover:underline text-sm" onClick={() => auth.logout()}>
                     Đăng xuất
                   </span>
                 </div>
@@ -245,7 +248,7 @@ export default function Checkout() {
                   handleBankChange={handleBankChange}
                 />
 
-                <div className="flex justify-between">
+                <div className="flex justify-between text-sm">
                   <Link href={`/cart`}>Giỏ hàng</Link>
 
                   <Button type="submit" variant="primary">
@@ -265,6 +268,4 @@ export default function Checkout() {
       )}
     </>
   );
-};
-
-
+}
