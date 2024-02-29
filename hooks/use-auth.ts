@@ -2,16 +2,19 @@ import axios from "axios";
 import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
 import Cookies from "js-cookie";
+import jwt from "jsonwebtoken";
 
 import { User } from "@/types";
 
 type Store = {
+  checkExpiry(): unknown;
   user: User | null;
   token: string;
   isLogin: boolean;
   login: (email: string, password: string) => Promise<void>;
   logout: () => void;
 };
+
 
 const useAuth = create(
   persist<Store>(
@@ -47,6 +50,17 @@ const useAuth = create(
         } catch (error) {
           console.error("Login failed:", error);
           throw error;
+        }
+      },
+      checkExpiry: () => {
+        const token = get().token;
+        if (token) {
+          const json = jwt.decode(token);
+          if (typeof json !== 'string' && json?.exp) {
+            if(Date.now() >= json.exp * 1000){
+              get().logout();
+            }
+          }
         }
       },
       logout: () => {

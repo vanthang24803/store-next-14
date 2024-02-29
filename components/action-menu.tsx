@@ -14,7 +14,6 @@ import {
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuSeparator,
-  DropdownMenuShortcut,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { useRouter } from "next/navigation";
@@ -36,6 +35,11 @@ export const ActionMenu = () => {
   const [order, setOrder] = useState<Order[] | null>(null);
 
   const auth = useAuth();
+
+
+  useEffect(() => {
+    auth.checkExpiry();
+  })
 
   useEffect(() => {
     axios

@@ -92,11 +92,11 @@ export const SearchPage = () => {
         onKeyPress={handleKeyPress}
         placeholder="Tìm kiếm sản phẩm..."
       />
-      <div className="absolute top-1 right-1 w-14 h-5/6 flex items-center justify-center bg-[#417505] rounded-md cursor-pointer hover:bg-[#65b10d]">
+      <div className="absolute top-1 right-1 w-14 h-5/6 flex items-center justify-center bg-[#417505] rounded-md cursor-pointer hover:bg-[#65b10d] ">
         <Search className="w-4 h-4 text-white hover:cursor-pointer " />
       </div>
       {open && (
-        <div className="lg:w-[500px] md:w-[300px] lg:min-h-[20vh] min-h-[15vh]  rounded-md bg-white dark:bg-neutral-700/90  p-4 md:absolute md:top-12 md:-right-2">
+        <div className="lg:w-[500px] md:w-[300px] lg:min-h-[20vh] min-h-[15vh]  rounded-md bg-white dark:bg-neutral-700/90  p-4 md:absolute md:top-12 md:-right-2 shadow-lg">
           <p className="text-sm font-medium">Gợi ý cho bạn:</p>
           {content != "" && (
             <div className="w-full h-auto my-2 text-sm flex flex-col space-y-2">
