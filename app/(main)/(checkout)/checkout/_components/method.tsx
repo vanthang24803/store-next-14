@@ -7,6 +7,7 @@ import { Check, MapPin, Package2 } from "lucide-react";
 import { info } from "@/constant";
 import { FormControl, FormField, FormItem } from "@/components/ui/form";
 import { useFormContext } from "react-hook-form";
+import { SelectAddress } from "./select-address";
 
 type CheckboxType = "send" | "store";
 
@@ -14,16 +15,17 @@ interface MethodProps {
   sendChecked: boolean;
   storeChecked: boolean;
   handleCheckboxChange: (checkboxType: CheckboxType) => void;
+  setAddress: React.Dispatch<React.SetStateAction<string>>;
 }
 
 export const Method = ({
   sendChecked,
   storeChecked,
   handleCheckboxChange,
+  setAddress,
 }: MethodProps) => {
+  const { control } = useFormContext();
 
-  const {control} = useFormContext();
-  
   return (
     <>
       <div className="w-full rounded-md border border-neutral-200 p-4 flex flex-col space-y-4">
@@ -37,7 +39,7 @@ export const Method = ({
           <Label htmlFor="send">Giao tận nơi</Label>
         </div>
         {sendChecked && (
-          <>
+          <div className="flex flex-col space-y-2">
             <Separator />
             <FormField
               control={control}
@@ -50,7 +52,8 @@ export const Method = ({
                 </FormItem>
               )}
             />
-          </>
+            <SelectAddress setAddress={setAddress} />
+          </div>
         )}
 
         <Separator />

@@ -1,5 +1,5 @@
 import axios from "axios";
-import create from "zustand";
+import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
 import Cookies from "js-cookie";
 

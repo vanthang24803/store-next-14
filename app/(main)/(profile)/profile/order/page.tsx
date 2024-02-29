@@ -24,18 +24,16 @@ export default function Order() {
 
   const [order, setOrder] = useState<Order[] | null>(null);
 
+
+
   useEffect(() => {
-    const fetchData = async () => {
-      const response = await axios.get(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/order/${auth.user?.id}/user`
-      );
-
-      if (response.status == 200) {
-        setOrder(response.data);
-      }
-    };
-
-    fetchData();
+    axios
+      .get(`${process.env.NEXT_PUBLIC_API_URL}/api/order/${auth.user?.id}/user`)
+      .then((response) => {
+        if (response.status === 200) {
+          setOrder(response.data);
+        }
+      });
   }, [auth.user]);
 
   const router = useRouter();
@@ -107,9 +105,9 @@ export default function Order() {
  
                          <div className="flex flex-col space-y-2">
                            <div className="flex flex-col space-y-4 my-4">
-                             {item.products?.map((item, index) => (
+                             {item.products?.map((item) => (
                                <div
-                                 key={index}
+                                 key={item.productId}
                                  className="flex flex-col space-y-2 text-sm hover:cursor-pointer"
                                >
                                  <div className="flex space-x-4">

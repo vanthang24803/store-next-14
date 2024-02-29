@@ -45,6 +45,8 @@ export default function Checkout() {
 
   const [sendChecked, setSendChecked] = useState(true);
   const [storeChecked, setStoreChecked] = useState(false);
+  const [exitAddress, setAddress] = useState("");
+  const [loading , setLoading] = useState(false);
 
   const [payment, setPayment] = useState<PaymentType | null>("cod");
 
@@ -92,8 +94,8 @@ export default function Checkout() {
   useEffect(() => {
     form.setValue("email", auth.user?.email || "");
     form.setValue("name", auth.user?.name || "");
-  
-  }, [auth.user, form]);
+    form.setValue("address", exitAddress);
+  }, [auth.user, form, exitAddress]);
 
   const uuid = self.crypto.randomUUID();
 
@@ -119,6 +121,7 @@ export default function Checkout() {
     };
 
     try {
+      setLoading(true);
       const response = await axios.post(
         `${process.env.NEXT_PUBLIC_API_URL}/api/order/create`,
         dataSend,
@@ -138,13 +141,15 @@ export default function Checkout() {
       }
     } catch (error) {
       console.log(error);
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
     <>
       {isClient && (
-        <div className="flex flex-col lg:flex-row lg:px-52 lg:space-x-8">
+        <div className="flex flex-col lg:flex-row lg:px-44 lg:space-x-8">
           <div className="flex flex-col space-y-3 p-8">
             <Link href={`/`} className="font-semibold text-2xl">
               AMAK Store
@@ -174,9 +179,12 @@ export default function Checkout() {
                 </Avatar>
                 <div className="flex flex-col space-y-1">
                   <p className="tracking-tighter text-[15px] font-semibold">
-                    {auth.user.name} 
+                    {auth.user.name}
                   </p>
-                  <span className="hover:cursor-pointer hover:underline text-sm" onClick={() => auth.logout()}>
+                  <span
+                    className="hover:cursor-pointer hover:underline text-sm"
+                    onClick={() => auth.logout()}
+                  >
                     Đăng xuất
                   </span>
                 </div>
@@ -238,6 +246,7 @@ export default function Checkout() {
                 </div>
 
                 <Method
+                  setAddress={setAddress}
                   handleCheckboxChange={handleCheckboxChange}
                   sendChecked={sendChecked}
                   storeChecked={storeChecked}
@@ -251,7 +260,7 @@ export default function Checkout() {
                 <div className="flex justify-between text-sm">
                   <Link href={`/cart`}>Giỏ hàng</Link>
 
-                  <Button type="submit" variant="primary">
+                  <Button type="submit" variant="primary" disabled={loading}>
                     Hoàn tất đơn hàng
                   </Button>
                 </div>

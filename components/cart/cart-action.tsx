@@ -77,7 +77,7 @@ export const CartAction = () => {
                         <div className="flex flex-col">
                           <div className="relative w-[250px]">
                             <span
-                              className="font-semibold line-clamp-2"
+                              className="font-semibold md:w-[180px] line-clamp-2"
                               onClick={() =>
                                 router.push(`/products/${item.product.id}`)
                               }

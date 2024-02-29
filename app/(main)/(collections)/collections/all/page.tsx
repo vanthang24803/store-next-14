@@ -1,7 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 "use client";
 
-import axios from "axios";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { ChevronRight, Package2 } from "lucide-react";
@@ -42,18 +41,18 @@ export default function AllCategory() {
   const [data, setData] = useState<Product[]>();
 
   useEffect(() => {
-    const fetchData = async () => {
-      const response = await axios.get(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/product?SortBy=${price}&Filter=${filter}&Limit=${itemsPerPage}&Page=${currentPage}`
-      );
-
-      if (response.status == 200) {
-        setData(response.data);
-      }
-    };
-
-    fetchData();
-  });
+    fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/product?SortBy=${price}&Filter=${filter}&Limit=${itemsPerPage}&Page=${currentPage}`)
+      .then(response => {
+        if (response.ok) {
+          return response.json();
+        } else {
+          throw new Error('Network response was not ok');
+        }
+      })
+      .then(data => setData(data))
+      .catch(error => console.error('There has been a problem with your fetch operation: ', error));
+  }, [price, filter, itemsPerPage, currentPage]);
+  
 
   const pageCount = data ? Math.ceil(data.length / itemsPerPage) : 0;
   const currentData = data
