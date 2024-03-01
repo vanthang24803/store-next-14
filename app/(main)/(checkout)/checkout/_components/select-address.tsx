@@ -73,7 +73,7 @@ export const SelectAddress = ({ setAddress }: SelectAddressProps) => {
   }, [selectedDistrict]);
 
   useEffect(() => {
-    if (selectedProvince && selectedDistrict && selectedWard) {
+    if (selectedProvince && selectedDistrict) {
       const provinceName = provinces.find(province => province.province_id === selectedProvince)?.province_name;
       const districtName = districts.find(district => district.district_id === selectedDistrict)?.district_name;
       const wardName = wards.find(ward => ward.ward_id === selectedWard)?.ward_name;

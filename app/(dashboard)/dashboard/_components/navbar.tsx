@@ -13,9 +13,6 @@ export const Navbar = () => {
   const router = useRouter();
 
   const auth = useAuth();
-
-  console.log(auth.user?.role);
-
   return (
     <nav className="fixed top-0 w-full h-14 border-b px-6 shadow-sm bg-white dark:bg-black flex items-center z-50 ">
       <div className="md:max-w-screen-2xl mx-auto flex items-center w-full justify-between">

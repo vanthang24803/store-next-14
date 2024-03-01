@@ -5,7 +5,7 @@ const getTopBook = async (
   limit: number,
   category: string
 ): Promise<Product[]> => {
-  const URL = `${process.env.API_URL}/api/product?Category=${category}&Limit=${limit}&Page=${page}`;
+  const URL = `${process.env.API_URL}/api/product?Category=${category}&Limit=${limit}&Page=${page}&Filter=Lasted`;
 
   const response = await fetch(URL, { cache: "no-cache" });
 

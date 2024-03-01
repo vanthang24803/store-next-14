@@ -2,8 +2,6 @@ import { Quicksand } from "next/font/google";
 import { Footer } from "@/components/footer";
 import { Navbar } from "@/components/navbar";
 
-
-
 const font = Quicksand({ subsets: ["latin"] });
 
 export default async function HomeLayout({

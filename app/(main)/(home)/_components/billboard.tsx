@@ -16,7 +16,7 @@ import {
   CarouselItem,
 } from "@/components/ui/carousel";
 
-export const Billboard = () => {
+export const BillboardHeader = () => {
   return (
     <>
       <div className="lg:flex hidden flex-col space-y-4">

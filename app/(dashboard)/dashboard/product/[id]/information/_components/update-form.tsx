@@ -78,6 +78,20 @@ export const UpdateForm = ({ product }: UpdateFormProp) => {
     },
   });
 
+  React.useEffect(() => {
+    form.setValue("author", product?.information?.author || "");
+    form.setValue("translator", product?.information?.translator || "");
+    form.setValue("category", product?.information?.category || "");
+    form.setValue("format", product?.information?.format || "");
+    form.setValue("numberOfPage", product?.information?.numberOfPage || "");
+    form.setValue("isbn", product?.information?.isbn || "");
+    form.setValue("publisher", product?.information?.publisher || "");
+    form.setValue("company", product?.information?.company || "");
+    form.setValue("gift", product?.information?.gift || "");
+    form.setValue("price", product?.information?.price || "");
+    form.setValue("introduce", product?.information?.introduce || "");
+  }, [form, product?.information]);
+
   const onSubmit = async (data: CreateFormValue) => {
     const dataSend = {
       author: data.author,
@@ -339,7 +353,6 @@ export const UpdateForm = ({ product }: UpdateFormProp) => {
                               selected={field.value}
                               onSelect={field.onChange}
                               disabled={(date) =>
-                                date > new Date() ||
                                 date < new Date("1900-01-01")
                               }
                               initialFocus
@@ -380,7 +393,9 @@ export const UpdateForm = ({ product }: UpdateFormProp) => {
                       <FormControl>
                         <Textarea
                           disabled={!open}
-                          placeholder={product?.information?.introduce || "Gift"}
+                          placeholder={
+                            product?.information?.introduce || "Gift"
+                          }
                           {...field}
                         />
                       </FormControl>

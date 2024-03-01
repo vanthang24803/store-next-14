@@ -204,3 +204,7 @@ export const statusList: { [key: string]: string } = {
   SHIPPING: "Đơn hàng đang trên đường giao",
   SUCCESS: "Giao hàng thành công",
 };
+
+export const MANGA : string = "Manga";
+
+export const SACHMOI : string = "Sách mới";

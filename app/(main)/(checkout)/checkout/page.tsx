@@ -15,12 +15,18 @@ import useCart from "@/hooks/use-cart";
 import toast from "react-hot-toast";
 
 import * as z from "zod";
-import { FormProvider, useForm } from "react-hook-form";
+import { Form, FormProvider, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { FormControl, FormField, FormItem } from "@/components/ui/form";
+import {
+  FormControl,
+  FormField,
+  FormItem,
+  FormMessage,
+} from "@/components/ui/form";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import useAuth from "@/hooks/use-auth";
+import { info } from "@/constant";
 
 type CheckboxType = "send" | "store";
 type PaymentType = "cod" | "bank" | "momo";
@@ -29,7 +35,7 @@ const formSchema = z.object({
   email: z.string().min(1),
   name: z.string().min(1),
   address: z.string().min(1),
-  numberPhone: z.string().min(1),
+  numberPhone: z.string().min(1).max(10),
 });
 
 type CreateFormValue = z.infer<typeof formSchema>;
@@ -46,7 +52,7 @@ export default function Checkout() {
   const [sendChecked, setSendChecked] = useState(true);
   const [storeChecked, setStoreChecked] = useState(false);
   const [exitAddress, setAddress] = useState("");
-  const [loading , setLoading] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const [payment, setPayment] = useState<PaymentType | null>("cod");
 
@@ -94,8 +100,8 @@ export default function Checkout() {
   useEffect(() => {
     form.setValue("email", auth.user?.email || "");
     form.setValue("name", auth.user?.name || "");
-    form.setValue("address", exitAddress);
-  }, [auth.user, form, exitAddress]);
+    form.setValue("address", storeChecked ? info.address : exitAddress);
+  }, [auth.user, form, exitAddress, storeChecked]);
 
   const uuid = self.crypto.randomUUID();
 
@@ -119,6 +125,7 @@ export default function Checkout() {
       totalPrice: totalPrice,
       userId: auth.user?.id || "",
     };
+
 
     try {
       setLoading(true);
@@ -211,6 +218,7 @@ export default function Checkout() {
                       <FormControl>
                         <Input placeholder="Họ và tên" {...field} />
                       </FormControl>
+                      <FormMessage />
                     </FormItem>
                   )}
                 />
@@ -229,6 +237,7 @@ export default function Checkout() {
                             className="lg:w-[280px]"
                           />
                         </FormControl>
+                        <FormMessage />
                       </FormItem>
                     )}
                   />
@@ -240,6 +249,7 @@ export default function Checkout() {
                         <FormControl>
                           <Input placeholder="Số điện thoại" {...field} />
                         </FormControl>
+                        <FormMessage />
                       </FormItem>
                     )}
                   />

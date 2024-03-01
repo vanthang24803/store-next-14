@@ -2,7 +2,7 @@
 "use client";
 
 import { Product } from "@/types";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -50,6 +50,11 @@ export const UpdateForm = ({ product }: UpdateFormProp) => {
       thumbnail: "",
     },
   });
+
+  useEffect(() => {
+    form.setValue("name", product?.name || "");
+    form.setValue("brand", product?.brand || "");
+  }, [product, form]);
 
   const onSubmit = async (data: CreateFormValue) => {
     toast.loading("Waiting");
@@ -122,7 +127,7 @@ export const UpdateForm = ({ product }: UpdateFormProp) => {
                         <FormControl>
                           <Input
                             disabled={!open}
-                            placeholder={product?.name || "Product name"}
+                            placeholder={"Product name"}
                             {...field}
                           />
                         </FormControl>
@@ -140,7 +145,7 @@ export const UpdateForm = ({ product }: UpdateFormProp) => {
                         <FormControl>
                           <Input
                             disabled={!open}
-                            placeholder={product?.brand || "Product brand"}
+                            placeholder={"Product brand"}
                             {...field}
                           />
                         </FormControl>
