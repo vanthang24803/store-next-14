@@ -25,7 +25,7 @@ export const OrderClient = ({ data }: OrderClientProp) => {
               />
             </div>
             <Separator />
-            <DataTable searchKey="id" columns={columns} data={data} />
+            <DataTable searchKey="id" columns={columns} data={data} statusFilter={true} />
           </div>
         </>
       )}
