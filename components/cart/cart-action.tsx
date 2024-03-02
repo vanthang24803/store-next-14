@@ -19,6 +19,7 @@ import { ShoppingCart, X } from "lucide-react";
 import { UpdateCart } from "./update-cart";
 import { formatPrice, price } from "@/lib/format-price";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 export const CartAction = () => {
   const cart = useCart();
@@ -50,7 +51,9 @@ export const CartAction = () => {
       </SheetTrigger>
       <SheetContent>
         <SheetHeader>
-          <SheetTitle>Giỏ Hàng </SheetTitle>
+          <Link href={`/cart`}>
+            <SheetTitle>Giỏ Hàng </SheetTitle>
+          </Link>
           <SheetDescription>
             Số sản phẩm trong giỏ hàng: {cart.totalItems()}
           </SheetDescription>
@@ -125,8 +128,8 @@ export const CartAction = () => {
                 </>
               ) : (
                 <div className="flex items-center justify-center flex-col space-y-4 my-8">
-                    <ShoppingCart className="w-20 h-20" />
-                    <span>Hiện chưa có sản phẩm</span>
+                  <ShoppingCart className="w-20 h-20" />
+                  <span>Hiện chưa có sản phẩm</span>
                 </div>
               )}
             </div>
@@ -141,6 +144,7 @@ export const CartAction = () => {
           <Button
             className="w-full bg-[#417505] hover:bg-[#65b10d]"
             onClick={() => router.push("/checkout")}
+            disabled={cart.totalItems() == 0}
           >
             Thanh toán
           </Button>

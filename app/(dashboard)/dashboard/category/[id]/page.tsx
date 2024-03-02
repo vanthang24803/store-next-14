@@ -65,6 +65,10 @@ export default function CategoryId({ params }: CategoryIdProp) {
     },
   });
 
+  useEffect(() => {
+    form.setValue("name", data?.name || "");
+  }, [data?.name, form]);
+
   const onSubmit = async (data: CreateFormValue) => {
     toast.loading("Waiting");
     try {

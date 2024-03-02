@@ -17,8 +17,7 @@ export default function Cart() {
 
   const router = useRouter();
 
-  console.log(cart.totalPrice())
-
+  console.log(cart.totalPrice());
 
   const [isClient, setIsClient] = useState(false);
 
@@ -136,6 +135,7 @@ export default function Cart() {
               </ul>
               <Button
                 variant="destructive"
+                disabled={cart.totalItems() == 0}
                 onClick={() => router.push(`/checkout`)}
                 className="bg-[#ff0000] uppercase font-semibold"
               >

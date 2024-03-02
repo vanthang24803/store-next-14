@@ -21,7 +21,7 @@ import { LogOut, Settings, ShoppingBasket, User } from "lucide-react";
 import useAuth from "@/hooks/use-auth";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { Order } from "@/types";
+import { Order, Profile } from "@/types";
 
 export const ActionMenu = () => {
   const [isClient, setIsClient] = useState(false);
@@ -33,13 +33,13 @@ export const ActionMenu = () => {
   const router = useRouter();
 
   const [order, setOrder] = useState<Order[] | null>(null);
+  const [profile, setProfile] = useState<Profile>();
 
   const auth = useAuth();
 
-
   useEffect(() => {
     auth.checkExpiry();
-  })
+  });
 
   useEffect(() => {
     axios
@@ -51,6 +51,25 @@ export const ActionMenu = () => {
       });
   }, [auth.user]);
 
+  useEffect(() => {
+    const fetchData = async () => {
+      const response = await axios.get(
+        `${process.env.NEXT_PUBLIC_API_URL}/api/auth/profile/${auth.user?.id}`,
+        { headers: { Authorization: `Bearer ${auth.token}` } }
+      );
+
+      if (response.status == 200) {
+        setProfile(response.data);
+      } else {
+        console.log("Error");
+      }
+    };
+
+    if (auth.user) {
+      fetchData();
+    }
+  }, [auth]);
+
   return (
     <>
       {isClient && (
@@ -61,11 +80,11 @@ export const ActionMenu = () => {
                 <div className="relative">
                   <Avatar>
                     <AvatarImage
-                      src={auth.user?.avatar}
+                      src={profile?.avatar}
                       className="hover:cursor-pointer"
                     />
                     <AvatarFallback>
-                      {auth.user?.name[0].toUpperCase()}
+                      {profile?.lastName.toUpperCase()}
                     </AvatarFallback>
                   </Avatar>
                   {auth.user?.role.includes("ADMIN") && (

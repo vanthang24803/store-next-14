@@ -14,7 +14,7 @@ export const Navbar = () => {
 
   const auth = useAuth();
   return (
-    <nav className="fixed top-0 w-full h-14 border-b px-6 shadow-sm bg-white dark:bg-black flex items-center z-50 ">
+    <nav className="fixed hidden top-0 w-full h-14 border-b px-6 shadow-sm bg-white dark:bg-black lg:flex items-center z-50 ">
       <div className="md:max-w-screen-2xl mx-auto flex items-center w-full justify-between">
         <div className="flex items-center space-x-8">
           <Logo />

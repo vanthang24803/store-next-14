@@ -18,7 +18,7 @@ export const MobileMenu = () => {
           <Menu className="w-4 h-4" />
         </Button>
       </SheetTrigger>
-      <SheetContent>
+      <SheetContent side="bottom">
         <div className="flex flex-col space-y-4 mt-8">
           <div className="flex flex-col space-y-6 ">
             {menubar.map((item, index) => (

@@ -22,7 +22,7 @@ export const BillboardHeader = () => {
       <div className="lg:flex hidden flex-col space-y-4">
         {subBillboard.map((item, index) => (
           <div className="w-[360px] overflow-hidden rounded-md" key={index}>
-            <AspectRatio ratio={26 / 9} className="bg-muted">
+            <AspectRatio ratio={26 / 9} className="bg-inherit">
               <Link href={item.url}>
                 <Image
                   src={item.thumbnail}
