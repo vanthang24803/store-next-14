@@ -3,6 +3,7 @@ import "@uploadthing/react/styles.css";
 import "./globals.css";
 import { siteConfig } from "@/config/site";
 import { ToastProvider } from "@/components/provider/toater-provider";
+import { GoogleOAuthProvider } from "@react-oauth/google";
 
 export const metadata: Metadata = {
   title: {

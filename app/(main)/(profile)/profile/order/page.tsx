@@ -54,7 +54,7 @@ export default function Order() {
                 {order != null ? (
                   <>
                     {order.length > 0 ? (
-                      <div className="border border-neutral-200 w-full rounded-md p-4 flex flex-col space-y-4">
+                      <div className="border border-neutral-200 w-full rounded-md p-4 flex flex-col  space-y-4">
                         {order?.map((item, i) => (
                           <>
                             <div
