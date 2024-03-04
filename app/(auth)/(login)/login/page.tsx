@@ -5,14 +5,14 @@ import { Logo } from "@/components/logo";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 import { FormControl, FormField, FormItem } from "@/components/ui/form";
-import { useRouter } from "next/navigation";
+import { redirect, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import useAuth from "@/hooks/use-auth";
-import { SocialButton } from "./_components/social-button";
-import { Google } from "./_components/google";
+import { GoogleLogin } from "@react-oauth/google";
+import toast from "react-hot-toast";
 
 const formSchema = z.object({
   email: z.string().min(1),
@@ -54,7 +54,9 @@ export default function Login() {
     }
   };
 
-  const loginWIthGoogle = async () => {};
+  if (auth.token) {
+    redirect("/");
+  }
 
   return (
     <>
@@ -112,13 +114,25 @@ export default function Login() {
                 Forgot password
               </Button>
 
+              <div className="w-full items-center">
+                <GoogleLogin
+                  size="large"
+                  width="350"
+                  onSuccess={(credentialResponse) => {
+                    auth.signInWithGoogle(credentialResponse?.credential);
+                  }}
+                  onError={() => {
+                    toast.error("Something went wrong!");
+                  }}
+                />
+              </div>
+
               <Button type="submit" disabled={loading}>
                 Submit
               </Button>
             </form>
           </FormProvider>
-          <SocialButton icon={Google} name="Google" onClick={loginWIthGoogle} />
-       
+
           <div className="flex items-center space-x-2 text-sm">
             <span className="mt-4 text-neutral-600">No account?</span>
             <span

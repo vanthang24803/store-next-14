@@ -25,10 +25,12 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body>
-        <ToastProvider />
-        {children}
-      </body>
+      <GoogleOAuthProvider clientId={`${process.env.CLIENT_ID}`}>
+        <body>
+          <ToastProvider />
+          {children}
+        </body>
+      </GoogleOAuthProvider>
     </html>
   );
 }

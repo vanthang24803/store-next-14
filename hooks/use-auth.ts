@@ -12,9 +12,9 @@ type Store = {
   token: string;
   isLogin: boolean;
   login: (email: string, password: string) => Promise<void>;
+  signInWithGoogle: (token: string | undefined) => void;
   logout: () => void;
 };
-
 
 const useAuth = create(
   persist<Store>(
@@ -52,12 +52,34 @@ const useAuth = create(
           throw error;
         }
       },
+
+      signInWithGoogle(token) {
+        if (token) {
+          axios
+            .post(
+              `${process.env.NEXT_PUBLIC_API_URL}/api/auth/google?token=${token}`
+            )
+            .then((response) => {
+              set({
+                user: response.data.user,
+                token: response.data.token,
+                isLogin: true,
+              });
+
+              Cookies.set("token", response.data.token);
+              Cookies.set("roles", response.data.user.role);
+            })
+            .catch((error) => {
+              console.log(error);
+            });
+        }
+      },
       checkExpiry: () => {
         const token = get().token;
         if (token) {
           const json = jwt.decode(token);
-          if (typeof json !== 'string' && json?.exp) {
-            if(Date.now() >= json.exp * 1000){
+          if (typeof json !== "string" && json?.exp) {
+            if (Date.now() >= json.exp * 1000) {
               get().logout();
             }
           }
