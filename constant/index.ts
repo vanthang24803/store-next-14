@@ -172,7 +172,7 @@ export const footer = [
 
 export const DashboardMenu = [
   {
-    name : "Overview",
+    name: "Overview",
     href: "/dashboard",
   },
   {
@@ -192,11 +192,10 @@ export const DashboardMenu = [
     href: "/dashboard/product",
   },
   {
-    name : "Order",
-    href : "/dashboard/order"
+    name: "Order",
+    href: "/dashboard/order",
   },
 ];
-
 
 export const statusList: { [key: string]: string } = {
   PENDING: "Chờ xác nhận",
@@ -205,8 +204,49 @@ export const statusList: { [key: string]: string } = {
   SUCCESS: "Giao hàng thành công",
 };
 
-export const MANGA : string = "Manga";
+export const MANGA: string = "Manga";
 
-export const SACHMOI : string = "Sách mới";
+export const SACHMOI: string = "Sách mới";
 
-
+export const Collections = {
+  MANGA: {
+    name: "Manga",
+    thumbnail:
+      "https://file.hstatic.net/200000294254/collection/banner_danh_muc_homepage___collection_1920x580px__truyen_tranh__ebacebcd2b134638a9179a96f7b4af29.jpg",
+  },
+  SACHMOI: {
+    name: "Sách mới",
+    thumbnail:
+      "https://file.hstatic.net/200000294254/collection/sach-moi_df2e4877d9264169bf17da8d1339cbb2.jpg",
+  },
+  KYNANG: {
+    name: "Kỹ năng",
+    thumbnail:
+      "https://file.hstatic.net/200000294254/collection/banner_danh_muc_homepage___collection_1920x580px__ky_nang__73b162c327bd4a9c8040a0df028632fb.jpg",
+  },
+  TIEUTHUYET: {
+    name: "Tiểu Thuyết",
+    thumbnail:
+      "https://file.hstatic.net/200000294254/collection/banner_danh_muc_homepage___collection_1920x580px__tieu_thuyet__8c8d0f4a2511417b8ce2191535c34a8a.jpg",
+  },
+  LIGHTNOVEL: {
+    name: "Light Novel",
+    thumbnail:
+      "https://file.hstatic.net/200000294254/collection/banner_danh_muc_homepage___collection_1920x580px__light_novel__ce3fdb87f20a4423bca39b43a57eb2e9.jpg",
+  },
+  PHUKIEN: {
+    name: "Phụ kiện",
+    thumbnail:
+      "https://file.hstatic.net/200000294254/collection/phu-kien-1200x628_dbee01b7158e4e0299add52c4ab27531.png",
+  },
+  HETHANG: {
+    name: "SoldOut",
+    thumbnail:
+      "https://theme.hstatic.net/200000294254/1001077164/14/collection_banner.jpg?v=323",
+  },
+  GIAMGIA: {
+    name: "Sale",
+    thumbnail:
+      "https://file.hstatic.net/200000294254/collection/banner-collection-50_4cefb152aae04945bbe205504cc7c7a6.jpg",
+  },
+};

@@ -2,10 +2,8 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useState } from "react";
 import { ChevronRight, Package2 } from "lucide-react";
 import { Filter } from "../_components/filter";
-import { FilterType, PriceType, Product } from "@/types";
 import { CardItemSmall } from "@/components/card-small-item";
 import { SelectFilter } from "../_components/select-filter";
 
@@ -17,50 +15,15 @@ import {
 } from "@/components/ui/pagination";
 import { Skeleton } from "@/components/ui/skeleton";
 import { MobileFilter } from "../_components/mobile-filter";
+import useProductByCategory from "@/hooks/use-fetch-product-category";
+import useFilterProduct from "@/hooks/use-filter-product";
 
 export default function AllCategory() {
-  const [price, setPrice] = useState<PriceType | null>(null);
-  const [filter, setFilter] = useState<FilterType | null>(null);
+  const { filter, handleFilter, reset, price, handlePriceFilter } =
+    useFilterProduct();
 
-  const handlePriceFilter = (priceType: PriceType) => {
-    setPrice((current) => (current === priceType ? null : priceType));
-  };
-
-  const handleFilter = (filterType: FilterType) => {
-    setFilter((current) => (current === filterType ? null : filterType));
-  };
-
-  const reset = () => {
-    setPrice(null);
-    setFilter(null);
-  };
-
-  const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 1000;
-
-  const [data, setData] = useState<Product[]>();
-
-  useEffect(() => {
-    fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/product?SortBy=${price}&Filter=${filter}&Limit=${itemsPerPage}&Page=${currentPage}`)
-      .then(response => {
-        if (response.ok) {
-          return response.json();
-        } else {
-          throw new Error('Network response was not ok');
-        }
-      })
-      .then(data => setData(data))
-      .catch(error => console.error('There has been a problem with your fetch operation: ', error));
-  }, [price, filter, itemsPerPage, currentPage]);
-  
-
-  const pageCount = data ? Math.ceil(data.length / itemsPerPage) : 0;
-  const currentData = data
-    ? data.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage)
-    : [];
-  const handlePageChange = (newPage: number) => {
-    setCurrentPage(newPage);
-  };
+  const { currentPage, data, pageCount, currentData, handlePageChange } =
+    useProductByCategory({ price, filter });
 
   return (
     <main className="md:max-w-screen-xl mx-auto p-4">

@@ -1,4 +1,10 @@
-import { Check, CreditCard, DollarSign, Package } from "lucide-react";
+import {
+  CalendarIcon,
+  Check,
+  CreditCard,
+  DollarSign,
+  Package,
+} from "lucide-react";
 
 import { Separator } from "@/components/ui/separator";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -8,7 +14,8 @@ import { Overview } from "./_components/overview";
 import getGraphRevenue from "@/actions/get-graph-revenue";
 import getTotalProduct from "@/actions/get-total-product";
 import getTotalRevenue from "@/actions/get-total-revenue";
-import { cookies } from "next/headers";
+import { format } from "date-fns";
+import { Button } from "@/components/ui/button";
 
 export default async function Dashboard() {
   const totalRevenue = await getTotalRevenue();
@@ -23,7 +30,16 @@ export default async function Dashboard() {
   return (
     <div className="flex-col">
       <div className="flex-1 space-y-4 p-8 pt-6">
-        <Heading title="Dashboard" description="Overview of your store" />
+        <div className="flex items-center justify-between">
+          <Heading title="Dashboard" description="Overview of your store" />
+          <Button
+            variant="outline"
+            className="justify-start text-left font-normal"
+          >
+            <CalendarIcon className="mr-2 h-4 w-4" />
+            {format(Date.now(), "PPpp")}
+          </Button>
+        </div>
         <Separator />
         <div className="grid gap-4 grid-cols-4">
           <Card>

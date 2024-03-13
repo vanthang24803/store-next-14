@@ -18,59 +18,22 @@ import {
 } from "@/components/ui/pagination";
 import { Skeleton } from "@/components/ui/skeleton";
 import { MobileFilter } from "../_components/mobile-filter";
+import useFilterProduct from "@/hooks/use-filter-product";
+import useProductByCategory from "@/hooks/use-fetch-product-category";
+import { Collections } from "@/constant";
 
 export default function Category() {
-  const [price, setPrice] = useState<PriceType | null>(null);
-  const [filter, setFilter] = useState<FilterType | null>(null);
+  const { filter, handleFilter, reset, price, handlePriceFilter } =
+    useFilterProduct();
 
-  const handlePriceFilter = (priceType: PriceType) => {
-    setPrice((current) => (current === priceType ? null : priceType));
-  };
-
-  const handleFilter = (filterType: FilterType) => {
-    setFilter((current) => (current === filterType ? null : filterType));
-  };
-
-  const reset = () => {
-    setPrice(null);
-    setFilter(null);
-  };
-
-  const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 20;
-
-  const [data, setData] = useState<Product[]>();
-
-  const category = "Manga";
-
-  useEffect(() => {
-    const fetchData = async () => {
-      const response = await axios.get(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/product?Category=${category}&SortBy=${price}&Filter=${filter}&Limit=${itemsPerPage}&Page=${currentPage}`
-      );
-
-      if (response.status == 200) {
-        setData(response.data);
-      }
-    };
-
-    fetchData();
-  });
-
-  const pageCount = data ? Math.ceil(data.length / itemsPerPage) : 0;
-  const currentData = data
-    ? data.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage)
-    : [];
-  const handlePageChange = (newPage: number) => {
-    setCurrentPage(newPage);
-  };
-
+  const { currentPage, data, pageCount, currentData, handlePageChange } =
+    useProductByCategory({ price, filter, category: Collections.MANGA.name });
   return (
     <main className="md:max-w-screen-xl mx-auto p-4">
       <div className="flex items-center space-x-3 text-sm font-medium">
         <Link href={`/`}>Trang chủ</Link>
         <ChevronRight className="w-4 h-4" />
-        <span>Manga</span>
+        <span>{Collections.MANGA.name}</span>
       </div>
       <div className="lg:flex w-full lg:space-x-12">
         <div className="flex lg:flex-row flex-col space-y-4 lg:space-y-0 my-4">
@@ -78,15 +41,15 @@ export default function Category() {
         </div>
         <div className="flex flex-col space-y-4">
           <img
-            src="https://file.hstatic.net/200000294254/collection/banner_danh_muc_homepage___collection_1920x580px__truyen_tranh__ebacebcd2b134638a9179a96f7b4af29.jpg"
-            alt="billboard"
+            src={Collections.MANGA.thumbnail}
+            alt={Collections.MANGA.name}
             className="rounded-md"
           />
 
           <div className="flex space-y-2 flex-col">
             <div className="flex items-center justify-between">
               <div className="flex lg:flex-row flex-col space-y-2 lg:space-y-0 lg:items-center lg:space-x-6 w-full">
-                <h1 className="text-2xl font-bold">Manga</h1>
+                <h1 className="text-2xl font-bold">{Collections.MANGA.name}</h1>
                 <div className="flex items-center space-x-1">
                   <span className="font-bold">{data?.length || 0}</span>
                   <div className="flex items-center justify-between w-full">

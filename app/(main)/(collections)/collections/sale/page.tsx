@@ -1,12 +1,9 @@
 /* eslint-disable @next/next/no-img-element */
 "use client";
 
-import axios from "axios";
 import Link from "next/link";
-import { useEffect, useState } from "react";
 import { ChevronRight, Package2 } from "lucide-react";
 import { Filter } from "../_components/filter";
-import { FilterType, PriceType, Product } from "@/types";
 import { CardItemSmall } from "@/components/card-small-item";
 import { SelectFilter } from "../_components/select-filter";
 
@@ -18,51 +15,20 @@ import {
 } from "@/components/ui/pagination";
 import { Skeleton } from "@/components/ui/skeleton";
 import { MobileFilter } from "../_components/mobile-filter";
+import { Collections } from "@/constant";
+import useFilterProduct from "@/hooks/use-filter-product";
+import useProductByCategory from "@/hooks/use-fetch-product-category";
 
 export default function Category() {
-  const [price, setPrice] = useState<PriceType | null>(null);
-  const [filter, setFilter] = useState<FilterType | null>(null);
+  const { filter, handleFilter, reset, price, handlePriceFilter } =
+    useFilterProduct();
 
-  const handlePriceFilter = (priceType: PriceType) => {
-    setPrice((current) => (current === priceType ? null : priceType));
-  };
-
-  const handleFilter = (filterType: FilterType) => {
-    setFilter((current) => (current === filterType ? null : filterType));
-  };
-
-  const reset = () => {
-    setPrice(null);
-    setFilter(null);
-  };
-
-  const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 20;
-
-  const [data, setData] = useState<Product[]>();
-
-
-  useEffect(() => {
-    const fetchData = async () => {
-      const response = await axios.get(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/product?Status=Sale&SortBy=${price}&Filter=${filter}&Limit=${itemsPerPage}&Page=${currentPage}`
-      );
-
-      if (response.status == 200) {
-        setData(response.data);
-      }
-    };
-
-    fetchData();
-  });
-
-  const pageCount = data ? Math.ceil(data.length / itemsPerPage) : 0;
-  const currentData = data
-    ? data.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage)
-    : [];
-  const handlePageChange = (newPage: number) => {
-    setCurrentPage(newPage);
-  };
+  const { currentPage, data, pageCount, currentData, handlePageChange } =
+    useProductByCategory({
+      price,
+      filter,
+      status: Collections.GIAMGIA.name,
+    });
 
   return (
     <main className="md:max-w-screen-xl mx-auto p-4">
@@ -77,7 +43,7 @@ export default function Category() {
         </div>
         <div className="flex flex-col space-y-4">
           <img
-            src="https://file.hstatic.net/200000294254/collection/banner-collection-50_4cefb152aae04945bbe205504cc7c7a6.jpg"
+            src={Collections.GIAMGIA.thumbnail}
             alt="billboard"
             className="rounded-md"
           />

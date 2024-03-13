@@ -10,9 +10,9 @@ import { useEffect, useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { useSession } from "next-auth/react";
 import toast from "react-hot-toast";
 import axios from "axios";
+import useAuth from "@/hooks/use-auth";
 
 const formSchema = z.object({
   firstName: z.string().min(1),
@@ -26,11 +26,11 @@ type CreateFormValue = z.infer<typeof formSchema>;
 export default function Register() {
   const router = useRouter();
 
-  // const { data: session } = useSession();
+  const auth = useAuth();
 
-  // if (session) {
-  //   redirect("/");
-  // }
+  if (auth.token) {
+    redirect("/");
+  }
 
   const [loading, setLoading] = useState(false);
 
