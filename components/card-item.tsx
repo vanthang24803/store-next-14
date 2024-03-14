@@ -6,8 +6,9 @@ import { Button } from "@/components/ui/button";
 import { CartIcon } from "@/components/icons/icon-cart";
 import { ItemModal } from "./modal/item-modal";
 import { formatPrice, price } from "@/lib/format-price";
-import Link from "next/link";
 import useCart from "@/hooks/use-cart";
+import useHistoryClick from "@/hooks/use-history-click";
+import { useRouter } from "next/navigation";
 
 interface CardItemProps {
   product: Product;
@@ -15,6 +16,9 @@ interface CardItemProps {
 
 export const CardItem = ({ product }: CardItemProps) => {
   const cart = useCart();
+
+  const history = useHistoryClick();
+  const router = useRouter();
 
   return (
     <div className="w-full pb-4 bg-white rounded-md hover:shadow-md hover:cursor-pointer flex flex-col overflow-hidden group lg:h-[70vh] md:h-[60vh] relative">
@@ -37,9 +41,15 @@ export const CardItem = ({ product }: CardItemProps) => {
         <span className="text-neutral-500 font-medium text-sm">
           {product.brand}
         </span>
-        <Link href={`/products/${product.id}`}>
-          <p className="font-semibold text-sm line-clamp-2">{product.name}</p>
-        </Link>
+        <p
+          onClick={() => {
+            history.addItem(product);
+            router.push(`/products/${product.id}`);
+          }}
+          className="font-semibold text-sm line-clamp-2"
+        >
+          {product.name}
+        </p>
         <span className="text-neutral-500 font-medium text-sm">
           {product.options.length} phiên bản
         </span>

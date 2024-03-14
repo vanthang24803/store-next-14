@@ -4,7 +4,7 @@
 import { Order } from "@/types";
 import axios from "axios";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 import * as z from "zod";
 import { Logo } from "@/components/logo";
@@ -17,6 +17,7 @@ import { Button } from "@/components/ui/button";
 import { price } from "@/lib/format-price";
 import { format } from "date-fns";
 import { Spinner } from "@/components/spinner";
+import useClient from "@/hooks/use-client";
 
 const formSchema = z.object({
   id: z.string().min(1),
@@ -47,7 +48,7 @@ export default function SearchOrder() {
 
   const onSubmit = async (data: CreateFormValue) => {
     setLoading(true);
-    setError(""); // reset error state before a new request
+    setError(""); 
     const fetchData = async () => {
       try {
         const response = await axios.get(
@@ -69,11 +70,7 @@ export default function SearchOrder() {
     fetchData();
   };
 
-  const [isClient, setIsClient] = useState(false);
-
-  useEffect(() => {
-    setIsClient(true);
-  }, []);
+  const { isClient } = useClient();
 
   return (
     <>

@@ -2,43 +2,19 @@
 "use client";
 
 import { Separator } from "@radix-ui/react-dropdown-menu";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Menubar } from "../_components/menubar";
-import useAuth from "@/hooks/use-auth";
-import { Profile } from "@/types";
-import axios from "axios";
 import { Button } from "@/components/ui/button";
 import { Plus, Settings } from "lucide-react";
+import useClient from "@/hooks/use-client";
+import useProfile from "@/hooks/use-profile";
 
 export default function AddressProfile() {
-  const [isClient, setIsClient] = useState(false);
+  const { isClient } = useClient();
 
-  useEffect(() => {
-    setIsClient(true);
-  }, []);
-
-  const [profile, setProfile] = useState<Profile>();
-
-  const auth = useAuth();
+  const { profile } = useProfile();
 
   const [update, setUpdate] = useState(false);
-
-  const fetchData = async () => {
-    const response = await axios.get(
-      `${process.env.NEXT_PUBLIC_API_URL}/api/auth/profile/${auth.user?.id}`,
-      { headers: { Authorization: `Bearer ${auth.token}` } }
-    );
-
-    if (response.status == 200) {
-      setProfile(response.data);
-    } else {
-      console.log("Error");
-    }
-  };
-
-  useEffect(() => {
-    fetchData();
-  }, []);
 
   return (
     <>

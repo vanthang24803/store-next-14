@@ -10,7 +10,7 @@ export default function useProfile() {
   const [profile, setProfile] = useState<Profile>();
   const [order, setOrder] = useState<Order[] | null>(null);
 
-  const fetchData : () => Promise<void> = async () => {
+  const fetchData: () => Promise<void> = async () => {
     const response = await axios.get(
       `${process.env.NEXT_PUBLIC_API_URL}/api/auth/profile/${auth.user?.id}`,
       { headers: { Authorization: `Bearer ${auth.token}` } }
@@ -23,18 +23,26 @@ export default function useProfile() {
     }
   };
 
+  const fetchOrder: () => Promise<void> = async () => {
+    const response = await axios.get(
+      `${process.env.NEXT_PUBLIC_API_URL}/api/order/${auth.user?.id}/user`
+    );
+
+    if (response.status == 200) {
+      setOrder(response.data);
+    }
+  };
+
   useEffect(() => {
-    axios
-      .get(`${process.env.NEXT_PUBLIC_API_URL}/api/order/${auth.user?.id}/user`)
-      .then((response) => {
-        if (response.status === 200) {
-          setOrder(response.data);
-        }
-      });
+    if (auth.isLogin) {
+      fetchOrder();
+    }
   }, [auth.user]);
 
   useEffect(() => {
-    fetchData();
+    if (auth.isLogin) {
+      fetchData();
+    }
   }, []);
 
   return {

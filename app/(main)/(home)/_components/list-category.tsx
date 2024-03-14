@@ -31,7 +31,7 @@ export const ListCategory = ({
         </Link>
         <div className="lg:w-4/5 flex flex-col space-y-4">
           <div className="grid grid-cols-2 lg:grid-cols-5 gap-4 ">
-            {products.map((item, index) => (
+            {products.slice(0,10).map((item, index) => (
               <CardItemSmall key={index} product={item} />
             ))}
           </div>

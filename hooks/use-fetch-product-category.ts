@@ -15,18 +15,17 @@ export default function useProductByCategory({
   status,
 }: Props) {
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 1000;
   const [data, setData] = useState<Product[]>();
 
   useEffect(() => {
-    let url = `${process.env.NEXT_PUBLIC_API_URL}/api/product?SortBy=${price}&Filter=${filter}&Limit=${itemsPerPage}&Page=${currentPage}`;
+    let url = `${process.env.NEXT_PUBLIC_API_URL}/api/product?SortBy=${price}&Filter=${filter}&Page=${currentPage}`;
     if (category) {
       url += `&Category=${category}`;
     }
 
     if (status) {
       url += `&Status=${status}`;
-    }    
+    }
 
     fetch(url)
       .then((response) => {
@@ -43,11 +42,11 @@ export default function useProductByCategory({
           error
         )
       );
-  }, [price, filter, itemsPerPage, currentPage, category, status]);
+  }, [price, filter, currentPage, category, status]);
 
-  const pageCount = data ? Math.ceil(data.length / itemsPerPage) : 0;
+  const pageCount = data ? Math.ceil(data.length / 15) : 0;
   const currentData = data
-    ? data.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage)
+    ? data.slice((currentPage - 1) * 15, currentPage * 15)
     : [];
   const handlePageChange = (newPage: number) => {
     setCurrentPage(newPage);

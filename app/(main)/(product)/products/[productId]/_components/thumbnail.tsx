@@ -28,7 +28,7 @@ export const Thumbnail = ({ sale, data }: ThumbnailProps) => {
         }}
         plugins={[
           Autoplay({
-            delay: 3000,
+            delay: 1500,
           }),
         ]}
       >
