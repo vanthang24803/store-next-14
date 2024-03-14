@@ -2,28 +2,22 @@
 "use client";
 
 import Link from "next/link";
+import { X } from "lucide-react";
 import useCart from "@/hooks/use-cart";
-import { useState, useEffect } from "react";
 import { Separator } from "@/components/ui/separator";
 import { UpdateCart } from "@/components/cart/update-cart";
 import { useRouter } from "next/navigation";
 import { formatPrice, price } from "@/lib/format-price";
-import { X } from "lucide-react";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Button } from "@/components/ui/button";
+import useClient from "@/hooks/use-client";
 
 export default function Cart() {
   const cart = useCart();
 
   const router = useRouter();
 
-  console.log(cart.totalPrice());
-
-  const [isClient, setIsClient] = useState(false);
-
-  useEffect(() => {
-    setIsClient(true);
-  }, []);
+  const { isClient } = useClient();
 
   return (
     <>

@@ -18,57 +18,20 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { useRouter } from "next/navigation";
 import { LogOut, Settings, ShoppingBasket, User } from "lucide-react";
-import useAuth from "@/hooks/use-auth";
-import { useEffect, useState } from "react";
-import axios from "axios";
-import { Order, Profile } from "@/types";
+import { useEffect } from "react";
+import useClient from "@/hooks/use-client";
+import useProfile from "@/hooks/use-profile";
 
 export const ActionMenu = () => {
-  const [isClient, setIsClient] = useState(false);
-
-  useEffect(() => {
-    setIsClient(true);
-  }, []);
+  const { isClient } = useClient();
 
   const router = useRouter();
 
-  const [order, setOrder] = useState<Order[] | null>(null);
-  const [profile, setProfile] = useState<Profile>();
-
-  const auth = useAuth();
+  const { auth, order, profile } = useProfile();
 
   useEffect(() => {
     auth.checkExpiry();
   });
-
-  useEffect(() => {
-    axios
-      .get(`${process.env.NEXT_PUBLIC_API_URL}/api/order/${auth.user?.id}/user`)
-      .then((response) => {
-        if (response.status === 200) {
-          setOrder(response.data);
-        }
-      });
-  }, [auth.user]);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      const response = await axios.get(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/auth/profile/${auth.user?.id}`,
-        { headers: { Authorization: `Bearer ${auth.token}` } }
-      );
-
-      if (response.status == 200) {
-        setProfile(response.data);
-      } else {
-        console.log("Error");
-      }
-    };
-
-    if (auth.user) {
-      fetchData();
-    }
-  }, [auth]);
 
   return (
     <>

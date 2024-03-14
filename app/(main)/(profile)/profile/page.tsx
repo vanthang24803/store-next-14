@@ -2,45 +2,22 @@
 /* eslint-disable @next/next/no-img-element */
 "use client";
 
-import axios from "axios";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Profile } from "@/types";
 import { Button } from "@/components/ui/button";
 import { UpdateForm } from "./_components/update-form";
-import useAuth from "@/hooks/use-auth";
 import { Menubar } from "./_components/menubar";
 import { AvatarUpload } from "./_components/update-avatar";
 import { Spinner } from "@/components/spinner";
+import useClient from "@/hooks/use-client";
+import useProfile from "@/hooks/use-profile";
 
 export default function Profile() {
-  const [profile, setProfile] = useState<Profile>();
-
-  const auth = useAuth();
-
   const [update, setUpdate] = useState(false);
 
-  const fetchData = async () => {
-    const response = await axios.get(
-      `${process.env.NEXT_PUBLIC_API_URL}/api/auth/profile/${auth.user?.id}`,
-      { headers: { Authorization: `Bearer ${auth.token}` } }
-    );
+  const { auth, fetchData, profile } = useProfile();
 
-    if (response.status == 200) {
-      setProfile(response.data);
-    } else {
-      console.log("Error");
-    }
-  };
-
-  useEffect(() => {
-    fetchData();
-  }, []);
-
-  const [isClient, setIsClient] = useState(false);
-
-  useEffect(() => {
-    setIsClient(true);
-  }, []);
+  const { isClient } = useClient();
 
   return (
     <div className="flex flex-col space-y-8">

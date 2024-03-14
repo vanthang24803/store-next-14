@@ -26,7 +26,7 @@ export default function useProductByCategory({
 
     if (status) {
       url += `&Status=${status}`;
-    }
+    }    
 
     fetch(url)
       .then((response) => {
