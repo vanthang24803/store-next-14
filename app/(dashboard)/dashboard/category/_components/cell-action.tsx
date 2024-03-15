@@ -1,9 +1,7 @@
 "use client";
 
-import axios from "axios";
 import { useState } from "react";
 import { Copy, Edit, MoreHorizontal, Trash } from "lucide-react";
-import { toast } from "react-hot-toast";
 import { useRouter } from "next/navigation";
 
 import { Button } from "@/components/ui/button";
@@ -17,6 +15,8 @@ import {
 
 import { CategoryColumn } from "./columns";
 import { AlertModal } from "@/components/modal/alert-modal";
+import useDeleteAttribute from "@/hooks/use-delete-atribute";
+import useCopy from "@/hooks/use-copy";
 
 interface CellActionProps {
   data: CategoryColumn;
@@ -28,38 +28,23 @@ export const CellAction = ({ data }: CellActionProps) => {
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  const onConfirm = async () => {
-    toast.loading("Waiting");
-    try {
-      setLoading(true);
-      await axios.delete(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/product/category/${data.id}`
-      );
-      toast.dismiss();
-      toast.success("Category deleted.");
-      router.refresh();
-    } catch (error) {
-      toast.dismiss();
-      console.log(error);
-      toast.error("Something went wrong!");
-    } finally {
-      toast.dismiss();
-      setOpen(false);
-      setLoading(false);
-    }
-  };
+  const { onDelete } = useDeleteAttribute({
+    attribute: "category",
+    id: data.id,
+    setLoading,
+    setOpen,
+  });
 
-  const onCopy = (id: string) => {
-    navigator.clipboard.writeText(id);
-    toast.success("Category ID copied to clipboard.");
-  };
+  const { onCopy } = useCopy({
+    attribute: "category",
+  });
 
   return (
     <>
       <AlertModal
         isOpen={open}
         onClose={() => setOpen(false)}
-        onConfirm={onConfirm}
+        onConfirm={onDelete}
         loading={loading}
       />
 

@@ -146,3 +146,4 @@ export type User = {
 };
 
 
+export type Attribute = "billboard" | "category" | "product" | "voucher";

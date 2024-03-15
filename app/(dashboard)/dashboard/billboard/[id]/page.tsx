@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 
 import axios from "axios";
@@ -16,6 +17,8 @@ import toast from "react-hot-toast";
 import { Billboard } from "@/types";
 import { AlertModal } from "@/components/modal/alert-modal";
 import { Trash } from "lucide-react";
+import useFetchAttribute from "@/hooks/use-fetch-attribute";
+import useDeleteAttribute from "@/hooks/use-delete-atribute";
 
 interface BillboardProp {
   params: {
@@ -28,20 +31,11 @@ export default function BillboardId({ params }: BillboardProp) {
 
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
-  const [data, setData] = useState<Billboard | null>(null);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      const response = await axios.get(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/product/billboard/${params.id}`
-      );
-
-      if (response.status == 200) {
-        setData(response.data);
-      }
-    };
-    fetchData();
-  }, [params.id]);
+  const { data } = useFetchAttribute<Billboard>({
+    attribute: "billboard",
+    id: params.id,
+  });
 
   const [url, setUrl] = useState<string>("");
   const [file, setFile] = useState<FileList | null>(null);
@@ -96,26 +90,12 @@ export default function BillboardId({ params }: BillboardProp) {
     }
   };
 
-  const onDelete = async () => {
-    toast.loading("Waiting");
-    try {
-      setLoading(true);
-      await axios.delete(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/product/billboard/${params.id}`
-      );
-      toast.dismiss();
-      toast.success("Billboard deleted.");
-      router.push("/dashboard/billboard");
-    } catch (error) {
-      toast.dismiss();
-      console.log(error);
-      toast.error("Something went wrong!");
-    } finally {
-      toast.dismiss();
-      setOpen(false);
-      setLoading(false);
-    }
-  };
+  const { onDelete } = useDeleteAttribute({
+    attribute: "billboard",
+    id: params.id,
+    setLoading,
+    setOpen,
+  });
 
   return (
     <>

@@ -25,6 +25,8 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { FormProvider, useForm } from "react-hook-form";
+import useDeleteAttribute from "@/hooks/use-delete-atribute";
+import useFetchAttribute from "@/hooks/use-fetch-attribute";
 
 const formSchema = z.object({
   name: z.string().min(1),
@@ -42,21 +44,12 @@ export default function CategoryId({ params }: CategoryIdProp) {
   const router = useRouter();
 
   const [loading, setLoading] = useState(false);
-  const [data, setData] = useState<Category | null>(null);
   const [open, setOpen] = useState(false);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      const response = await axios.get(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/product/category/${params.id}`
-      );
-
-      if (response.status == 200) {
-        setData(response.data);
-      }
-    };
-    fetchData();
-  }, [params.id]);
+  const { data } = useFetchAttribute<Category>({
+    id: params.id,
+    attribute: "category",
+  });
 
   const form = useForm({
     resolver: zodResolver(formSchema),
@@ -97,26 +90,12 @@ export default function CategoryId({ params }: CategoryIdProp) {
     }
   };
 
-  const onDelete = async () => {
-    toast.loading("Waiting");
-    try {
-      setLoading(true);
-      await axios.delete(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/product/category/${params.id}`
-      );
-      toast.dismiss();
-      toast.success("Category deleted.");
-      router.push("/dashboard/category");
-    } catch (error) {
-      toast.dismiss();
-      console.log(error);
-      toast.error("Something went wrong!");
-    } finally {
-      toast.dismiss();
-      setOpen(false);
-      setLoading(false);
-    }
-  };
+  const { onDelete } = useDeleteAttribute({
+    attribute: "category",
+    id: params.id,
+    setLoading,
+    setOpen,
+  });
 
   return (
     <>
