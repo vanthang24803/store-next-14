@@ -21,28 +21,33 @@ export const Introduce = ({ data }: IntroduceProps) => {
         <Separator />
       </div>
 
-      <div className="flex flex-col space-y-1 text-sm">
-        <span>Tác giả: {data?.author}</span>
-        <span>Dịch giả: {data?.translator}</span>
-        <span>Thể loại: {data?.category}</span>
-        <span>Khổ sách: {data?.format}</span>
-        <span>Số trang: {data?.numberOfPage}</span>
-        <span>ISBN: {data?.isbn}</span>
-        <span>NXB liên kết: {data?.publisher}</span>
-        <span>Phát hành: {data?.company}</span>
-        <span>Quà tặng kèm: {data?.gift?.split("<br/>")}</span>
-      </div>
-
-      {!show && (
+      {data ? (
+        <div className="flex flex-col space-y-1 text-sm">
+          <span>Tác giả: {data?.author}</span>
+          <span>Dịch giả: {data?.translator}</span>
+          <span>Thể loại: {data?.category}</span>
+          <span>Khổ sách: {data?.format}</span>
+          <span>Số trang: {data?.numberOfPage}</span>
+          <span>ISBN: {data?.isbn}</span>
+          <span>NXB liên kết: {data?.publisher}</span>
+          <span>Phát hành: {data?.company}</span>
+          <span>Quà tặng kèm: {data?.gift?.split("<br/>")}</span>
+          {!show && (
+            <div className="flex items-center justify-center">
+              <Button
+                variant="outline"
+                className="hover:bg-transparent text-[#417505]  hover:text-[#65b10d] space-x-4"
+                onClick={() => setShow(true)}
+              >
+                <Plus className="w-4 h-4" />
+                <span> Xem thêm nội dung </span>
+              </Button>
+            </div>
+          )}
+        </div>
+      ) : (
         <div className="flex items-center justify-center">
-          <Button
-            variant="outline"
-            className="hover:bg-transparent text-[#417505]  hover:text-[#65b10d] space-x-4"
-            onClick={() => setShow(true)}
-          >
-            <Plus className="w-4 h-4" />
-            <span> Xem thêm nội dung </span>
-          </Button>
+          <p className="font-medium tracking-tight">Đang cập nhật...</p>
         </div>
       )}
 

@@ -13,11 +13,11 @@ import { MANGA, SACHMOI } from "@/constant";
 export default async function Home() {
   const billboard = await getBillboard();
   const bestSeller = await getBestSeller();
-  // const topBook = await getByCategory(10, MANGA);
+  // const topBook = await getByCategory(4, MANGA);
   const newBooks = await getByCategory(10, SACHMOI);
   const manga = await getByCategory(10, MANGA);
   return (
-    <main className="md:max-w-screen-xl mx-auto p-4 flex flex-col space-y-6 md:space-y-8">
+    <main className="md:max-w-screen-xl mx-auto md:p-4 flex flex-col space-y-6 md:space-y-8">
       <Header billboard={billboard} />
 
       <Navigation />

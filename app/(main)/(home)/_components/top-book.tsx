@@ -10,7 +10,7 @@ interface TopBookProps {
 
 export const TopBook = ({ data }: TopBookProps) => {
   return (
-    <div className="grid lg:grid-cols-4 grid-cols-2 md:gap-8 gap-4 hover:cursor-pointer overflow-hidden">
+    <div className="grid lg:grid-cols-4 grid-cols-2 md:gap-8 px-2 gap-4 hover:cursor-pointer overflow-hidden">
       {data?.slice(0,4).map((item) => (
         <Link href={`/products/${item.id}`} key={item.id}>
           <div className="md:w-full relative md:h-[40vh] h-[250px] " >

@@ -3,8 +3,8 @@
 
 import { formatPrice } from "@/lib/format-price";
 import { Product } from "@/types";
-import { Separator } from "@radix-ui/react-dropdown-menu";
 import Link from "next/link";
+import { Separator } from "./ui/separator";
 
 export const SearchContent = ({
   content,

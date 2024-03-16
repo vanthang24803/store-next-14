@@ -24,14 +24,14 @@ export const ListCategory = ({
 
   return (
     <div className="flex flex-col space-y-4 py-4">
-      <p className="text-2xl font-bold">{name}</p>
+      <p className="text-2xl font-bold mx-2">{name}</p>
       <div className="flex justify-between lg:space-x-4">
         <Link href={link} className="lg:block hidden w-1/5">
           <img src={thumbnail} alt={name} />
         </Link>
         <div className="lg:w-4/5 flex flex-col space-y-4">
-          <div className="grid grid-cols-2 lg:grid-cols-5 gap-4 ">
-            {products.slice(0,10).map((item, index) => (
+          <div className="grid grid-cols-2 lg:grid-cols-5 gap-2 lg:gap-1.5">
+            {products.slice(0, 10).map((item, index) => (
               <CardItemSmall key={index} product={item} />
             ))}
           </div>

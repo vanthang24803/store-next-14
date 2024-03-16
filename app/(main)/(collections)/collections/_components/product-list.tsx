@@ -16,7 +16,7 @@ export const ProductList = ({ data, currentData }: ProductListProps) => {
       {data ? (
         <>
           {data.length != 0 ? (
-            <div className="grid grid-cols-2 lg:grid-cols-5 gap-4">
+            <div className="grid grid-cols-2 lg:grid-cols-5 gap-1.5">
               {currentData?.map((item, index) => (
                 <CardItemSmall key={index} product={item} />
               ))}

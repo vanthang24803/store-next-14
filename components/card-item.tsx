@@ -26,7 +26,7 @@ export const CardItem = ({ product }: CardItemProps) => {
         <img
           src={product.thumbnail}
           alt={product.name}
-          className="md:h-[40vh] object-fill rounded-md hover:scale-105 transform transition-transform duration-500 p-2 w-full"
+          className="md:h-[40vh] object-cover rounded-md hover:scale-105 transform transition-transform duration-500 p-2 w-full"
         />
         <div className="hidden md:block">
           <ItemModal productId={product.id} />

@@ -6,7 +6,7 @@ import { categories } from "@/constant";
 
 export const Navigation = () => {
   return (
-    <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+    <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 px-2 md">
       {categories.map((item, index) => (
         <Link href={item.url} key={index} className="overflow-hidden rounded-md">
           <img

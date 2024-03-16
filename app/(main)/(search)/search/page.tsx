@@ -3,19 +3,21 @@
 /* eslint-disable @next/next/no-img-element */
 "use client";
 
-import { CardItem } from "@/components/card-item";
 import { Spinner } from "@/components/spinner";
-import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { Product } from "@/types";
 import axios from "axios";
 import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
+import { ProductSearch } from "./_components/product-search";
+import { PaginationSearch } from "./_components/pagination-search";
 
 export default function SearchPage() {
   const searchParams = useSearchParams();
   const search = searchParams.get("product");
   const [product, setProduct] = useState<Product[] | null>(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [maxPage, setMaxPage] = useState(1);
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -24,6 +26,9 @@ export default function SearchPage() {
           `${process.env.NEXT_PUBLIC_API_URL}/api/product?Name=${search}`
         );
         setProduct(response.data);
+        const totalProducts = response.data.length;
+        const totalPages = Math.ceil(totalProducts / 15);
+        setMaxPage(totalPages);
       } catch (error) {
         console.log(error);
       }
@@ -32,8 +37,16 @@ export default function SearchPage() {
     fetchProducts();
   }, [search]);
 
+  const handlePageChange = (pageNumber: number) => {
+    setCurrentPage(pageNumber);
+  };
+
+  const start = (currentPage - 1) * 15;
+  const end = currentPage * 15;
+  const currentPageProducts = product?.slice(start, end);
+
   return (
-    <main className="md:container p-4">
+    <main className=" p-4">
       <div className="flex items-center justify-center flex-col space-y-1">
         <h1 className="text-3xl font-bold tracking-tight">Tìm kiếm</h1>
         <span className="text-sm">
@@ -50,25 +63,26 @@ export default function SearchPage() {
         </span>
         {product ? (
           <>
-            {product.length > 0 ? (
-              <div className="grid grid-cols-2 lg:grid-cols-5 gap-4">
-                {product.map((item, index) => (
-                  <CardItem product={item} key={index} />
-                ))}
-              </div>
+            {product &&
+            currentPageProducts &&
+            currentPageProducts.length > 0 ? (
+              <ProductSearch products={currentPageProducts} />
             ) : (
               <div className="flex items-center justify-center flex-col space-y-2">
-                <img src="https://cdn-icons-png.flaticon.com/512/7486/7486803.png" className="w-[90%" />
-                <span className="tracking-tight font-medium">Không tìm thấy sản phẩm yêu cầu</span>
+                <img
+                  src="https://cdn-icons-png.flaticon.com/512/7486/7486803.png"
+                  className="w-[90%]"
+                />
+                <span className="tracking-tight font-medium">
+                  Không tìm thấy sản phẩm yêu cầu
+                </span>
               </div>
             )}
-            {product.length > 20 && (
-              <div className="flex items-center justify-center w-full pt-4">
-                <Button className="bg-[#417505] hover:bg-[#65b10d] w-[200px]">
-                  Xem Thêm
-                </Button>
-              </div>
-            )}
+            <PaginationSearch
+              currentPage={currentPage}
+              maxPage={maxPage}
+              handlerChange={handlePageChange}
+            />
           </>
         ) : (
           <div className="h-[50vh] flex items-center justify-center">
