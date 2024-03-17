@@ -1,19 +1,12 @@
 "use client";
 
-import axios from "axios";
-import { useState } from "react";
-
-import { useRouter } from "next/navigation";
-
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 
 import { Separator } from "@/components/ui/separator";
 import { Heading } from "../../_components/heading";
-import toast from "react-hot-toast";
 
 import * as z from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
 import {
   FormControl,
   FormField,
@@ -22,6 +15,8 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { FormProvider, useForm } from "react-hook-form";
+import useCreateAttribute from "@/hooks/use-create-attributte";
+import { zodResolver } from "@hookform/resolvers/zod";
 
 const formSchema = z.object({
   name: z.string().min(1),
@@ -30,9 +25,6 @@ const formSchema = z.object({
 type CreateFormValue = z.infer<typeof formSchema>;
 
 export default function CreateCategory() {
-  const router = useRouter();
-  const [loading, setLoading] = useState(false);
-
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -40,33 +32,9 @@ export default function CreateCategory() {
     },
   });
 
-  const onSubmit = async (data: CreateFormValue) => {
-    toast.loading("Waiting");
-    try {
-      setLoading(true);
-
-      const response = await axios.post(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/product/category`,
-        data,
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
-      if (response.status == 200) {
-        toast.dismiss();
-        toast.success("Success");
-        setLoading(false);
-        router.push("/dashboard/category");
-      }
-    } catch (error) {
-      toast.dismiss();
-      toast.error("Something went wrong!");
-      console.error(error);
-      setLoading(false);
-    }
-  };
+  const { loading, onSubmit } = useCreateAttribute<CreateFormValue>({
+    attribute: "category",
+  });
 
   return (
     <div className="flex-col">
