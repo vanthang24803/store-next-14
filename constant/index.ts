@@ -1,3 +1,7 @@
+import Bronze from "/public/icons/3.png";
+import Gold from "/public/icons/1.png";
+import Sliver from "/public/icons/2.png";
+
 export const menubar: { title: string; href: string }[] = [
   {
     title: "Tất cả",
@@ -204,9 +208,26 @@ export const statusList: { [key: string]: string } = {
   SUCCESS: "Giao hàng thành công",
 };
 
+export const statusRanking: { [key: string]: string } = {
+  Bronze: "Đồng",
+  Silver: "Bạc",
+  Gold: "Vàng",
+  Platinum: "Bạch kim",
+  Diamond: "Kim cương",
+};
+
 export const MANGA: string = "Manga";
 
 export const SACHMOI: string = "Sách mới";
+
+export const statusRankingIcon: { [key: string]: string } = {
+  Bronze: "/3.png",
+  Silver: "/2.png",
+  Gold: "/1.png",
+  Platinum: "/4.png",
+  Diamond: "/5.png",
+};
+
 
 export const Collections = {
   MANGA: {

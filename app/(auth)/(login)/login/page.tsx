@@ -115,10 +115,22 @@ export default function Login() {
                 Forgot password
               </Button>
 
-              <div className="w-full items-center">
+              <div className="w-full items-center hidden md:block">
                 <GoogleLogin
                   size="large"
                   width="350"
+                  onSuccess={(credentialResponse) => {
+                    auth.signInWithGoogle(credentialResponse?.credential);
+                  }}
+                  onError={() => {
+                    toast.error("Something went wrong!");
+                  }}
+                />
+              </div>
+              <div className="w-full items-center block md:hidden">
+                <GoogleLogin
+                  size="large"
+                  width="310"
                   onSuccess={(credentialResponse) => {
                     auth.signInWithGoogle(credentialResponse?.credential);
                   }}

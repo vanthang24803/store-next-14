@@ -11,6 +11,8 @@ import { AvatarUpload } from "./_components/update-avatar";
 import { Spinner } from "@/components/spinner";
 import useClient from "@/hooks/use-client";
 import useProfile from "@/hooks/use-profile";
+import { price } from "@/lib/format-price";
+import { statusRanking, statusRankingIcon } from "@/constant";
 
 export default function Profile() {
   const [update, setUpdate] = useState(false);
@@ -60,16 +62,32 @@ export default function Profile() {
                       )}
                     </div>
                   </div>
-                  <span>
-                    Tên: {profile?.firstName} {profile?.lastName}
-                  </span>
-                  <span>Email: {profile?.email}</span>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 py-4">
+                    <span>
+                      Tên: {profile?.firstName} {profile?.lastName}
+                    </span>
+                    <span>Email: {profile?.email}</span>
 
-                  {auth.user?.role.includes("ADMIN") && (
-                    <span>Role: ADMIN</span>
-                  )}
+                    {auth.user?.role.includes("ADMIN") && (
+                      <span>Role: ADMIN</span>
+                    )}
 
-                  
+                    <div className="flex items-start space-x-2">
+                      <span>
+                        Thành viên:{" "}
+                        {profile?.rank ? statusRanking[profile.rank] : ""}
+                      </span>
+                      {profile?.rank && (
+                        <img
+                          src={statusRankingIcon[profile?.rank]}
+                          alt="icon-rank"
+                          className="w-5 h-5 object-cover"
+                        />
+                      )}
+                    </div>
+                    <span>Tổng đơn hàng đã mua: {profile?.totalOrder}</span>
+                    <span>Tổng chi tiêu: {price(profile?.totalPrice)}₫</span>
+                  </div>
                 </div>
                 <Button
                   className="lg:w-[200px] w-full"

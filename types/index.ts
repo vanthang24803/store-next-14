@@ -78,6 +78,9 @@ export type Profile = {
   fullName: string;
   avatar: string;
   address: string;
+  totalPrice: number;
+  totalOrder: number;
+  rank: string;
   role: [string];
 };
 
@@ -144,6 +147,5 @@ export type User = {
   avatar: string;
   role: string[];
 };
-
 
 export type Attribute = "billboard" | "category" | "product" | "voucher";

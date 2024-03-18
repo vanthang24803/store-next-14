@@ -6,7 +6,7 @@ import { Separator } from "@/components/ui/separator";
 import { statusList } from "@/constant";
 import { price } from "@/lib/format-price";
 import { Order } from "@/types";
-import { ShoppingBag, Trash, Trash2, X } from "lucide-react";
+import { ShoppingBag, Trash2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 
 export const ProfileOrder = ({ order }: { order: Order[] }) => {

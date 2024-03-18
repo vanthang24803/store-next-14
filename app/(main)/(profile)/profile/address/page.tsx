@@ -5,12 +5,19 @@ import { Separator } from "@radix-ui/react-dropdown-menu";
 import { useEffect, useState } from "react";
 import { Menubar } from "../_components/menubar";
 import { Button } from "@/components/ui/button";
-import { Check, Plus, Settings, X } from "lucide-react";
+import { Check, MoreHorizontal, Plus, Settings, Trash, X } from "lucide-react";
 import useClient from "@/hooks/use-client";
 import axios from "axios";
 import useAuth from "@/hooks/use-auth";
 import { Spinner } from "@/components/spinner";
-import { Toggle } from "@/components/ui/toggle";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { useRouter } from "next/navigation";
+import { CreateAddressForm } from "./_components/create-form";
 
 type Address = {
   id: string;
@@ -55,6 +62,48 @@ export default function AddressProfile() {
     fetchAddress();
   }, []);
 
+  const activeAddress = async (addressId: string) => {
+    try {
+      const response = await axios.put(
+        `${process.env.NEXT_PUBLIC_API_URL}/api/auth/profile/${user?.id}/address/${addressId}/active`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      if (response.status == 200) {
+        fetchAddress();
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const removeAddress = async (addressId: string) => {
+    try {
+      const response = await axios.delete(
+        `${process.env.NEXT_PUBLIC_API_URL}/api/auth/profile/${user?.id}/address/${addressId}`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      if (response.status == 200) {
+        fetchAddress();
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const router = useRouter();
+
   return (
     <>
       {isClient && (
@@ -80,29 +129,60 @@ export default function AddressProfile() {
               {!loading ? (
                 <div>
                   {update ? (
-                    <div>Hello</div>
+                    <CreateAddressForm
+                      fetchAddress={fetchAddress}
+                      setUpdate={setUpdate}
+                    />
                   ) : (
                     <>
-                      {address ? (
+                      {address.length > 0 ? (
                         <div className="flex flex-col space-y-3">
                           {address.map((item) => {
                             return (
                               <div
+                                className="flex items-center justify-between gap-x-4"
                                 key={item.id}
-                                className="w-full p-2 border rounded-md flex items-center justify-between"
                               >
-                                <p className="text-sm mx-2">{item.name}</p>
-                                <Toggle
-                                  variant={item.status ? "default" : "outline"}
+                                <div
+                                  className="p-4 border rounded-md flex items-center justify-between hover:cursor-pointer
+                                  hover:bg-neutral-100/80 w-full 
+                                "
+                                  onClick={() => activeAddress(item.id)}
                                 >
-                                  <Check
-                                    className={
-                                      item.status
-                                        ? "text-green-600 text-bold"
-                                        : "text-neutral-600"
-                                    }
-                                  />
-                                </Toggle>
+                                  <p className="text-sm mx-2">{item.name}</p>
+                                  {item.status && (
+                                    <Check className="text-green-600" />
+                                  )}
+                                </div>
+                                <DropdownMenu>
+                                  <DropdownMenuTrigger>
+                                    <Button variant="ghost">
+                                      <MoreHorizontal />
+                                    </Button>
+                                  </DropdownMenuTrigger>
+                                  <DropdownMenuContent>
+                                    {!item.status && (
+                                      <DropdownMenuItem
+                                        className="flex items-center space-x-2 hover:cursor-pointer"
+                                        onClick={() => removeAddress(item.id)}
+                                      >
+                                        <Trash className="w-4 h-4" />
+                                        <span>Xóa</span>
+                                      </DropdownMenuItem>
+                                    )}
+                                    <DropdownMenuItem
+                                      className="flex items-center space-x-2 hover:cursor-pointer"
+                                      onClick={() =>
+                                        router.push(
+                                          `/profile/address/${item.id}}`
+                                        )
+                                      }
+                                    >
+                                      <Settings className="w-4 h-4" />
+                                      <span>Chỉnh sửa</span>
+                                    </DropdownMenuItem>
+                                  </DropdownMenuContent>
+                                </DropdownMenu>
                               </div>
                             );
                           })}
@@ -110,9 +190,6 @@ export default function AddressProfile() {
                       ) : (
                         <div className="flex items-center justify-between">
                           <p>Chưa thêm địa chỉ</p>
-                          <Button>
-                            <Plus className="w-5 h-5" />
-                          </Button>
                         </div>
                       )}
                     </>
