@@ -69,11 +69,7 @@ export default function Profile() {
                     <span>Role: ADMIN</span>
                   )}
 
-                  {profile?.address != "" ? (
-                    <span>Địa chỉ: {profile?.address}</span>
-                  ) : (
-                    <span>Địa chỉ: Đang cập nhật</span>
-                  )}
+                  
                 </div>
                 <Button
                   className="lg:w-[200px] w-full"

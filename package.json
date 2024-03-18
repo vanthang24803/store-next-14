@@ -32,6 +32,7 @@
     "@tiptap/starter-kit": "^2.1.16",
     "@types/file-saver": "^2.0.7",
     "@types/jsonwebtoken": "^9.0.6",
+    "@types/react-beautiful-dnd": "^13.1.8",
     "@uploadthing/react": "^6.2.2",
     "axios": "^1.6.5",
     "class-variance-authority": "^0.7.0",

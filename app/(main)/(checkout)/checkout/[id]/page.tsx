@@ -43,6 +43,7 @@ export default function OrderId({ params }: OrderIdProp) {
     fetchData();
   }, [params.id]);
 
+
   return (
     <div className="md:w-[500px] w-[360px] py-4 px-6 bg-white/90 rounded-lg  flex flex-col space-y-1">
       {showConfetti && <Confetti />}

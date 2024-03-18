@@ -24,7 +24,6 @@ const formSchema = z.object({
   firstName: z.string().min(1),
   lastName: z.string().min(1),
   email: z.string().min(1),
-  address: z.string().min(1),
 });
 
 type CreateFormValue = z.infer<typeof formSchema>;
@@ -46,7 +45,6 @@ export const UpdateForm = ({
       firstName: `${profile?.firstName}`,
       lastName: `${profile?.lastName}`,
       email: `${profile?.email}`,
-      address: `${profile?.address}`,
     },
   });
 
@@ -129,20 +127,6 @@ export const UpdateForm = ({
           )}
         />
 
-        <FormField
-          control={form.control}
-          name="address"
-          render={({ field }) => (
-            <FormItem>
-              <FormControl>
-                <div className="flex flex-col space-y-1">
-                  <span className="font-medium text-sm">Address</span>
-                  <Input {...field} autoComplete="off" />
-                </div>
-              </FormControl>
-            </FormItem>
-          )}
-        />
 
         <Button type="submit" disabled={loading} className="lg:w-1/3">
           Submit

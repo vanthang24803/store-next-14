@@ -17,7 +17,7 @@ export default function useProfile() {
     );
 
     if (response.status == 200) {
-      setProfile(response.data);
+      setProfile(response.data.profile);
     } else {
       console.log("Error");
     }

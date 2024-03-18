@@ -47,7 +47,7 @@ export const ActionMenu = () => {
                       className="hover:cursor-pointer"
                     />
                     <AvatarFallback>
-                      {profile?.lastName.toUpperCase()}
+                      {profile?.lastName[0].toUpperCase()}
                     </AvatarFallback>
                   </Avatar>
                   {auth.user?.role.includes("ADMIN") && (
