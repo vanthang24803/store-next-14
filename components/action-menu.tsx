@@ -21,6 +21,9 @@ import { LogOut, Settings, ShoppingBasket, User } from "lucide-react";
 import { useEffect } from "react";
 import useClient from "@/hooks/use-client";
 import useProfile from "@/hooks/use-profile";
+import { statusRanking, statusRankingIcon } from "@/constant";
+import { price } from "@/lib/format-price";
+import { calculatePercentage } from "@/lib/exit-ranking";
 
 export const ActionMenu = () => {
   const { isClient } = useClient();
@@ -32,6 +35,8 @@ export const ActionMenu = () => {
   useEffect(() => {
     auth.checkExpiry();
   });
+
+  let { percentage, rank } = calculatePercentage(profile?.totalPrice);
 
   return (
     <>
@@ -69,6 +74,33 @@ export const ActionMenu = () => {
                     </b>
                   )}
                 </DropdownMenuLabel>
+                <DropdownMenuSeparator />
+                <div className="flex flex-col text-[12px] p-2 space-y-1">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center space-x-2">
+                      <span>
+                        Cấp bậc:{" "}
+                        {profile?.rank ? statusRanking[profile.rank] : ""}
+                      </span>
+                      {profile?.rank && (
+                        <img
+                          src={statusRankingIcon[profile?.rank]}
+                          alt="icon-rank"
+                          className="w-5 h-5 object-cover"
+                        />
+                      )}
+                    </div>
+                    {price(profile?.totalPrice)}₫
+                  </div>
+                  <div className="w-full rounded h-[3px] bg-neutral-200">
+                    <div
+                      className={`rounded h-[3px] ${
+                        percentage > 0 ? "bg-green-500" : "bg-neutral-100"
+                      }`}
+                      style={{ width: `${percentage}%` }}
+                    />
+                  </div>
+                </div>
                 <DropdownMenuSeparator />
                 <DropdownMenuGroup>
                   <DropdownMenuItem onClick={() => router.push("/profile")}>

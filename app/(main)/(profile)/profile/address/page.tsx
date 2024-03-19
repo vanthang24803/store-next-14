@@ -18,6 +18,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { useRouter } from "next/navigation";
 import { CreateAddressForm } from "./_components/create-form";
+import { create } from "domain";
 
 type Address = {
   id: string;
@@ -32,6 +33,7 @@ export default function AddressProfile() {
 
   const [update, setUpdate] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [create, setCreate] = useState(false);
 
   const [address, setAddress] = useState<Address[]>([]);
 
@@ -102,8 +104,6 @@ export default function AddressProfile() {
     }
   };
 
-  const router = useRouter();
-
   return (
     <>
       {isClient && (
@@ -116,8 +116,8 @@ export default function AddressProfile() {
           <div className="flex flex-col space-y-4 w-full bg-white p-4 rounded-md">
             <div className="flex items-center justify-between">
               <h2 className="capitalize font-semibold">Danh sách địa chỉ</h2>
-              <Button onClick={() => setUpdate(!update)}>
-                {update ? (
+              <Button onClick={() => setCreate(!create)}>
+                {create ? (
                   <X className="w-5 h-5" />
                 ) : (
                   <Plus className="w-5 h-5" />
@@ -126,10 +126,10 @@ export default function AddressProfile() {
             </div>
             {!loading ? (
               <div>
-                {update ? (
+                {create ? (
                   <CreateAddressForm
                     fetchAddress={fetchAddress}
-                    setUpdate={setUpdate}
+                    setUCreate={setCreate}
                   />
                 ) : (
                   <>
@@ -170,11 +170,7 @@ export default function AddressProfile() {
                                   )}
                                   <DropdownMenuItem
                                     className="flex items-center space-x-2 hover:cursor-pointer"
-                                    onClick={() =>
-                                      router.push(
-                                        `/profile/address/${item.id}}`
-                                      )
-                                    }
+                                    onClick={() => setUpdate(!update)}
                                   >
                                     <Settings className="w-4 h-4" />
                                     <span>Chỉnh sửa</span>

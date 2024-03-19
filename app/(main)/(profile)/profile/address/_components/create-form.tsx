@@ -16,13 +16,13 @@ const formSchema = z.object({
 });
 
 type Props = {
-  setUpdate: Dispatch<SetStateAction<boolean>>;
+  setUCreate: Dispatch<SetStateAction<boolean>>;
   fetchAddress: () => void;
 };
 
 type CreateFormValue = z.infer<typeof formSchema>;
 
-export const CreateAddressForm = ({ setUpdate, fetchAddress }: Props) => {
+export const CreateAddressForm = ({ setUCreate, fetchAddress }: Props) => {
   const auth = useAuth();
 
   const [loading, setLoading] = useState(false);
@@ -50,7 +50,7 @@ export const CreateAddressForm = ({ setUpdate, fetchAddress }: Props) => {
 
       if (response.status == 200) {
         toast.success("Thành công");
-        setUpdate(false);
+        setUCreate(false);
         fetchAddress();
       } else {
         toast.success("Vui lòng thử lại");

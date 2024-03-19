@@ -2,7 +2,6 @@ import getBillboard from "@/actions/get-thumbnail";
 import { Navigation } from "./_components/navigation";
 import getBestSeller from "@/actions/get-best-saller";
 import { BestSeller } from "./_components/best-seller";
-import getTopBook from "@/actions/get-top-book";
 import { TopBook } from "./_components/top-book";
 import getByCategory from "@/actions/get-by-category";
 import { ListCategory } from "./_components/list-category";
@@ -13,7 +12,7 @@ import { MANGA, SACHMOI } from "@/constant";
 export default async function Home() {
   const billboard = await getBillboard();
   const bestSeller = await getBestSeller();
-  // const topBook = await getByCategory(4, MANGA);
+
   const newBooks = await getByCategory(10, SACHMOI);
   const manga = await getByCategory(10, MANGA);
   return (

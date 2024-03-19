@@ -141,7 +141,7 @@ export const UpdateForm = ({ product }: UpdateFormProp) => {
                     name="brand"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Name</FormLabel>
+                        <FormLabel>Bard</FormLabel>
                         <FormControl>
                           <Input
                             disabled={!open}

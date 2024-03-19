@@ -16,10 +16,10 @@ export const ProfileOrder = ({ order }: { order: Order[] }) => {
       {order.length > 0 ? (
         <div className="border border-neutral-200 w-full rounded-md p-4 flex flex-col  space-y-4">
           {order?.map((item, i) => (
-            <>
+            <div key={i}>
               <div
                 className="flex lg:flex-row flex-col lg:items-center lg:justify-between space-y-2 lg:space-y-0 mb-2"
-                key={i}
+                
               >
                 <div className="flex lg:flex-row flex-col lg:items-center lg:space-x-2">
                   <h1>Mã vận đơn:</h1>
@@ -100,7 +100,7 @@ export const ProfileOrder = ({ order }: { order: Order[] }) => {
                   </span>
                 </div>
               </div>
-            </>
+            </div>
           ))}
         </div>
       ) : (

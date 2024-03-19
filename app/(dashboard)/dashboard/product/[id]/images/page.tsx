@@ -33,7 +33,7 @@ export default function ProductId({ params }: ProductIdProp) {
   return (
     <div className="flex-col">
       <div className="flex-1 space-y-4 p-8 pt-6">
-        <div className="flex items-center justify-between">
+        <div className="flex justify-between">
           <Navigation id={params.id} />
           <div className="flex flex-col  w-3/4 space-y-5">
             <div className="flex flex-col">

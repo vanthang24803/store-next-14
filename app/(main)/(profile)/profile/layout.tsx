@@ -22,7 +22,7 @@ export default function ProfileLayout({
       <body className={font.className}>
         <Navbar />
         <ToastProvider />
-        <div className="flex md:flex-row flex-col mt-14 bg-[#f2f3f5] p-8">
+        <div className="flex mt-14 bg-[#f2f3f5] md:p-8 p-4">
           <Menubar />
           <div className="w-full">{children}</div>
         </div>
