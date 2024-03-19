@@ -12,6 +12,7 @@ export const Navigation = () => {
           <img
             src={item.thumbnail}
             alt={item.name}
+            title={item.name}
             className="rounded-md hover:scale-105 transform transition-transform duration-500"
           />
         </Link>

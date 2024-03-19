@@ -34,7 +34,7 @@ export const ProductList = ({ data, currentData }: ProductListProps) => {
         <div className="grid grid-cols-2 lg:grid-cols-5 gap-4">
           {Array.from({ length: 10 }).map((_, index) => (
             <Skeleton
-              className="bg-white h-[30vh] md:h-[50vh] lg:h-[30vh]"
+              className="bg-white h-[30vh] md:h-[50vh] lg:h-[30vh] w-full max-w-[200px]"
               key={index}
             />
           ))}

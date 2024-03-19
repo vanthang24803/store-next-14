@@ -11,8 +11,8 @@ interface HeaderProps {
 export const Header = ({ billboard }: HeaderProps) => {
   return (
     <>
-      <div className="flex flex-col lg:flex-row space-y-6 items-center justify-between">
-        <Slider billboard={billboard} />
+      <div className="flex flex-col lg:flex-row space-y-6 justify-between">
+        {billboard && <Slider billboard={billboard} />}
         <BillboardHeader />
       </div>
     </>

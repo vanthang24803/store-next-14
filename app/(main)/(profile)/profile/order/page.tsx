@@ -22,9 +22,6 @@ export default function Order() {
             <Separator className="w-[100px] h-1 bg-black rounded" />
           </div>
 
-          <div className="flex flex-col lg:flex-row  md:px-12 px-4 space-y-4 lg:space-y-0">
-            <Menubar />
-
             <div className="flex flex-col space-y-4 w-full bg-white p-4 rounded-md">
               <h2 className="uppercase font-semibold">THÔNG TIN ĐƠN HÀNG</h2>
               <div className="flex flex-col space-y-3">
@@ -38,7 +35,6 @@ export default function Order() {
               </div>
             </div>
           </div>
-        </div>
       )}
     </>
   );
