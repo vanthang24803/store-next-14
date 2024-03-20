@@ -14,6 +14,7 @@ type Store = {
   login: (email: string, password: string) => Promise<void>;
   signInWithGoogle: (token: string | undefined) => void;
   logout: () => void;
+  verifyEmail: (userId: string | null, token: string | null) => void;
 };
 
 const useAuth = create(
@@ -90,6 +91,25 @@ const useAuth = create(
         Cookies.remove("token");
         Cookies.remove("roles");
         window.location.reload();
+      },
+      verifyEmail: (userId, token) => {
+        axios
+          .get(
+            `${process.env.NEXT_PUBLIC_API_URL}/api/auth/verify-account?userId=${userId}&token=${token}`
+          )
+          .then((response) => {
+            set({
+              user: response.data.user,
+              token: response.data.token,
+              isLogin: true,
+            });
+
+            Cookies.set("token", response.data.token);
+            Cookies.set("roles", response.data.user.role);
+          })
+          .catch((error) => {
+            console.log(error);
+          });
       },
     }),
     {
