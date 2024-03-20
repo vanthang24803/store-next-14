@@ -2,16 +2,15 @@
 
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
-import { formatString } from "@/lib/format-string";
-import { Information } from "@/types";
+import { Product } from "@/types";
 import { Minus, Plus } from "lucide-react";
 import { useState } from "react";
 
-interface IntroduceProps {
-  data: Information | undefined;
-}
+type Props = {
+  data: Product | undefined;
+};
 
-export const Introduce = ({ data }: IntroduceProps) => {
+export const Introduce = ({ data }: Props) => {
   const [show, setShow] = useState(false);
 
   return (
@@ -21,17 +20,13 @@ export const Introduce = ({ data }: IntroduceProps) => {
         <Separator />
       </div>
 
-      {data ? (
+      {data?.detail || data?.introduction ? (
         <div className="flex flex-col space-y-1 text-sm">
-          <span>Tác giả: {data?.author}</span>
-          <span>Dịch giả: {data?.translator}</span>
-          <span>Thể loại: {data?.category}</span>
-          <span>Khổ sách: {data?.format}</span>
-          <span>Số trang: {data?.numberOfPage}</span>
-          <span>ISBN: {data?.isbn}</span>
-          <span>NXB liên kết: {data?.publisher}</span>
-          <span>Phát hành: {data?.company}</span>
-          <span>Quà tặng kèm: {data?.gift?.split("<br/>")}</span>
+          <span
+            dangerouslySetInnerHTML={{
+              __html: data.detail.replace(/\n/g, "<br/>"),
+            }}
+          ></span>
           {!show && (
             <div className="flex items-center justify-center">
               <Button
@@ -47,20 +42,19 @@ export const Introduce = ({ data }: IntroduceProps) => {
         </div>
       ) : (
         <div className="flex items-center justify-center">
-          <p className="font-medium tracking-tight">Đang cập nhật...</p>
+          <p className="font-medium text-[12px]">Đang cập nhật...</p>
         </div>
       )}
 
       {show && (
         <div className="flex flex-col space-y-1 text-sm">
-          <span>Giá bìa: {data?.price}</span>
-          <span>Phát hành: {data?.released}</span>
-          <div className="flex flex-col space-y-1 text-sm">
-            <div className="flex flex-col space-y-1">
-              <span>Giới thiệu:</span>
-              <span>{formatString(data?.introduce)}</span>
-            </div>
-          </div>
+          {data?.introduction && (
+            <span
+              dangerouslySetInnerHTML={{
+                __html: data.introduction.replace(/\n/g, "<br/>"),
+              }}
+            ></span>
+          )}
           <div className="flex items-center justify-center">
             <Button
               variant="outline"

@@ -3,7 +3,8 @@ export type Product = {
   name: string;
   brand: string;
   thumbnail: string;
-  information?: Information;
+  detail: string;
+  introduction:string;
   categories: Category[];
   options: Option[];
   images: Image[];
@@ -38,25 +39,6 @@ export type Image = {
   id: string;
   url: string;
   bookId: string;
-
-  createAt: string;
-  updateAt: string;
-};
-
-export type Information = {
-  id: string;
-  author: string;
-  translator: string;
-  category: string;
-  format: string;
-  numberOfPage: string;
-  isbn: string;
-  publisher: string;
-  company: string;
-  gift: string;
-  price: string;
-  released: string;
-  introduce: string;
 
   createAt: string;
   updateAt: string;

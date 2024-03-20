@@ -12,6 +12,7 @@ import { Button } from "@/components/ui/button";
 import { Trash } from "lucide-react";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
+import useFetchDetailProduct from "@/hooks/use-fetch-detail-product";
 
 interface ProductIdProp {
   params: {
@@ -20,24 +21,13 @@ interface ProductIdProp {
 }
 
 export default function ProductId({ params }: ProductIdProp) {
-  const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
-  const [data, setData] = useState<Product | null>(null);
 
   const router = useRouter();
 
-  useEffect(() => {
-    const fetchData = async () => {
-      const response = await axios.get(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/product/${params.id}`
-      );
-
-      if (response.status == 200) {
-        setData(response.data);
-      }
-    };
-    fetchData();
-  }, [params.id]);
+  const { data, loading, setLoading } = useFetchDetailProduct({
+    id: params.id,
+  });
 
   const onDelete = async () => {
     toast.loading("Waiting");

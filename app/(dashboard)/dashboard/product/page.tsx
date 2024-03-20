@@ -3,7 +3,7 @@ import { ProductClient } from "./_components/product-client";
 import getAllProducts from "@/actions/get-all-products";
 
 export default async function Product() {
-  const product = await getAllProducts(1000);
+  const product = await getAllProducts();
 
   return (
     <div className="flex-col">

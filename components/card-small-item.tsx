@@ -7,7 +7,6 @@ import { CartIcon } from "@/components/icons/icon-cart";
 import { formatPrice, price } from "@/lib/format-price";
 import { ItemModal } from "@/components/modal/item-modal";
 import useCart from "@/hooks/use-cart";
-import useHistoryClick from "@/hooks/use-history-click";
 import { useRouter } from "next/navigation";
 
 interface CardItemProps {
@@ -17,7 +16,6 @@ interface CardItemProps {
 export const CardItemSmall = ({ product }: CardItemProps) => {
   const cart = useCart();
 
-  const history = useHistoryClick();
 
   const router = useRouter();
 
@@ -45,7 +43,6 @@ export const CardItemSmall = ({ product }: CardItemProps) => {
 
         <p
           onClick={() => {
-            history.addItem(product);
             router.push(`/products/${product.id}`);
           }}
           className="font-semibold text-[13px] line-clamp-2"

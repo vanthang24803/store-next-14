@@ -3,7 +3,7 @@ import Link from "next/link";
 import { DetailCard } from "./_components/card-detail";
 import { Suggest } from "./_components/suggest";
 import { Introduce } from "./_components/introduce";
-import { HistoryCard } from "./_components/history";
+
 
 interface ProductIdProp {
   params: {
@@ -26,10 +26,9 @@ export default async function ProductId({ params }: ProductIdProp) {
 
       <DetailCard product={response} />
 
-      <Introduce data={response.information} />
+      <Introduce data={response} />
 
       <Suggest category={response.categories[0].name} />
-      <HistoryCard />
     </div>
   );
 }
