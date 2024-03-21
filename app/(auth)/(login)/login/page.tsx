@@ -107,13 +107,12 @@ export default function Login() {
                 )}
               />
 
-              <Button
-                variant="link"
-                className="flex justify-end"
+              <span
+                className="text-end text-[12px] hover:cursor-pointer hover:underline"
                 onClick={() => router.push(`/forgot-password`)}
-              >
+              > 
                 Forgot password
-              </Button>
+              </span>
 
               <div className="w-full items-center hidden md:block">
                 <GoogleLogin

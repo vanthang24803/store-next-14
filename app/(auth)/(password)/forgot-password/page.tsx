@@ -44,9 +44,8 @@ export default function ForgotPassword() {
       );
 
       if (response.status == 200) {
-        toast.success("Check your password");
         setLoading(false);
-        router.push("/login");
+        toast.success("Check your email!");
       } else {
         toast.error("Something went wrong");
         setLoading(false);

@@ -130,4 +130,4 @@ export type User = {
   role: string[];
 };
 
-export type Attribute = "billboard" | "category" | "product" | "voucher";
+export type Attribute = "billboard" | "category" | "product" | "voucher" | "selling"; 

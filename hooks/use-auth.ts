@@ -5,6 +5,7 @@ import Cookies from "js-cookie";
 import jwt from "jsonwebtoken";
 
 import { User } from "@/types";
+import toast from "react-hot-toast";
 
 type Store = {
   checkExpiry(): unknown;
@@ -48,8 +49,11 @@ const useAuth = create(
             Cookies.set("token", response.data.token);
             Cookies.set("roles", response.data.user.role);
           }
-        } catch (error) {
+        } catch (error: any) {
           console.error("Login failed:", error);
+          if (error.response && error.response.status === 400) {
+            toast.error(error.response.data.message);
+          }
           throw error;
         }
       },

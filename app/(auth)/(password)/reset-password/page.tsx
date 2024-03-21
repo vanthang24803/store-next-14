@@ -6,11 +6,12 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import axios from "axios";
 import { FormControl, FormField, FormItem } from "@/components/ui/form";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import toast from "react-hot-toast";
+import useClient from "@/hooks/use-client";
 
 const formSchema = z.object({
   password: z.string().min(1),
@@ -26,6 +27,8 @@ export default function ResetPassword() {
   const userId = searchParams.get("userId");
 
   const token = searchParams.get("token");
+
+  const tokenVerify = token?.replaceAll(" ", "+");
 
   const [loading, setLoading] = useState(false);
 
@@ -44,7 +47,11 @@ export default function ResetPassword() {
     try {
       setLoading(true);
       const response = await axios.post(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/auth/reset-password?userId=${userId}&token=${token}`,
+        `${
+          process.env.NEXT_PUBLIC_API_URL
+        }/api/auth/reset-password?userId=${userId}&token=${encodeURIComponent(
+          tokenVerify || ""
+        )}`,
         dataSend,
         {
           headers: {
@@ -64,15 +71,10 @@ export default function ResetPassword() {
     } catch (error) {
       setLoading(false);
       console.log(error);
-    } 
-
+    }
   };
 
-  const [isClient, setIsClient] = useState(false);
-
-  useEffect(() => {
-    setIsClient(true);
-  }, []);
+  const { isClient } = useClient();
 
   return (
     <>

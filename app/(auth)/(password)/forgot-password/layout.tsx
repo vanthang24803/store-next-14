@@ -4,7 +4,7 @@ export async function generateMetadata() {
   return { title: "Đăng nhập" };
 }
 
-const LoginLayout = ({ children }: { children: React.ReactNode }) => {
+const Layout = ({ children }: { children: React.ReactNode }) => {
   return (
     <main>
       <ToastProvider />
@@ -13,4 +13,4 @@ const LoginLayout = ({ children }: { children: React.ReactNode }) => {
   );
 };
 
-export default LoginLayout;
+export default Layout;
