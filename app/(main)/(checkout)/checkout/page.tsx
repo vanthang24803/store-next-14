@@ -24,11 +24,11 @@ import useClient from "@/hooks/use-client";
 import useHandlerCheckout from "@/hooks/use-handler-checkout";
 import useFormCheckOut from "@/hooks/use-form-checkout";
 import { AuthCheckout } from "./_components/auth-checkout";
-
 export default function Checkout() {
   const { isClient } = useClient();
 
   const auth = useAuth();
+  const cart = useCart();
 
   const [exitAddress, setAddress] = useState("");
 
@@ -38,9 +38,16 @@ export default function Checkout() {
     sendChecked,
     handleBankChange,
     handleCheckboxChange,
+    handlerFindVoucher,
+    setCode,
+    setVoucher,
+    totalPrice,
+    finalPrice,
+    code,
+    error,
+    voucher,
   } = useHandlerCheckout();
 
-  const cart = useCart();
 
   const { form, loading, onSubmit, priceShip } = useFormCheckOut({
     email: auth.user?.email,
@@ -50,7 +57,9 @@ export default function Checkout() {
     exitAddress,
     payment,
     sendChecked,
+    voucher: code,
     userId: auth.user?.id,
+    totalPrice: finalPrice,
   });
 
   return (
@@ -79,7 +88,7 @@ export default function Checkout() {
             <span className="font-bold stext-xl">Thông tin giao hàng</span>
 
             <AuthCheckout />
-            
+
             <FormProvider {...form}>
               <form
                 className="w-full lg:w-[500px] flex flex-col space-y-3"
@@ -155,8 +164,13 @@ export default function Checkout() {
 
           <Cart
             ship={sendChecked}
-            totalPrice={cart.totalPrice()}
-            priceShip={priceShip}
+            setCode={setCode}
+            error={error}
+            handlerFindVoucher={handlerFindVoucher}
+            setVoucher={setVoucher}
+            voucher={voucher}
+            totalPrice={totalPrice}
+            priceShip={totalPrice + 35000}
           />
         </div>
       )}

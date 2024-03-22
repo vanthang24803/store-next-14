@@ -76,6 +76,7 @@ export type Voucher = {
   day: number;
   expire: boolean;
   shelfLife: string;
+  discount : number;
 
   createAt: string;
   updateAt: string;

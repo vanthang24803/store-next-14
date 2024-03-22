@@ -7,6 +7,8 @@ import Link from "next/link";
 
 export const AuthCheckout = () => {
   const auth = useAuth();
+
+  
   return (
     <>
       {auth.user ? (

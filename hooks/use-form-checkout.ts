@@ -6,6 +6,7 @@ import useCart from "./use-cart";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
+import { v4 as uuidv4 } from "uuid";
 
 const formSchema = z.object({
   email: z.string().min(1),
@@ -22,7 +23,9 @@ type Props = {
   exitAddress: string | null;
   payment: string | null;
   sendChecked: boolean;
+  voucher: string;
   userId: string | undefined;
+  totalPrice: number;
 };
 
 type CreateFormValue = z.infer<typeof formSchema>;
@@ -36,12 +39,16 @@ export default function useFormCheckOut({
   payment,
   sendChecked,
   userId,
+  voucher,
+  totalPrice,
 }: Props) {
   const cart = useCart();
   const router = useRouter();
   const [loading, setLoading] = useState(false);
 
   const priceShip = cart.totalPrice() + 35000;
+
+  const uuid = uuidv4();
 
   const form = useForm({
     resolver: zodResolver(formSchema),
@@ -59,8 +66,6 @@ export default function useFormCheckOut({
     form.setValue("address", (storeChecked ? address : exitAddress) || "");
   }, [address, email, exitAddress, form, name, storeChecked]);
 
-  const uuid = self.crypto.randomUUID();
-
   const onSubmit = async (data: CreateFormValue) => {
     const dataSend = {
       ...data,
@@ -75,10 +80,11 @@ export default function useFormCheckOut({
         sale: item.product.options[0].sale,
         quantity: item.quantity,
       })),
+      voucher: voucher,
       payment: payment?.toUpperCase(),
       shipping: sendChecked,
       quantity: cart.items.length,
-      totalPrice: cart.totalPrice(),
+      totalPrice: totalPrice,
       userId: userId || "",
     };
 
