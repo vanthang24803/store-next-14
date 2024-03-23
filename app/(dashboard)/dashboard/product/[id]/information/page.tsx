@@ -15,7 +15,7 @@ import { FormProvider, useForm } from "react-hook-form";
 import { useEffect, useState } from "react";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
-import { Settings, X } from "lucide-react";
+import { AlertCircle, AlertTriangle, Anchor, Settings, X } from "lucide-react";
 import axios from "axios";
 
 interface ProductIdProp {
@@ -32,7 +32,7 @@ const formSchema = z.object({
 type CreateFormValue = z.infer<typeof formSchema>;
 
 export default function InformationId({ params }: ProductIdProp) {
-  const { data , fetchData } = useFetchDetailProduct({
+  const { data, fetchData } = useFetchDetailProduct({
     id: params.id,
   });
 
@@ -68,7 +68,7 @@ export default function InformationId({ params }: ProductIdProp) {
 
       if (response.status == 200) {
         setOpen(true);
-        fetchData()
+        fetchData();
       }
     } catch (error) {
       console.log(error);
@@ -84,9 +84,9 @@ export default function InformationId({ params }: ProductIdProp) {
           <Navigation id={params.id} />
           <div className="flex flex-col w-full space-y-4">
             <div className="flex items-center justify-between">
-              <div className="flex flex-col">
-                <h2 className="text-lg font-medium tracking-tight">
-                  Information
+              <div className="flex flex-col space-y-1">
+                <h2 className="text-lg font-medium tracking-tight flex items-center space-x-2">
+                  <AlertTriangle /> <p>Product Information</p>
                 </h2>
                 <p className="text-sm text-muted-foreground">
                   update detail of product.
@@ -107,10 +107,13 @@ export default function InformationId({ params }: ProductIdProp) {
                     name="detail"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Detail</FormLabel>
+                        <FormLabel className="flex items-center space-x-2">
+                          <Anchor className="w-4 h-4" />
+                          <span>Detail</span>
+                        </FormLabel>
                         <FormControl>
                           <Textarea
-                            className="min-h-[160px]"
+                            className="min-h-[400px]"
                             disabled={open}
                             {...field}
                           />
@@ -125,10 +128,13 @@ export default function InformationId({ params }: ProductIdProp) {
                     name="introduction"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Introduction</FormLabel>
+                        <FormLabel className="flex items-center space-x-2">
+                          <AlertCircle className="w-4 h-4" />
+                          <span>Introduction</span>
+                        </FormLabel>
                         <FormControl>
                           <Textarea
-                            className="min-h-[160px]"
+                            className="min-h-[400px]"
                             disabled={open}
                             {...field}
                           />

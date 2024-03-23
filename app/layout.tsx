@@ -5,6 +5,7 @@ import { siteConfig } from "@/config/site";
 import { ToastProvider } from "@/components/provider/toater-provider";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 
+
 export const metadata: Metadata = {
   title: {
     default: siteConfig.name,

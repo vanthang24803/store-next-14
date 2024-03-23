@@ -13,7 +13,7 @@ export const TopBook = ({ data }: TopBookProps) => {
     <div className="grid lg:grid-cols-4 grid-cols-2 md:gap-8 px-2 gap-4 hover:cursor-pointer overflow-hidden">
       {data?.slice(0, 4).map((item) => (
         <Link href={`/products/${item.id}`} key={item.id}>
-          <div className="md:w-full relative md:h-[40vh] h-[250px] ">
+          <div className="md:w-full relative md:h-[38vh] h-[220px] ">
             <Image
               src={item.thumbnail}
               alt={item.name}

@@ -17,31 +17,36 @@ import {
 
 import { VoucherColumn } from "./columns";
 import { AlertModal } from "@/components/modal/alert-modal";
+import useDeleteAttribute from "@/hooks/use-delete-atribute";
+import useCopy from "@/hooks/use-copy";
 
 interface CellActionProps {
   data: VoucherColumn;
 }
 
 export const CellAction = ({ data }: CellActionProps) => {
-    const router = useRouter();
+  const router = useRouter();
 
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  const onConfirm = async () => {};
+  const { onDelete } = useDeleteAttribute({
+    attribute: "voucher",
+    id: data.id,
+    setLoading,
+    setOpen,
+  });
 
-  
-  const onCopy = (id: string) => {
-    navigator.clipboard.writeText(id);
-    toast.success("Voucher ID copied to clipboard.");
-  };
+  const { onCopy } = useCopy({
+    attribute: "voucher",
+  });
 
   return (
     <>
       <AlertModal
         isOpen={open}
         onClose={() => setOpen(false)}
-        onConfirm={onConfirm}
+        onConfirm={onDelete}
         loading={loading}
       />
 
@@ -58,9 +63,7 @@ export const CellAction = ({ data }: CellActionProps) => {
             <Copy className="mr-2 h-4 w-4" /> Copy Id
           </DropdownMenuItem>
           <DropdownMenuItem
-            onClick={() =>
-              router.push(`/dashboard/voucher/${data.id}`)
-            }
+            onClick={() => router.push(`/dashboard/voucher/${data.id}`)}
           >
             <Edit className="mr-2 h-4 w-4" /> Update
           </DropdownMenuItem>

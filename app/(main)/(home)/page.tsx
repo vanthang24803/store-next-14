@@ -21,7 +21,6 @@ export default async function Home() {
 
       <Navigation />
 
-
       <BestSeller data={bestSeller} />
 
       <TopBook data={manga} />
