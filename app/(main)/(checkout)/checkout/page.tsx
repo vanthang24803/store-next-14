@@ -48,7 +48,6 @@ export default function Checkout() {
     voucher,
   } = useHandlerCheckout();
 
-
   const { form, loading, onSubmit, priceShip } = useFormCheckOut({
     email: auth.user?.email,
     name: auth.user?.name,
@@ -147,6 +146,7 @@ export default function Checkout() {
                 />
 
                 <Payment
+                  finalPrice={finalPrice}
                   payment={payment}
                   handleBankChange={handleBankChange}
                 />

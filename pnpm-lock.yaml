@@ -86,6 +86,9 @@ dependencies:
   class-variance-authority:
     specifier: ^0.7.0
     version: 0.7.0
+  clipboard-copy:
+    specifier: ^4.0.1
+    version: 4.0.1
   clsx:
     specifier: ^2.1.0
     version: 2.1.0
@@ -2215,6 +2218,10 @@ packages:
 
   /client-only@0.0.1:
     resolution: {integrity: sha512-IV3Ou0jSMzZrd3pZ48nLkT9DA7Ag1pnPzaiQhpW7c3RbcqqzvzzVu+L8gfqMp/8IM2MQtSiqaCxrrcfu8I8rMA==}
+    dev: false
+
+  /clipboard-copy@4.0.1:
+    resolution: {integrity: sha512-wOlqdqziE/NNTUJsfSgXmBMIrYmfd5V0HCGsR8uAKHcg+h9NENWINcfRjtWGU77wDHC8B8ijV4hMTGYbrKovng==}
     dev: false
 
   /clsx@2.0.0:
