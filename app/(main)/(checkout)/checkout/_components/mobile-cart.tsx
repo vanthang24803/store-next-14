@@ -7,20 +7,48 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { Separator } from "@/components/ui/separator";
 import useCart from "@/hooks/use-cart";
 import { formatPrice, price } from "@/lib/format-price";
-import { ShoppingCart } from "lucide-react";
+import { Voucher } from "@/types";
+import { format } from "date-fns";
+import { ArrowUpRight, Check, ShoppingCart, Trash } from "lucide-react";
 import Link from "next/link";
+import { Dispatch, SetStateAction } from "react";
 
 interface Prop {
   ship: boolean;
   totalPrice: number;
   priceShip: number;
+  setCode: Dispatch<SetStateAction<string>>;
+  voucher: Voucher | null;
+  error: string;
+  handlerFindVoucher: () => void;
+  setVoucher: Dispatch<SetStateAction<Voucher | null>>;
 }
 
-export const MobileCart = ({ ship, totalPrice, priceShip }: Prop) => {
+export const MobileCart = ({
+  ship,
+  totalPrice,
+  priceShip,
+  error,
+  handlerFindVoucher,
+  voucher,
+  setCode,
+  setVoucher,
+}: Prop) => {
   const cart = useCart();
+
+  const finalPrice = voucher?.discount
+    ? totalPrice - voucher.discount * 1000
+    : totalPrice;
+
+  const finalPriceShipping = voucher?.discount
+    ? priceShip - voucher.discount * 1000
+    : priceShip;
 
   return (
     <Accordion type="single" collapsible className="w-full">
@@ -33,11 +61,7 @@ export const MobileCart = ({ ship, totalPrice, priceShip }: Prop) => {
                 Hiển thị thông tin đơn hàng
               </span>
             </div>
-            {ship ? (
-              <span>{price(priceShip)}₫</span>
-            ) : (
-              <span>{price(totalPrice)}₫</span>
-            )}
+            <span>{price(!ship ? finalPrice : finalPriceShipping)}₫</span>
           </div>
         </AccordionTrigger>
         <AccordionContent>
@@ -74,6 +98,54 @@ export const MobileCart = ({ ship, totalPrice, priceShip }: Prop) => {
               </Link>
             ))}
           </ScrollArea>
+
+          <Separator className="my-4" />
+
+          {voucher ? (
+            <div className="flex items-center justify-between w-full">
+              <div className="flex items-center space-x-3">
+                <img
+                  src="https://cdn-icons-png.flaticon.com/512/3837/3837136.png"
+                  alt="voucher"
+                  className="w-14 h-14"
+                />
+                <div className="flex flex-col">
+                  <span className="text-sm font-medium">
+                    {voucher.name} {voucher.title}
+                  </span>
+                  <span className="text-[12px] tracking-tighter">
+                    {voucher.code} - Hạn sử dụng:{" "}
+                    {format(voucher.shelfLife, "dd/MM/yyyy")}
+                  </span>
+                </div>
+              </div>
+              <Button
+                size="icon"
+                variant="destructive"
+                onClick={() => {
+                  setVoucher(null);
+                  setCode("");
+                }}
+              >
+                <Trash />
+              </Button>
+            </div>
+          ) : (
+            <div className="flex flex-col space-y-1">
+              <div className="flex items-center justify-between space-x-3">
+                <Input
+                  placeholder="Mã giảm giá"
+                  onChange={(e) => setCode(e.target.value)}
+                />
+                <Button onClick={handlerFindVoucher} variant="primary">
+                  <ArrowUpRight />
+                </Button>
+              </div>
+              {error && (
+                <p className="text-destructive text-sm font-medium">{error}</p>
+              )}
+            </div>
+          )}
         </AccordionContent>
       </AccordionItem>
     </Accordion>

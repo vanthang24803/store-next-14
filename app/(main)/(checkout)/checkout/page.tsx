@@ -73,8 +73,13 @@ export default function Checkout() {
             <div className="lg:hidden">
               <MobileCart
                 ship={sendChecked}
-                totalPrice={cart.totalPrice()}
-                priceShip={priceShip}
+                setCode={setCode}
+                error={error}
+                handlerFindVoucher={handlerFindVoucher}
+                setVoucher={setVoucher}
+                voucher={voucher}
+                totalPrice={totalPrice}
+                priceShip={totalPrice + 35000}
               />
             </div>
 
