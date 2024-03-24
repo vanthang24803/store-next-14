@@ -23,10 +23,10 @@ export default function ContactModal() {
     <>
       {open && (
         <Dialog open={open} onOpenChange={handleClose}>
-          <DialogContent className="md:h-[500px] h-[250px]">
+          <DialogContent className="h-[420px] overflow-hidden">
             <Image
-              src="https://theme.hstatic.net/200000294254/1001077164/14/homebanner_1_img.jpg?v=372"
-              className="hover:cursor-pointer object-fill"
+              src="https://theme.hstatic.net/200000294254/1001077164/14/homebanner_2_img.jpg?v=372"
+              className="hover:cursor-pointer object-cover rounded-md"
               fill
               alt="modal"
             />
