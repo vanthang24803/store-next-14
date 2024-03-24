@@ -41,8 +41,8 @@ const formSchema = z.object({
   name: z.string().min(1),
   title: z.string().min(1),
   quantity: z.coerce.number().min(1),
-  startDate: z.date(),
-  endDate: z.date(),
+  createAt: z.date(),
+  shelfLife: z.date(),
   type: z.string(),
   discount: z.coerce.number().min(0),
 });
@@ -60,18 +60,17 @@ export default function CreateVoucher() {
       title: "",
       quantity: 0,
       type: "",
-      startDate: new Date(),
-      endDate: new Date(),
+      createAt: new Date(),
+      shelfLife: new Date(),
       discount: 0,
     },
   });
 
   const onSubmit = async (data: CreateFormValue) => {
-    const { startDate, endDate, ...dataWithoutDates } = data;
-    const differenceDays = differenceInDays(data.endDate, data.startDate) + 1;
+    const differenceDays = differenceInDays(data.shelfLife, data.createAt) + 1;
 
     const dataSend = {
-      ...dataWithoutDates,
+      ...data,
       day: differenceDays,
       type: data.type === "Shipping",
     };
@@ -210,7 +209,7 @@ export default function CreateVoucher() {
 
                       <FormField
                         control={form.control}
-                        name="startDate"
+                        name="createAt"
                         render={({ field }) => (
                           <FormItem className="flex flex-col mt-2.5">
                             <FormLabel>Start date</FormLabel>
@@ -257,7 +256,7 @@ export default function CreateVoucher() {
 
                       <FormField
                         control={form.control}
-                        name="endDate"
+                        name="shelfLife"
                         render={({ field }) => (
                           <FormItem className="flex flex-col mt-2.5">
                             <FormLabel>End date</FormLabel>

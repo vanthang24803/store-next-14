@@ -13,6 +13,7 @@ export type VoucherColumn = {
   createAt: string;
   shelfLife: string;
   expire: boolean;
+  code: string;
 };
 
 const formatDate = (dateString: any) => {
@@ -24,6 +25,10 @@ export const columns: ColumnDef<VoucherColumn>[] = [
   {
     accessorKey: "name",
     header: "Name",
+  },
+  {
+    accessorKey: "code",
+    header: "Code",
   },
   {
     accessorKey: "quantity",

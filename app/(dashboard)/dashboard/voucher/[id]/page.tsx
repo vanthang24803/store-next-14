@@ -48,8 +48,8 @@ const formSchema = z.object({
   name: z.string().min(1),
   title: z.string().min(1),
   quantity: z.coerce.number().min(1),
-  startDate: z.date(),
-  endDate: z.date(),
+  createAt: z.date(),
+  shelfLife: z.date(),
   type: z.string(),
   discount: z.coerce.number().min(0),
 });
@@ -72,8 +72,8 @@ export default function CategoryId({ params }: VoucherIdProp) {
       title: "",
       quantity: 0,
       type: "",
-      startDate: new Date(),
-      endDate: new Date(),
+      createAt: new Date(),
+      shelfLife: new Date(),
       discount: 0,
     },
   });
@@ -81,29 +81,26 @@ export default function CategoryId({ params }: VoucherIdProp) {
   useEffect(() => {
     if (data) {
       form.setValue("name", data.name);
-      const startDate = data.createAt ? parseISO(data.createAt) : null;
-      form.setValue("startDate", startDate as Date);
-      form.setValue("endDate", parseISO(data.shelfLife));
+      const createAt = data.createAt ? parseISO(data.createAt) : null;
+      form.setValue("createAt", createAt as Date);
+      form.setValue("shelfLife", parseISO(data.shelfLife));
       form.setValue("discount", data.discount);
       form.setValue("title", data.title);
       form.setValue("quantity", data.quantity);
-      form.setValue("type", data.type == true ? "Shipping" : "Sale");
+      form.setValue("type", data.type ? "Shipping" : "Sale");
     }
   }, [form, data]);
 
 
-  console.log(data)
-
   const onSubmit = async (data: CreateFormValue) => {
-    const { startDate, endDate, ...dataWithoutDates } = data;
-    const differenceDays = differenceInDays(data.endDate, data.startDate) + 1;
+    const differenceDays = differenceInDays(data.shelfLife, data.createAt) + 1;
 
     const dataSend = {
-      ...dataWithoutDates,
+      ...data,
       day: differenceDays,
       type: data.type === "Shipping",
     };
-
+    
     try {
       setLoading(true);
       const response = await axios.put(
@@ -240,7 +237,7 @@ export default function CategoryId({ params }: VoucherIdProp) {
 
                       <FormField
                         control={form.control}
-                        name="startDate"
+                        name="createAt"
                         render={({ field }) => (
                           <FormItem className="flex flex-col mt-2.5">
                             <FormLabel>Start date</FormLabel>
@@ -287,7 +284,7 @@ export default function CategoryId({ params }: VoucherIdProp) {
 
                       <FormField
                         control={form.control}
-                        name="endDate"
+                        name="shelfLife"
                         render={({ field }) => (
                           <FormItem className="flex flex-col mt-2.5">
                             <FormLabel>End date</FormLabel>
