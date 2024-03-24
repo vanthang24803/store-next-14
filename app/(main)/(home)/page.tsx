@@ -8,6 +8,8 @@ import { ListCategory } from "./_components/list-category";
 import { categoryImage } from "@/constant";
 import { Header } from "./header";
 import { MANGA, SACHMOI } from "@/constant";
+import { Banner } from "./_components/banner";
+import { Figure } from "./_components/figure";
 
 export default async function Home() {
   const billboard = await getBillboard();
@@ -37,6 +39,10 @@ export default async function Home() {
         thumbnail={categoryImage[1].url}
         link={categoryImage[1].link}
       />
+
+      <Banner />
+
+      <Figure />
     </main>
   );
 }

@@ -1,6 +1,6 @@
-import Bronze from "/public/icons/3.png";
-import Gold from "/public/icons/1.png";
-import Sliver from "/public/icons/2.png";
+
+
+export const PHUKIEN = "Phụ kiện"
 
 export const menubar: { title: string; href: string }[] = [
   {
