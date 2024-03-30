@@ -13,10 +13,12 @@ import {
 } from "@/components/ui/form";
 import { FormProvider, useForm } from "react-hook-form";
 import { useEffect, useState } from "react";
-import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { AlertCircle, AlertTriangle, Anchor, Settings, X } from "lucide-react";
 import axios from "axios";
+import Tiptap from "@/components/tip-tap";
+import toast from "react-hot-toast";
+import { Spinner } from "@/components/spinner";
 
 interface ProductIdProp {
   params: {
@@ -69,6 +71,7 @@ export default function InformationId({ params }: ProductIdProp) {
       if (response.status == 200) {
         setOpen(true);
         fetchData();
+        toast.success("Thành công");
       }
     } catch (error) {
       console.log(error);
@@ -97,56 +100,95 @@ export default function InformationId({ params }: ProductIdProp) {
               </Button>
             </div>
             <div className="rounded-md border border-neutral-200 p-4 ">
-              <FormProvider {...form}>
-                <form
-                  onSubmit={form.handleSubmit(onSubmit)}
-                  className="space-y-4 w-full"
-                >
-                  <FormField
-                    control={form.control}
-                    name="detail"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel className="flex items-center space-x-2">
-                          <Anchor className="w-4 h-4" />
-                          <span>Detail</span>
-                        </FormLabel>
-                        <FormControl>
-                          <Textarea
-                            className="min-h-[400px]"
-                            disabled={open}
-                            {...field}
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
+              {loading ? (
+                <div className="h-[30vh] flex items-center justify-center">
+                  <Spinner />
+                </div>
+              ) : (
+                <FormProvider {...form}>
+                  <form
+                    onSubmit={form.handleSubmit(onSubmit)}
+                    className="space-y-4 w-full"
+                  >
+                    <FormField
+                      control={form.control}
+                      name="detail"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel className="flex items-center space-x-2">
+                            <Anchor className="w-4 h-4" />
+                            <span>Detail</span>
+                          </FormLabel>
+                          <FormControl>
+                            {!open ? (
+                              <Tiptap
+                                {...field}
+                                description={field.value}
+                                onChange={field.onChange}
+                              />
+                            ) : (
+                              <>
+                                {data && data.detail ? (
+                                  <div
+                                    className="min-h-[250px] w-full rounded-md border border-input bg-background px-3 py-2 text-[13.5px] ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 cursor-not-allowed opacity-50"
+                                    dangerouslySetInnerHTML={{
+                                      __html: data.detail.replace(
+                                        /\n/g,
+                                        "<br/>"
+                                      ),
+                                    }}
+                                  />
+                                ) : (
+                                  <div className="min-h-[250px] w-full rounded-md border border-input bg-background px-3 py-2 text-[13.5px] ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 cursor-not-allowed opacity-50" />
+                                )}
+                              </>
+                            )}
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
 
-                  <FormField
-                    control={form.control}
-                    name="introduction"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel className="flex items-center space-x-2">
-                          <AlertCircle className="w-4 h-4" />
-                          <span>Introduction</span>
-                        </FormLabel>
-                        <FormControl>
-                          <Textarea
-                            className="min-h-[400px]"
-                            disabled={open}
-                            {...field}
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
+                    <FormField
+                      control={form.control}
+                      name="introduction"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel className="flex items-center space-x-2">
+                            <AlertCircle className="w-4 h-4" />
+                            <span>Introduction</span>
+                          </FormLabel>
+                          <FormControl>
+                            {!open ? (
+                              <Tiptap
+                                {...field}
+                                description={field.value}
+                                onChange={field.onChange}
+                              />
+                            ) : (
+                              <>
+                                {data && data.detail ? (
+                                  <div
+                                    className="min-h-[250px] w-full rounded-md border border-input bg-background px-3 py-2 text-[13.5px] ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 cursor-not-allowed opacity-50"
+                                    dangerouslySetInnerHTML={{
+                                      __html: data.introduction,
+                                    }}
+                                  />
+                                ) : (
+                                  <div className="min-h-[250px] w-full rounded-md border border-input bg-background px-3 py-2 text-[13.5px] ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 cursor-not-allowed opacity-50" />
+                                )}
+                              </>
+                            )}
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
 
-                  {!open && <Button disabled={loading}>Submit</Button>}
-                </form>
-              </FormProvider>
+                    {!open && <Button disabled={loading}>Submit</Button>}
+                  </form>
+                </FormProvider>
+              )}
             </div>
           </div>
         </div>

@@ -11,7 +11,7 @@ export default async function HomeLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
+    <html lang="vi">
       <body className={font.className}>
         <Navbar />
         <ModalProvider />

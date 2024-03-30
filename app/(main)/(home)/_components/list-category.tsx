@@ -24,7 +24,7 @@ export const ListCategory = ({
 
   return (
     <div className="flex flex-col space-y-4 py-4">
-      <p className="text-2xl font-bold mx-2">{name}</p>
+      <h2 className="text-2xl font-bold mx-2">{name}</h2>
       <div className="flex justify-between lg:space-x-4">
         <Link href={link} className="lg:block hidden w-1/5">
           <img src={thumbnail} alt={name} />

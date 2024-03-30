@@ -6,7 +6,6 @@ import { useState } from "react";
 import { Profile } from "@/types";
 import { Button } from "@/components/ui/button";
 import { UpdateForm } from "./_components/update-form";
-import { Menubar } from "./_components/menubar";
 import { AvatarUpload } from "./_components/update-avatar";
 import { Spinner } from "@/components/spinner";
 import useClient from "@/hooks/use-client";

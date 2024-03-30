@@ -22,11 +22,11 @@ export const Introduce = ({ data }: Props) => {
 
       {data?.detail || data?.introduction ? (
         <div className="flex flex-col space-y-1 text-sm">
-          <span
+          <div
             dangerouslySetInnerHTML={{
-              __html: data.detail.replace(/\n/g, "<br/>"),
+              __html: data.detail,
             }}
-          ></span>
+          />
           {!show && (
             <div className="flex items-center justify-center">
               <Button
@@ -49,11 +49,11 @@ export const Introduce = ({ data }: Props) => {
       {show && (
         <div className="flex flex-col space-y-1 text-sm">
           {data?.introduction && (
-            <span
+            <div
               dangerouslySetInnerHTML={{
-                __html: data.introduction.replace(/\n/g, "<br/>"),
+                __html: data.introduction,
               }}
-            ></span>
+            />
           )}
           <div className="flex items-center justify-center">
             <Button

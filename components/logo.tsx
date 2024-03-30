@@ -9,6 +9,7 @@ export const Logo = () => {
       <img
         src="/logo.png"
         className="w-auto h-10 object-cover"
+        alt="logo"
       />
     </Link>
   );

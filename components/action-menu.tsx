@@ -17,7 +17,13 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { useRouter } from "next/navigation";
-import { LogOut, Settings, ShoppingBasket, User } from "lucide-react";
+import {
+  LogOut,
+  MapPinned,
+  Settings,
+  ShoppingBasket,
+  User,
+} from "lucide-react";
 import { useEffect } from "react";
 import useClient from "@/hooks/use-client";
 import useProfile from "@/hooks/use-profile";
@@ -108,6 +114,12 @@ export const ActionMenu = () => {
                     <span>Trang cá nhân</span>
                   </DropdownMenuItem>
                   <DropdownMenuItem
+                    onClick={() => router.push("/profile/address")}
+                  >
+                    <MapPinned className="mr-2 h-4 w-4" />
+                    <span>Địa chỉ</span>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem
                     onClick={() => router.push("/profile/order")}
                   >
                     <ShoppingBasket className="mr-2 h-4 w-4" />
@@ -122,12 +134,14 @@ export const ActionMenu = () => {
                         )}
                     </div>
                   </DropdownMenuItem>
+
                   {auth.user?.role.includes("ADMIN") && (
                     <DropdownMenuItem onClick={() => router.push("/dashboard")}>
                       <Settings className="mr-2 h-4 w-4" />
                       <span>Dashboard</span>
                     </DropdownMenuItem>
                   )}
+
                   <DropdownMenuItem onClick={() => auth.logout()}>
                     <LogOut className="mr-2 h-4 w-4" />
                     <span>Đăng xuất</span>

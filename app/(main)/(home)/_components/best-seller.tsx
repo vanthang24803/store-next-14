@@ -17,9 +17,9 @@ interface BestSellerProps {
 export const BestSeller = ({ data }: BestSellerProps) => {
   return (
     <div className="flex flex-col space-y-4 md:space-y-4 my-6">
-      <span className="uppercase text-2xl font-semibold mx-2">
+      <h1 className="uppercase text-2xl font-semibold mx-2">
         Top sản phẩm bán chạy
-      </span>
+      </h1>
       <Carousel
         opts={{
           align: "start",
