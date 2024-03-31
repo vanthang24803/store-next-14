@@ -4,11 +4,26 @@ export type Product = {
   brand: string;
   thumbnail: string;
   detail: string;
-  introduction:string;
+  introduction: string;
   categories: Category[];
   options: Option[];
   images: Image[];
+  reviews: Review[];
 
+  createAt: string;
+  updateAt: string;
+};
+
+export type Review = {
+  id: string;
+  content: string;
+  star: number;
+  customerName: string;
+  customerId: string;
+  customerAvatar: string;
+  images: Image[];
+
+  bookId: string;
   createAt: string;
   updateAt: string;
 };
@@ -39,6 +54,7 @@ export type Image = {
   id: string;
   url: string;
   bookId: string;
+  reviewId?: string;
 
   createAt: string;
   updateAt: string;
@@ -76,7 +92,7 @@ export type Voucher = {
   day: number;
   expire: boolean;
   shelfLife: string;
-  discount : number;
+  discount: number;
 
   createAt: string;
   updateAt: string;
@@ -131,4 +147,9 @@ export type User = {
   role: string[];
 };
 
-export type Attribute = "billboard" | "category" | "product" | "voucher" | "selling"; 
+export type Attribute =
+  | "billboard"
+  | "category"
+  | "product"
+  | "voucher"
+  | "selling";

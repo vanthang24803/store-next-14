@@ -3,6 +3,7 @@ import Link from "next/link";
 import { DetailCard } from "./_components/card-detail";
 import { Suggest } from "./_components/suggest";
 import { Introduce } from "./_components/introduce";
+import { Reviews } from "./_components/reviews";
 
 
 interface ProductIdProp {
@@ -13,6 +14,7 @@ interface ProductIdProp {
 
 export default async function ProductId({ params }: ProductIdProp) {
   const response = await getDetailProduct(params.productId);
+
 
   return (
     <div className="md:max-w-screen-xl mx-auto px-4 md:p-4 flex flex-col space-y-6 pb-8 md:pb-12">
@@ -27,6 +29,8 @@ export default async function ProductId({ params }: ProductIdProp) {
       <DetailCard product={response} />
 
       <Introduce data={response} />
+
+      <Reviews reviews={response.reviews} />
 
       <Suggest category={response.categories[0].name} />
     </div>

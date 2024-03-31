@@ -42,7 +42,7 @@ export const ActionMenu = () => {
     auth.checkExpiry();
   });
 
-  let { percentage, rank } = calculatePercentage(profile?.totalPrice);
+  let { percentage } = calculatePercentage(profile?.totalPrice);
 
   return (
     <>
