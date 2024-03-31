@@ -1,6 +1,4 @@
-
-
-export const PHUKIEN = "Phụ kiện"
+export const PHUKIEN = "Phụ kiện";
 
 export const menubar: { title: string; href: string }[] = [
   {
@@ -208,6 +206,14 @@ export const statusList: { [key: string]: string } = {
   SUCCESS: "Giao hàng thành công",
 };
 
+export const starList: { [key: number]: string } = {
+  5: "Tuyệt vời",
+  4: "Hài lòng",
+  3: "Bình thường",
+  2: "Không hài lòng",
+  1: "Tệ",
+};
+
 export const statusRanking: { [key: string]: string } = {
   Bronze: "Đồng",
   Silver: "Bạc",
@@ -227,7 +233,6 @@ export const statusRankingIcon: { [key: string]: string } = {
   Platinum: "/4.png",
   Diamond: "/5.png",
 };
-
 
 export const Collections = {
   MANGA: {
@@ -271,3 +276,37 @@ export const Collections = {
       "https://file.hstatic.net/200000294254/collection/banner-collection-50_4cefb152aae04945bbe205504cc7c7a6.jpg",
   },
 };
+
+export const statusReview = [
+  {
+    name: "Mới nhất",
+    value: "Lasted",
+  },
+  {
+    name: "Có hình ảnh",
+    value: "Image",
+  },
+];
+
+export const starReview = [
+  {
+    name: "5 sao",
+    value: 5,
+  },
+  {
+    name: "4 sao",
+    value: 4,
+  },
+  {
+    name: "3 sao",
+    value: 3,
+  },
+  {
+    name: "2 sao",
+    value: 2,
+  },
+  {
+    name: "1 sao",
+    value: 1,
+  },
+];

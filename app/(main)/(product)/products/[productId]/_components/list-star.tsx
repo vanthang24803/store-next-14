@@ -32,7 +32,7 @@ export const Stars = ({ stars, size = 16 }: Props) => {
               src={OutlineStar}
               width={size}
               height={size}
-              alt="star"
+              alt="star-outline"
               key={index}
             />
           ))}

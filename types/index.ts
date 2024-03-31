@@ -8,8 +8,6 @@ export type Product = {
   categories: Category[];
   options: Option[];
   images: Image[];
-  reviews: Review[];
-
   createAt: string;
   updateAt: string;
 };
