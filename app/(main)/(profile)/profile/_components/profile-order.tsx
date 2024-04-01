@@ -8,6 +8,8 @@ import { price } from "@/lib/format-price";
 import { Order } from "@/types";
 import { ShoppingBag, Trash2 } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { Rating } from "./rating";
+import Link from "next/link";
 
 export const ProfileOrder = ({ order }: { order: Order[] }) => {
   const router = useRouter();
@@ -17,10 +19,7 @@ export const ProfileOrder = ({ order }: { order: Order[] }) => {
         <div className="border border-neutral-200 w-full rounded-md p-4 flex flex-col  space-y-4">
           {order?.map((item, i) => (
             <div key={i}>
-              <div
-                className="flex lg:flex-row flex-col lg:items-center lg:justify-between space-y-2 lg:space-y-0 mb-2"
-                
-              >
+              <div className="flex lg:flex-row flex-col lg:items-center lg:justify-between space-y-2 lg:space-y-0 mb-2">
                 <div className="flex lg:flex-row flex-col lg:items-center lg:space-x-2">
                   <h1>Mã vận đơn:</h1>
                   <div className="flex items-center">
@@ -49,7 +48,7 @@ export const ProfileOrder = ({ order }: { order: Order[] }) => {
               <div className="flex flex-col space-y-2">
                 <div className="flex flex-col space-y-4 my-4">
                   {item.products?.map((item) => (
-                    <div
+                    <Link href={`/products/${item.productId}`} target="_blank"
                       key={item.productId}
                       className="flex flex-col space-y-2 text-sm hover:cursor-pointer"
                     >
@@ -87,17 +86,22 @@ export const ProfileOrder = ({ order }: { order: Order[] }) => {
                           </div>
                         </div>
                       </div>
-                    </div>
+                    </Link>
                   ))}
                 </div>
                 <Separator />
-                <div className="text-right text-sm pb-4">
-                  <span>
-                    Thành tiền:{" "}
-                    <b className="text-xl font-bold text-[#ee4d2d]">
-                      {price(item.totalPrice)}₫
-                    </b>{" "}
-                  </span>
+                <div className="flex items-center justify-end text-sm pb-4">
+                  <div className="flex items-center space-x-3 mt-2">
+                    {item.status === "SUCCESS" && (
+                      <Rating id={item.products[0].productId} />
+                    )}
+                    <span>
+                      Thành tiền:{" "}
+                      <b className="text-xl font-bold text-[#ee4d2d]">
+                        {price(item.totalPrice)}₫
+                      </b>{" "}
+                    </span>
+                  </div>
                 </div>
               </div>
             </div>

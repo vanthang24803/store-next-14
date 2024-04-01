@@ -7,6 +7,7 @@ import { Separator } from "@/components/ui/separator";
 import useReview from "@/hooks/use-fetch-reviews";
 import { Spinner } from "@/components/spinner";
 import { ReviewFilter } from "./review-filter";
+import Link from "next/link";
 
 type Props = {
   productId: string | undefined;
@@ -32,7 +33,9 @@ export const Reviews = ({ productId }: Props) => {
                     </h2>
                     <div className="grid md:grid-cols-5 lg:grid-cols-6 gap-4 mt-2">
                       {images?.map((item) => (
-                        <div
+                        <Link
+                          href={item.url}
+                          target="_bank"
                           key={item.id}
                           className="rounded-md w-[80px] h-[80px] object-cover hover:cursor-pointer bg-cover"
                           style={{

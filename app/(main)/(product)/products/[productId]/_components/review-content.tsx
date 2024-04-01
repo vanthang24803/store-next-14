@@ -16,6 +16,7 @@ import {
   DropdownMenuTrigger,
   DropdownMenuItem,
 } from "@/components/ui/dropdown-menu";
+import Link from "next/link";
 
 type Props = {
   review: Review;
@@ -26,15 +27,15 @@ export const ReviewContent = ({ review }: Props) => {
   return (
     <div className="flex flex-col space-y-4">
       <div className="flex justify-between">
-        <div className="lg:basis-1/3 md:bottom-1/2">
-          <div className="w-full flex items-center space-x-3">
+        <div className="lg:basis-1/3 basis-1/2">
+          <div className="w-full flex md:flex-row flex-col items-center space-x-3">
             <Avatar className="hover:cursor-pointer">
               <AvatarImage src={review.customerAvatar} />
             </Avatar>
             <p className="text-sm font-semibold">{review.customerName}</p>
           </div>
         </div>
-        <div className="lg:basis-2/3 md:basis-1/2 flex flex-col space-y-3">
+        <div className="lg:basis-2/3 md:basis-1/2 flex flex-col space-y-3 w-full">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-4">
               <Stars stars={review.star} />
@@ -61,12 +62,19 @@ export const ReviewContent = ({ review }: Props) => {
             )}
           </div>
 
-          <span className="text-sm my-4">{review.content}</span>
+          <div
+            className="text-sm my-4"
+            dangerouslySetInnerHTML={{
+              __html: review.content,
+            }}
+          />
 
           {review.images.length > 0 && (
             <div className="grid grid-cols-4 md:grid-cols-6 gap-4">
               {review.images.map((item) => (
-                <div
+                <Link
+                  href={item.url}
+                  target="_blank"
                   key={item.id}
                   className="rounded-md w-[80px] h-[80px] object-cover hover:cursor-pointer bg-cover"
                   style={{
