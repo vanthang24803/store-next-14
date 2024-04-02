@@ -4,17 +4,22 @@ import { Product } from "@/types";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useSearchParams } from "next/navigation";
+import { useDebounce } from "./use-debounce";
 
 export default function useSearch() {
   const router = useRouter();
 
   const searchParams = useSearchParams();
 
+  const [searchLoading , setSearchLoading] = useState(false);
+
   const search = searchParams.get("search");
 
   const [content, setContent] = useState(search || "");
 
   const [product, setProduct] = useState<Product[]>([]);
+
+  const debounce = useDebounce(content);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setContent(e.target.value);
@@ -23,17 +28,19 @@ export default function useSearch() {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
+        setSearchLoading(true);
         const response = await axios.get(
-          `${process.env.NEXT_PUBLIC_API_URL}/api/product?Name=${content}`
+          `${process.env.NEXT_PUBLIC_API_URL}/api/product?Name=${debounce}`
         );
         setProduct(response.data);
+        setSearchLoading(false);
       } catch (error) {
         console.log(error);
       }
     };
 
     fetchProducts();
-  }, [content]);
+  }, [debounce]);
 
   useEffect(() => {
     const query = {
@@ -51,5 +58,5 @@ export default function useSearch() {
     router.push(url);
   }, [router, content]);
 
-  return { search, content, product, handleInputChange, router };
+  return { search, content, product, handleInputChange, router , searchLoading };
 }

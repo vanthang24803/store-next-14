@@ -4,13 +4,13 @@
 import { Search } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { useState, useEffect, useRef } from "react";
-import useSearch from "@/hooks/use-serch";
+import useSearch from "@/hooks/use-search";
 import { SearchContent } from "./search-content";
 
 export const SearchPage = () => {
   const [open, setOpen] = useState(false);
   const ref = useRef<HTMLDivElement | null>(null);
-  const { router, content, handleInputChange, product, search } = useSearch();
+  const { router, content, handleInputChange, product, search , searchLoading } = useSearch();
 
   const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
@@ -46,7 +46,7 @@ export const SearchPage = () => {
         <Search className="w-4 h-4 text-white hover:cursor-pointer " />
       </div>
       {open && (
-        <SearchContent content={content} product={product} search={search} />
+        <SearchContent content={content} product={product} search={search} loading={searchLoading} />
       )}
     </div>
   );
