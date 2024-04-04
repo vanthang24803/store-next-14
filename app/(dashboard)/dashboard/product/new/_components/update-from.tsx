@@ -1,7 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -42,11 +42,23 @@ const formSchema = z.object({
 
 type CreateFormValue = z.infer<typeof formSchema>;
 
-interface CreateFormProp {
-  data: Category[] | null;
-}
+export const CreateForm = () => {
 
-export const CreateForm = ({ data }: CreateFormProp) => {
+  const [data, setData] = useState<Category[] | null>(null);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const response = await axios.get(
+        `${process.env.NEXT_PUBLIC_API_URL}/api/product/category`
+      );
+
+      if (response.status == 200) {
+        setData(response.data);
+      }
+    };
+    fetchData();
+  }, []);
+
   const [loading, setLoading] = useState(false);
   const [image, setImage] = useState("");
 
@@ -164,7 +176,6 @@ export const CreateForm = ({ data }: CreateFormProp) => {
                         <FormLabel>Name</FormLabel>
                         <FormControl>
                           <Input
-                            disabled={!open}
                             placeholder={"Product name"}
                             {...field}
                           />
@@ -182,7 +193,6 @@ export const CreateForm = ({ data }: CreateFormProp) => {
                         <FormLabel>Brand</FormLabel>
                         <FormControl>
                           <Input
-                            disabled={!open}
                             placeholder={"Product brand"}
                             {...field}
                           />
@@ -235,7 +245,6 @@ export const CreateForm = ({ data }: CreateFormProp) => {
                         <FormLabel>Option</FormLabel>
                         <FormControl>
                           <Input
-                            disabled={!open}
                             placeholder={"Option"}
                             {...field}
                           />
@@ -254,7 +263,6 @@ export const CreateForm = ({ data }: CreateFormProp) => {
                         <FormControl>
                           <Input
                             type="number"
-                            disabled={!open}
                             placeholder={"Price"}
                             {...field}
                           />
@@ -273,7 +281,6 @@ export const CreateForm = ({ data }: CreateFormProp) => {
                         <FormControl>
                           <Input
                             type="number"
-                            disabled={!open}
                             placeholder={"Sale"}
                             {...field}
                           />
@@ -292,7 +299,6 @@ export const CreateForm = ({ data }: CreateFormProp) => {
                         <FormControl>
                           <Input
                             type="number"
-                            disabled={!open}
                             placeholder={"Quantity"}
                             {...field}
                           />

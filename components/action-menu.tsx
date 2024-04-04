@@ -22,6 +22,7 @@ import {
   MapPinned,
   Settings,
   ShoppingBasket,
+  SquarePen,
   User,
 } from "lucide-react";
 import { useEffect } from "react";
@@ -135,6 +136,12 @@ export const ActionMenu = () => {
                     </div>
                   </DropdownMenuItem>
 
+                  {auth.user?.role.includes("ADMIN") && (
+                    <DropdownMenuItem onClick={() => router.push("/new-post")}>
+                      <SquarePen className="mr-2 h-4 w-4" />
+                      <span>Posts</span>
+                    </DropdownMenuItem>
+                  )}
                   {auth.user?.role.includes("ADMIN") && (
                     <DropdownMenuItem onClick={() => router.push("/dashboard")}>
                       <Settings className="mr-2 h-4 w-4" />
