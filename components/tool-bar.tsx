@@ -10,15 +10,49 @@ import {
   ListOrdered,
   Heading2,
   ImageIcon,
+  Underline,
+  Link,
 } from "lucide-react";
 
 import { Toggle } from "./ui/toggle";
+import { useCallback } from "react";
+import { Button } from "./ui/button";
 
 type Props = {
   editor: Editor | null;
 };
 
 export const Toolbar = ({ editor }: Props) => {
+  const addImage = useCallback(() => {
+    const url = window.prompt("URL");
+
+    if (url) {
+      editor?.chain().focus().setImage({ src: url }).run();
+    }
+  }, [editor]);
+
+  const setLink = useCallback(() => {
+    const previousUrl = editor?.getAttributes("link").href;
+    const url = window.prompt("URL", previousUrl);
+
+    if (url === null) {
+      return;
+    }
+
+    if (url === "") {
+      editor?.chain().focus().extendMarkRange("link").unsetLink().run();
+
+      return;
+    }
+
+    editor
+      ?.chain()
+      .focus()
+      .extendMarkRange("link")
+      .setLink({ href: url })
+      .run();
+  }, [editor]);
+
   if (!editor) {
     return null;
   }
@@ -45,6 +79,15 @@ export const Toolbar = ({ editor }: Props) => {
       </Toggle>
       <Toggle
         size="sm"
+        pressed={editor.isActive("underline")}
+        onPressedChange={() => {
+          editor.chain().focus().toggleUnderline().run();
+        }}
+      >
+        <Underline className="w-4 h-4" />
+      </Toggle>
+      <Toggle
+        size="sm"
         pressed={editor.isActive("strike")}
         onPressedChange={() => {
           editor.chain().focus().toggleStrike().run();
@@ -61,9 +104,9 @@ export const Toolbar = ({ editor }: Props) => {
       >
         <Heading2 className="w-4 h-4" />
       </Toggle>
-      <Toggle size="sm">
+      <Button variant="ghost" size="icon" onClick={addImage}>
         <ImageIcon className="w-4 h-4" />
-      </Toggle>
+      </Button>
       <Toggle
         size="sm"
         pressed={editor.isActive("bulletList")}
@@ -82,6 +125,14 @@ export const Toolbar = ({ editor }: Props) => {
       >
         <ListOrdered className="w-4 h-4" />
       </Toggle>
+
+      <Button
+        size="icon"
+        onClick={setLink}
+        variant={editor.isActive("link") ? "primary" : "ghost"}
+      >
+        <Link className="w-4 h-4" />
+      </Button>
     </div>
   );
 };

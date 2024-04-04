@@ -68,9 +68,9 @@ export const Upload = ({ files, setFiles }: Props) => {
               <button
                 type="button"
                 onClick={() => handleRemoveImage(index)}
-                className="absolute top-0 right-0 p-1  text-white focus:outline-none"
+                className="absolute top-0 right-0 p-1  text-neutral-600 focus:outline-none"
               >
-                <X className="w-6 h-6" />
+                <X className="w-4 h-4 md:w-6 md:h-6" />
               </button>
             </div>
           ))}
