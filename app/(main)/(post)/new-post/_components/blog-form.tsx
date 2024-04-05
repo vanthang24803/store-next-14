@@ -12,7 +12,7 @@ import {
 
 import { FormProvider, useForm } from "react-hook-form";
 import { useState } from "react";
-import { redirect, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { UploadDropzone } from "@/utils/uploadthing";
 import { X } from "lucide-react";
 
@@ -22,6 +22,8 @@ import useAuth from "@/hooks/use-auth";
 import { AvatarImage, Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { format } from "date-fns";
 import useClient from "@/hooks/use-client";
+import axios from "axios";
+import toast from "react-hot-toast";
 
 const formSchema = z.object({
   title: z.string().min(1).max(255),
@@ -55,7 +57,29 @@ const PostForm = () => {
       authorAvatar: auth.user?.avatar,
       authorId: auth.user?.id,
     };
-    console.log(dataSend);
+    try {
+      setLoading(true);
+      toast.loading("Waiting! ...");
+      const response = await axios.post(
+        `${process.env.NEXT_PUBLIC_API_URL}/api/blog`,
+        dataSend,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      if (response.status === 200) {
+        toast.success("Thành công");
+        router.push(`/`);
+      }
+    } catch (error) {
+      console.log(error);
+    } finally {
+      toast.dismiss();
+      setLoading(false);
+    }
   };
 
   return (
@@ -173,7 +197,7 @@ const PostForm = () => {
               </div>
             </div>
 
-            <Button className="w-[200px]" variant="primary">
+            <Button className="w-[200px]" variant="primary" disabled={loading}>
               Xác nhận
             </Button>
           </form>

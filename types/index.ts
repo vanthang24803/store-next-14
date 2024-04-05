@@ -151,3 +151,15 @@ export type Attribute =
   | "product"
   | "voucher"
   | "selling";
+
+export type Blog = {
+  id: string;
+  title: string;
+  thumbnail: string;
+  content: string;
+  authorId: string;
+  authorName: string;
+  authorAvatar: string;
+  createAt: string;
+  updateAt: string;
+};

@@ -19,6 +19,8 @@ export const TopBook = ({ data }: TopBookProps) => {
               alt={item.name}
               title={item.name}
               fill
+              sizes="(max-width: 640px) 100px, (max-width: 768px) 200px, 300px"
+              priority={true}
               className="rounded-md over:scale-105 transform transition-transform duration-500"
             />
           </div>

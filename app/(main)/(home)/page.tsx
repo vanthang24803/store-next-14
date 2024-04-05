@@ -10,6 +10,7 @@ import { Header } from "./header";
 import { MANGA, SACHMOI } from "@/constant";
 import { Banner } from "./_components/banner";
 import { Figure } from "./_components/figure";
+import { Blogs } from "./_components/blogs";
 
 export default async function Home() {
   const billboard = await getBillboard();
@@ -43,6 +44,8 @@ export default async function Home() {
       <Banner />
 
       <Figure />
+
+      <Blogs />
     </main>
   );
 }

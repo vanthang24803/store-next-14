@@ -25,7 +25,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
+    <html lang="vi">
       <GoogleOAuthProvider clientId={`${process.env.GOOGLE_CLIENT_ID}`}>
         <body>
           <ToastProvider />
