@@ -30,6 +30,10 @@ export const menubar: { title: string; href: string }[] = [
     href: "/collections/phu-kien",
   },
   {
+    title: "Tin tức",
+    href: "/blogs",
+  },
+  {
     title: "Tra cứu đơn hàng",
     href: "/tra-cuu",
   },

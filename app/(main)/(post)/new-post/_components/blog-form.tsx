@@ -72,7 +72,7 @@ const PostForm = () => {
 
       if (response.status === 200) {
         toast.success("Thành công");
-        router.push(`/`);
+        router.push(`/blogs`);
       }
     } catch (error) {
       console.log(error);
