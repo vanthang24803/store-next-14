@@ -3,7 +3,6 @@
 "use client";
 
 import { useState } from "react";
-import { Profile } from "@/types";
 import { Button } from "@/components/ui/button";
 import { UpdateForm } from "./_components/update-form";
 import { AvatarUpload } from "./_components/update-avatar";

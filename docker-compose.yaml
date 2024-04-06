@@ -5,9 +5,8 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: store-client
+    container_name: store-app
     ports:
       - "3000:3000"
-    volumes:
-      - .:/app
-      - /app/node_modules
+    environment:
+     

@@ -39,7 +39,10 @@ export const ListFilter = ({ onChangeStatus, onChangeStar }: Props) => {
       <div className="flex items-center space-x-2">
         {statusReview.map((item, index) => (
           <Button
-            ref={(e) => (statusRef.current[index] = e)}
+            ref={(e) => {
+              statusRef.current[index] = e;
+              return undefined;
+            }}
             onClick={() => selectStatus(index)}
             variant={activeIndex === index ? "primary" : "outline"}
             key={index}
@@ -51,7 +54,10 @@ export const ListFilter = ({ onChangeStatus, onChangeStar }: Props) => {
       <div className="flex items-center space-x-2">
         {starReview.map((item, index) => (
           <Button
-            ref={(e) => (starRef.current[index] = e)}
+            ref={(e) => {
+              starRef.current[index] = e;
+              return undefined;
+            }}
             onClick={() => selectStar(index)}
             variant={activeStar === index ? "primary" : "outline"}
             key={index}
