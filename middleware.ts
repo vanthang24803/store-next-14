@@ -11,7 +11,8 @@ export function middleware(request: NextRequest) {
   }
 
   if (
-    request.nextUrl.pathname.startsWith("/dashboard") &&
+    (request.nextUrl.pathname.startsWith("/dashboard") ||
+      request.nextUrl.pathname.startsWith("/new-post")) &&
     !roleArray.includes("ADMIN")
   ) {
     return NextResponse.redirect(new URL("/profile", request.url));
@@ -21,5 +22,5 @@ export function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/profile/:path*", "/dashboard/:path*"],
+  matcher: ["/profile/:path*", "/dashboard/:path*", "/new-post"],
 };

@@ -11,7 +11,7 @@ import {
 } from "@/components/ui/form";
 
 import { FormProvider, useForm } from "react-hook-form";
-import { useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { UploadDropzone } from "@/utils/uploadthing";
 import { X } from "lucide-react";
@@ -24,6 +24,7 @@ import { format } from "date-fns";
 import useClient from "@/hooks/use-client";
 import axios from "axios";
 import toast from "react-hot-toast";
+import { Blog } from "@/types";
 
 const formSchema = z.object({
   title: z.string().min(1).max(255),
@@ -33,11 +34,31 @@ const formSchema = z.object({
 
 type CreateFormValue = z.infer<typeof formSchema>;
 
-const PostForm = () => {
+type Props = {
+  id: string | undefined;
+};
+
+const FormUpdatePost = ({ id }: Props) => {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
-  const [image, setImage] = useState("");
   const auth = useAuth();
+
+  const [blog, setBlog] = useState<Blog | null>(null);
+  const [image, setImage] = useState("");
+
+  const fetchBlogDetail = async () => {
+    const response = await axios.get(
+      `${process.env.NEXT_PUBLIC_API_URL}/api/blog/${id}`
+    );
+    if (response.status === 200) {
+      setBlog(response.data);
+    }
+  };
+
+  useEffect(() => {
+    fetchBlogDetail();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const form = useForm({
     resolver: zodResolver(formSchema),
@@ -48,21 +69,27 @@ const PostForm = () => {
     },
   });
 
+  const isInitialRender = useRef(true);
+
+  useEffect(() => {
+    if (blog && isInitialRender.current) {
+      setImage(blog.thumbnail);
+      form.setValue("thumbnail", blog.thumbnail);
+      form.setValue("title", blog.title);
+      form.setValue("content", blog.content);
+      isInitialRender.current = false;
+    }
+  }, [blog, form]);
+
   const { isClient } = useClient();
 
   const onSubmit = async (data: CreateFormValue) => {
-    const dataSend = {
-      ...data,
-      authorName: auth.user?.name,
-      authorAvatar: auth.user?.avatar,
-      authorId: auth.user?.id,
-    };
     try {
       setLoading(true);
       toast.loading("Waiting! ...");
-      const response = await axios.post(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/blog`,
-        dataSend,
+      const response = await axios.put(
+        `${process.env.NEXT_PUBLIC_API_URL}/api/blog/${id}`,
+        data,
         {
           headers: {
             "Content-Type": "application/json",
@@ -72,7 +99,7 @@ const PostForm = () => {
 
       if (response.status === 200) {
         toast.success("Thành công");
-        router.push(`/blogs`);
+        router.push(`/blogs/${id}`);
       }
     } catch (error) {
       console.log(error);
@@ -82,12 +109,17 @@ const PostForm = () => {
     }
   };
 
+  const handleImageClear = useCallback(() => {
+    setImage("");
+    form.setValue("thumbnail", "");
+  }, [form]);
+
   return (
     <>
       {isClient && (
         <FormProvider {...form}>
           <form
-            className="flex flex-col space-y-4 py-2 pb-20"
+            className="flex flex-col space-y-4 py-2 pb-20 lg:container"
             onSubmit={form.handleSubmit(onSubmit)}
           >
             <FormField
@@ -97,6 +129,7 @@ const PostForm = () => {
                 <FormItem>
                   <FormControl>
                     <textarea
+                      disabled={loading}
                       placeholder="Tiêu đề"
                       className="text-3xl mt-6 w-full font-medium h-20 outline-none leading-tight placeholder:opacity-90 resize-none"
                       {...field}
@@ -156,7 +189,7 @@ const PostForm = () => {
                     />
                     <div
                       className="w-8 h-8 rounded-full flex items-center justify-center text-neutral-600 absolute top-0  right-0 hover:cursor-pointer"
-                      onClick={() => setImage("")}
+                      onClick={handleImageClear}
                     >
                       <X />
                     </div>
@@ -200,4 +233,4 @@ const PostForm = () => {
   );
 };
 
-export default PostForm;
+export default FormUpdatePost;

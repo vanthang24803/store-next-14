@@ -22,7 +22,6 @@ export default function Blogs() {
           </BreadcrumbItem>
         </BreadcrumbList>
       </Breadcrumb>
-
       <Content />
     </div>
   );

@@ -1,4 +1,4 @@
-import { Navbar } from "./_components/navbar";
+import { Navbar } from "./new-post/_components/navbar";
 import { ToastProvider } from "@/components/provider/toater-provider";
 
 export async function generateMetadata() {

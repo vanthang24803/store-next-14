@@ -3,8 +3,7 @@
 import { Button } from "@/components/ui/button";
 import useAuth from "@/hooks/use-auth";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
-
+import { usePathname, useRouter } from "next/navigation";
 
 export const Menubar = () => {
   const auth = useAuth();
@@ -12,7 +11,7 @@ export const Menubar = () => {
   const menu = [
     {
       name: "Thông tin tài khoản",
-    url: "/profile",
+      url: "/profile",
     },
     {
       name: "Địa chỉ",
@@ -25,6 +24,7 @@ export const Menubar = () => {
   ];
 
   const pathname = usePathname();
+  const router = useRouter();
 
   return (
     <div className="lg:flex flex-col space-y-4 md:mt-20 m-4 hidden ">
@@ -39,6 +39,15 @@ export const Menubar = () => {
           </Button>
         </Link>
       ))}
+      {auth.user?.role.includes("ADMIN") && (
+        <Button
+          variant={pathname === "/profile/blogs" ? "primary" : "ghost"}
+          onClick={() => router.push(`/profile/blogs`)}
+          className="w-full md:w-[200px] justify-start"
+        >
+          Bài viết
+        </Button>
+      )}
       <Button
         variant="ghost"
         className="hover:text-[#417505] font-medium text-sm hover:cursor-pointer justify-normal"
