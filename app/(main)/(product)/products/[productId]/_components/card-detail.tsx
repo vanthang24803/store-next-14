@@ -63,7 +63,21 @@ export const DetailCard = ({ product }: DetailCardProp) => {
               Thuơng Hiệu:{" "}
               <span className="text-[#417505] font-bold">{product?.brand}</span>
             </div>
+            {product && product?.sold > 0 && (
+              <div className="text-sm hidden lg:block">
+                Đã bán:{" "}
+                <span className="text-[#417505] font-bold">{product.sold}</span>{" "}
+                sản phẩm
+              </div>
+            )}
           </div>
+          {product && product?.sold > 0 && (
+            <div className="text-sm block lg:hidden">
+              Đã bán:{" "}
+              <span className="text-[#417505] font-bold">{product.sold}</span>{" "}
+              sản phẩm
+            </div>
+          )}
 
           <div className="flex flex-col lg:flex-row py-4 space-y-4 lg:space-y-0">
             <div className="flex flex-col space-y-4 lg:w-1/2">

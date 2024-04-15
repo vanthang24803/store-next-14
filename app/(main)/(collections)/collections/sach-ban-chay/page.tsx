@@ -15,7 +15,7 @@ export default function Category() {
     useFilterProduct();
 
   const { currentPage, data, pageCount, currentData, handlePageChange } =
-    useProductByCategory({ price, filter });
+    useProductByCategory({ price, filter , status : "Selling" });
 
   return (
     <main className="md:max-w-screen-xl mx-auto p-4">

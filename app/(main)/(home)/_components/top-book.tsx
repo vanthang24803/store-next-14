@@ -13,7 +13,7 @@ export const TopBook = ({ data }: TopBookProps) => {
     <div className="grid lg:grid-cols-4 grid-cols-2 md:gap-8 px-2 gap-4 hover:cursor-pointer overflow-hidden">
       {data?.slice(0, 4).map((item) => (
         <Link href={`/products/${item.id}`} key={item.id}>
-          <div className="md:w-full relative md:h-[38vh] h-[220px] ">
+          <div className="md:w-full md:h-[38vh] h-[220px] group relative">
             <Image
               src={item.thumbnail}
               alt={item.name}
@@ -21,7 +21,7 @@ export const TopBook = ({ data }: TopBookProps) => {
               fill
               sizes="(max-width: 640px) 100px, (max-width: 768px) 200px, 300px"
               priority={true}
-              className="rounded-md over:scale-105 transform transition-transform duration-500"
+              className="rounded-md transform transition-transform duration-500 group-hover:scale-105 animate-shine"
             />
           </div>
         </Link>
