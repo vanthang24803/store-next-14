@@ -54,8 +54,8 @@ Build Docker Image
 ```bash
   docker-compose up
 ```
+![image](https://github.com/vanthang24803/store-next-14/assets/101810628/4c952913-b4d0-44c6-9489-36cfa1c60eea)
 
-![image](https://github.com/vanthang24803/store-next-14/assets/101810628/cbe615cf-c696-491a-ac72-4390b772ac52)
 
 
 
