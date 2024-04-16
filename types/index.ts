@@ -146,6 +146,16 @@ export type User = {
   role: string[];
 };
 
+export type OrderUserSelling = {
+  id: string;
+  email: string;
+  firstName: string;
+  lastName: string;
+  avatar: string;
+  totalOrder: number;
+  totalPrice: number;
+};
+
 export type Attribute =
   | "billboard"
   | "category"

@@ -139,7 +139,7 @@ export const CreateForm = () => {
                     loading="lazy"
                   />
                   <div
-                    className="w-8 h-8 rounded-full bg-red-600 flex items-center justify-center text-white absolute -top-3  -right-3 hover:cursor-pointer"
+                    className="w-8 h-8 rounded-full flex items-center justify-center text-gray-600 absolute top-0 right-0 hover:cursor-pointer hover:scale-110 ease-linear"
                     onClick={() => setImage("")}
                   >
                     <X />
