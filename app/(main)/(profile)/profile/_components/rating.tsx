@@ -2,7 +2,6 @@
 
 import { Button } from "@/components/ui/button";
 import * as z from "zod";
-import axios from "axios";
 import toast from "react-hot-toast";
 
 import {
@@ -25,6 +24,7 @@ import {
 import { StarRating } from "./star-rating";
 import useAuth from "@/hooks/use-auth";
 import { Upload } from "./upload";
+import _http from "@/utils/http";
 
 const formSchema = z.object({
   content: z.string().min(1).max(255),
@@ -67,15 +67,11 @@ export const Rating = ({ id }: Props) => {
     try {
       setLoading(true);
 
-      await axios.post(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/product/${id}/review`,
-        formData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        }
-      );
+      await _http.post(`/api/product/${id}/review`, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
 
       toast.success("Thành công");
       setOpen(false);

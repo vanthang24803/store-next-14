@@ -3,11 +3,9 @@
 
 import { Separator } from "@radix-ui/react-dropdown-menu";
 import { useEffect, useState } from "react";
-import { Menubar } from "../_components/menubar";
 import { Button } from "@/components/ui/button";
 import { Check, MoreHorizontal, Plus, Settings, Trash, X } from "lucide-react";
 import useClient from "@/hooks/use-client";
-import axios from "axios";
 import useAuth from "@/hooks/use-auth";
 import { Spinner } from "@/components/spinner";
 import {
@@ -17,6 +15,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { CreateAddressForm } from "./_components/create-form";
+import _http from "@/utils/http";
 
 type Address = {
   id: string;
@@ -38,8 +37,8 @@ export default function AddressProfile() {
   const fetchAddress = async () => {
     try {
       setLoading(true);
-      const response = await axios.get(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/auth/profile/${user?.id}/address`,
+      const response = await _http.get(
+        `/api/auth/profile/${user?.id}/address`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -64,8 +63,8 @@ export default function AddressProfile() {
 
   const activeAddress = async (addressId: string) => {
     try {
-      const response = await axios.put(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/auth/profile/${user?.id}/address/${addressId}/active`,
+      const response = await _http.put(
+        `/api/auth/profile/${user?.id}/address/${addressId}/active`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -84,8 +83,8 @@ export default function AddressProfile() {
 
   const removeAddress = async (addressId: string) => {
     try {
-      const response = await axios.delete(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/auth/profile/${user?.id}/address/${addressId}`,
+      const response = await _http.delete(
+        `/api/auth/profile/${user?.id}/address/${addressId}`,
         {
           headers: {
             "Content-Type": "application/json",

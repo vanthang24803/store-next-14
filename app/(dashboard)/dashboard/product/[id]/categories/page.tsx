@@ -15,7 +15,6 @@ import {
 import { FormProvider, useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
 import { Navigation } from "../../_components/navigation";
-import axios from "axios";
 import { Category, Product } from "@/types";
 import {
   Select,
@@ -27,6 +26,7 @@ import {
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import { Spinner } from "@/components/spinner";
+import _http from "@/utils/http";
 
 interface ProductIdProp {
   params: {
@@ -49,9 +49,7 @@ export default function ProductId({ params }: ProductIdProp) {
 
   useEffect(() => {
     const fetchData = async () => {
-      const response = await axios.get(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/product/category`
-      );
+      const response = await _http.get(`/api/product/category`);
 
       if (response.status == 200) {
         setData(response.data);
@@ -61,9 +59,7 @@ export default function ProductId({ params }: ProductIdProp) {
   }, []);
 
   const fetchData = async () => {
-    const response = await axios.get(
-      `${process.env.NEXT_PUBLIC_API_URL}/api/product/${params.id}`
-    );
+    const response = await _http.get(`/api/product/${params.id}`);
 
     if (response.status == 200) {
       setProduct(response.data);
@@ -88,13 +84,8 @@ export default function ProductId({ params }: ProductIdProp) {
     try {
       setLoading(true);
 
-      const response = await axios.post(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/product/${params.id}/category/${data.category}`,
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
+      const response = await _http.post(
+        `/api/product/${params.id}/category/${data.category}`
       );
       if (response.status == 200) {
         toast.dismiss();

@@ -1,9 +1,9 @@
 import { Attribute } from "@/types";
-import axios from "axios";
 import { useRouter } from "next/navigation";
 import { Dispatch, SetStateAction } from "react";
 import toast from "react-hot-toast";
 import useFetchProduct from "./use-fetch-product";
+import _http from "@/utils/http";
 
 type Props = {
   id: string;
@@ -30,8 +30,8 @@ export default function useDeleteAttribute({
     toast.loading("Waiting");
     try {
       setLoading(true);
-      const response = await axios.delete(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/product/${attribute}/${id}`
+      const response = await _http.delete(
+        `/api/product/${attribute}/${id}`
       );
 
       if (response.status == 200) {

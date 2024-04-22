@@ -2,7 +2,6 @@
 
 import { CardItem } from "@/components/card-item";
 import { Product } from "@/types";
-import axios from "axios";
 import { useEffect, useState } from "react";
 import {
   Carousel,
@@ -12,6 +11,7 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel";
 import Autoplay from "embla-carousel-autoplay";
+import _http from "@/utils/http";
 
 interface SuggestProps {
   category: string;
@@ -22,8 +22,8 @@ export const Suggest = ({ category }: SuggestProps) => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const response = await axios.get(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/product?Category=${category}`
+      const response = await _http.get(
+        `/api/product?Category=${category}`
       );
 
       if (response.status == 200) {

@@ -1,17 +1,17 @@
-import axios from "axios";
 import qs from "query-string";
 import { Product } from "@/types";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useSearchParams } from "next/navigation";
 import { useDebounce } from "./use-debounce";
+import _http from "@/utils/http";
 
 export default function useSearch() {
   const router = useRouter();
 
   const searchParams = useSearchParams();
 
-  const [searchLoading , setSearchLoading] = useState(false);
+  const [searchLoading, setSearchLoading] = useState(false);
 
   const search = searchParams.get("search");
 
@@ -29,9 +29,7 @@ export default function useSearch() {
     const fetchProducts = async () => {
       try {
         setSearchLoading(true);
-        const response = await axios.get(
-          `${process.env.NEXT_PUBLIC_API_URL}/api/product?Name=${debounce}`
-        );
+        const response = await _http.get(`/api/product?Name=${debounce}`);
         setProduct(response.data);
         setSearchLoading(false);
       } catch (error) {
@@ -58,5 +56,5 @@ export default function useSearch() {
     router.push(url);
   }, [router, content]);
 
-  return { search, content, product, handleInputChange, router , searchLoading };
+  return { search, content, product, handleInputChange, router, searchLoading };
 }

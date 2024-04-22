@@ -2,10 +2,10 @@
 
 import { Spinner } from "@/components/spinner";
 import { Blog } from "@/types";
-import axios from "axios";
+import _http from "@/utils/http";
 import { format } from "date-fns";
 import { vi } from "date-fns/locale";
-import {  ChevronRight } from "lucide-react";
+import { ChevronRight } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -20,9 +20,7 @@ export const Blogs = () => {
   const fetchBlogs = async () => {
     try {
       setLoading(true);
-      const response = await axios.get(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/blog`
-      );
+      const response = await _http.get(`/api/blog`);
 
       if (response.status == 200) {
         setBlogs(response.data);

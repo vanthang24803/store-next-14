@@ -16,9 +16,9 @@ import { AvatarFallback, AvatarImage, Avatar } from "@/components/ui/avatar";
 import { Input } from "@/components/ui/input";
 import { Profile } from "@/types";
 import { useRef, useState } from "react";
-import axios from "axios";
 import useAuth from "@/hooks/use-auth";
 import toast from "react-hot-toast";
+import _http from "@/utils/http";
 
 interface AvatarUploadProps {
   fetchData: () => void;
@@ -59,12 +59,10 @@ export const AvatarUpload = ({ fetchData, profile, id }: AvatarUploadProps) => {
     setLoading(true);
     toast.loading("Waiting...");
 
-    axios
-      .post(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/auth/profile/${id}/avatar`,
-        formData,
-        { headers: { Authorization: `Bearer ${auth.token}` } }
-      )
+    _http
+      .post(`/api/auth/profile/${id}/avatar`, formData, {
+        headers: { Authorization: `Bearer ${auth.token}` },
+      })
       .then((response) => {
         if (response.status == 200) {
           fetchData();
@@ -117,7 +115,7 @@ export const AvatarUpload = ({ fetchData, profile, id }: AvatarUploadProps) => {
           <Button
             type="submit"
             onClick={onSubmit}
-            disabled={loading || profile?.avatar    == avatar}
+            disabled={loading || profile?.avatar == avatar}
           >
             Save changes
           </Button>

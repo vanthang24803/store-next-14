@@ -1,7 +1,6 @@
 "use client";
 
 import * as z from "zod";
-import axios from "axios";
 import toast from "react-hot-toast";
 import { Button } from "@/components/ui/button";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -10,6 +9,7 @@ import { FormProvider, useForm } from "react-hook-form";
 import useAuth from "@/hooks/use-auth";
 import { Input } from "@/components/ui/input";
 import { Dispatch, SetStateAction, useState } from "react";
+import _http from "@/utils/http";
 
 const formSchema = z.object({
   name: z.string().min(1),
@@ -37,15 +37,9 @@ export const CreateAddressForm = ({ setUCreate, fetchAddress }: Props) => {
   const onSubmit = async (data: CreateFormValue) => {
     try {
       setLoading(true);
-      const response = await axios.post(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/auth/profile/${auth.user?.id}/address`,
-        data,
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${auth.token}`,
-          },
-        }
+      const response = await _http.post(
+        `/api/auth/profile/${auth.user?.id}/address`,
+        data
       );
 
       if (response.status == 200) {

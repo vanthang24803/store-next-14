@@ -1,6 +1,5 @@
 "use client";
 
-import axios from "axios";
 import { useEffect, useState } from "react";
 
 import { useRouter } from "next/navigation";
@@ -24,6 +23,7 @@ import { FormProvider, useForm } from "react-hook-form";
 import { Heading } from "@/app/(dashboard)/dashboard/_components/heading";
 import { Settings2, X } from "lucide-react";
 import { Option } from "@/types";
+import _http from "@/utils/http";
 
 interface OptionIdProp {
   params: {
@@ -50,8 +50,8 @@ export default function CreateOptions({ params }: OptionIdProp) {
 
   useEffect(() => {
     const fetchData = async () => {
-      const response = await axios.get(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/product/${params.id}/option/${params.optionId}`
+      const response = await _http.get(
+        `/api/product/${params.id}/option/${params.optionId}`
       );
 
       if (response.status == 200) {
@@ -75,8 +75,8 @@ export default function CreateOptions({ params }: OptionIdProp) {
     toast.loading("Waiting");
     try {
       setLoading(true);
-      const response = await axios.put(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/product/${params.id}/option/${params.optionId}`,
+      const response = await _http.put(
+        `/api/product/${params.id}/option/${params.optionId}`,
         data,
         {
           headers: {

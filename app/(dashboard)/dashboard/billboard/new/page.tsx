@@ -1,6 +1,5 @@
 "use client";
 
-import axios from "axios";
 import { useEffect, useState } from "react";
 import Image from "next/image";
 
@@ -13,6 +12,7 @@ import { Separator } from "@/components/ui/separator";
 import { Heading } from "../../_components/heading";
 import { Label } from "@radix-ui/react-label";
 import toast from "react-hot-toast";
+import _http from "@/utils/http";
 
 export default function CreateBillboard() {
   const router = useRouter();
@@ -43,8 +43,8 @@ export default function CreateBillboard() {
         formData.append("file", file[0]);
       }
 
-      const response = await axios.post(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/product/billboard`,
+      const response = await _http.post(
+        `/api/product/billboard`,
         formData,
         {
           headers: {

@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { Review } from "@/types";
-import axios from "axios";
+import _http from "@/utils/http";
 import { useEffect, useState } from "react";
 
 type Props = {
@@ -14,11 +14,11 @@ export default function useReview({ productId }: Props) {
   useEffect(() => {
     const fetchReviews = async () => {
       if (productId) {
-        const URL = `${process.env.NEXT_PUBLIC_API_URL}/api/product/${productId}/review`;
+        const URL = `/api/product/${productId}/review`;
 
         try {
           setLoading(true);
-          const response = await axios.get(URL);
+          const response = await _http.get(URL);
 
           if (response.status === 200) {
             setReviews(response.data);

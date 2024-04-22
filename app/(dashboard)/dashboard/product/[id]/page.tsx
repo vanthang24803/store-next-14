@@ -3,9 +3,7 @@
 import { Separator } from "@/components/ui/separator";
 import { Heading } from "../../_components/heading";
 import { UpdateForm } from "./_components/update-from";
-import { useEffect, useState } from "react";
-import { Product } from "@/types";
-import axios from "axios";
+import {useState } from "react";
 import { Navigation } from "../_components/navigation";
 import { AlertModal } from "@/components/modal/alert-modal";
 import { Button } from "@/components/ui/button";
@@ -13,6 +11,7 @@ import { Trash } from "lucide-react";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import useFetchDetailProduct from "@/hooks/use-fetch-detail-product";
+import _http from "@/utils/http";
 
 interface ProductIdProp {
   params: {
@@ -33,8 +32,8 @@ export default function ProductId({ params }: ProductIdProp) {
     toast.loading("Waiting");
     try {
       setLoading(true);
-      await axios.delete(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/product/${params.id}`
+      await _http.delete(
+        `/api/product/${params.id}`
       );
       toast.dismiss();
       toast.success("Product deleted.");

@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { Product } from "@/types";
-import axios from "axios";
+import _http from "@/utils/http";
 import { useEffect, useState } from "react";
 
 type Props = {
@@ -12,9 +12,7 @@ export default function useFetchDetailProduct({ id }: Props) {
   const [data, setData] = useState<Product | null>(null);
 
   const fetchData = async () => {
-    const response = await axios.get(
-      `${process.env.NEXT_PUBLIC_API_URL}/api/product/${id}`
-    );
+    const response = await _http.get(`/api/product/${id}`);
 
     if (response.status == 200) {
       setData(response.data);
@@ -30,6 +28,6 @@ export default function useFetchDetailProduct({ id }: Props) {
     loading,
     setLoading,
     data,
-    fetchData
+    fetchData,
   };
 }

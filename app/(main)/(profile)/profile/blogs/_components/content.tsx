@@ -5,7 +5,6 @@
 import { Spinner } from "@/components/spinner";
 import useAuth from "@/hooks/use-auth";
 import { Blog } from "@/types";
-import axios from "axios";
 import { MoreHorizontal, Router, Settings, Trash } from "lucide-react";
 import { useEffect, useState } from "react";
 import { format } from "date-fns";
@@ -20,6 +19,7 @@ import {
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 import { BottomPagination } from "@/app/(main)/(collections)/collections/_components/pagination-bottom";
+import _http from "@/utils/http";
 
 export const BlogContent = () => {
   const auth = useAuth();
@@ -32,9 +32,7 @@ export const BlogContent = () => {
   const fetchBlogs = async () => {
     try {
       setLoading(true);
-      const response = await axios.get(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/blog/author/${auth.user?.id}`
-      );
+      const response = await _http.get(`/api/blog/author/${auth.user?.id}`);
 
       if (response.status === 200) {
         setBlogs(response.data);
@@ -53,8 +51,8 @@ export const BlogContent = () => {
 
   const handlerDelete = async (id: string) => {
     try {
-      axios
-        .delete(`${process.env.NEXT_PUBLIC_API_URL}/api/blog/${id}`)
+      _http
+        .delete(`/api/blog/${id}`)
         .then(() => {
           toast.success("Thành công");
           fetchBlogs();

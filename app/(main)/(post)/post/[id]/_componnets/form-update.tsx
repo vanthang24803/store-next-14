@@ -22,9 +22,9 @@ import useAuth from "@/hooks/use-auth";
 import { AvatarImage, Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { format } from "date-fns";
 import useClient from "@/hooks/use-client";
-import axios from "axios";
 import toast from "react-hot-toast";
 import { Blog } from "@/types";
+import _http from "@/utils/http";
 
 const formSchema = z.object({
   title: z.string().min(1).max(255),
@@ -47,9 +47,7 @@ const FormUpdatePost = ({ id }: Props) => {
   const [image, setImage] = useState("");
 
   const fetchBlogDetail = async () => {
-    const response = await axios.get(
-      `${process.env.NEXT_PUBLIC_API_URL}/api/blog/${id}`
-    );
+    const response = await _http.get(`/api/blog/${id}`);
     if (response.status === 200) {
       setBlog(response.data);
     }
@@ -87,15 +85,7 @@ const FormUpdatePost = ({ id }: Props) => {
     try {
       setLoading(true);
       toast.loading("Waiting! ...");
-      const response = await axios.put(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/blog/${id}`,
-        data,
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
+      const response = await _http.put(`/api/blog/${id}`, data);
 
       if (response.status === 200) {
         toast.success("Thành công");

@@ -2,7 +2,6 @@
 
 import { Heading } from "@/app/(dashboard)/dashboard/_components/heading";
 import { Separator } from "@/components/ui/separator";
-import axios from "axios";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
@@ -10,6 +9,7 @@ import Image from "next/image";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import _http from "@/utils/http";
 
 interface ProductIdProp {
   params: {
@@ -48,8 +48,8 @@ export default function CreateImages({ params }: ProductIdProp) {
         });
       }
 
-      const response = await axios.post(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/product/${params.id}/image`,
+      const response = await _http.post(
+        `/api/product/${params.id}/image`,
         formData,
         {
           headers: {

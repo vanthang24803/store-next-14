@@ -1,6 +1,5 @@
 "use client";
 
-import axios from "axios";
 import { useState } from "react";
 
 import { useRouter } from "next/navigation";
@@ -22,6 +21,7 @@ import {
 } from "@/components/ui/form";
 import { FormProvider, useForm } from "react-hook-form";
 import { Heading } from "@/app/(dashboard)/dashboard/_components/heading";
+import _http from "@/utils/http";
 
 const formSchema = z.object({
   name: z.string().min(1),
@@ -57,8 +57,8 @@ export default function CreateOptions({ params }: ProductIdProp) {
     try {
       setLoading(true);
 
-      const response = await axios.post(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/product/${params.id}/options`,
+      const response = await _http.post(
+        `/api/product/${params.id}/options`,
         data,
         {
           headers: {

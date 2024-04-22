@@ -3,10 +3,10 @@ import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 import useCart from "./use-cart";
-import axios from "axios";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 import { v4 as uuidv4 } from "uuid";
+import _http from "@/utils/http";
 
 const formSchema = z.object({
   email: z.string().min(1),
@@ -90,15 +90,7 @@ export default function useFormCheckOut({
 
     try {
       setLoading(true);
-      const response = await axios.post(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/order/create`,
-        dataSend,
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
+      const response = await _http.post(`/api/order/create`, dataSend);
 
       if (response.status == 200) {
         toast.success("Thành công");

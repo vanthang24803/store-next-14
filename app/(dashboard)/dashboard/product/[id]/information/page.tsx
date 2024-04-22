@@ -15,10 +15,10 @@ import { FormProvider, useForm } from "react-hook-form";
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { AlertCircle, AlertTriangle, Anchor, Settings, X } from "lucide-react";
-import axios from "axios";
 import Tiptap from "@/components/tip-tap";
 import toast from "react-hot-toast";
 import { Spinner } from "@/components/spinner";
+import _http from "@/utils/http";
 
 interface ProductIdProp {
   params: {
@@ -58,8 +58,8 @@ export default function InformationId({ params }: ProductIdProp) {
     try {
       setLoading(true);
 
-      const response = await axios.put(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/product/${params.id}/detail`,
+      const response = await _http.put(
+        `/api/product/${params.id}/detail`,
         data,
         {
           headers: {

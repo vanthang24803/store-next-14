@@ -1,7 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 
-import axios from "axios";
 import { useEffect, useState } from "react";
 import Image from "next/image";
 
@@ -19,6 +18,7 @@ import { AlertModal } from "@/components/modal/alert-modal";
 import { Trash } from "lucide-react";
 import useFetchAttribute from "@/hooks/use-fetch-attribute";
 import useDeleteAttribute from "@/hooks/use-delete-atribute";
+import _http from "@/utils/http";
 
 interface BillboardProp {
   params: {
@@ -67,8 +67,8 @@ export default function BillboardId({ params }: BillboardProp) {
         formData.append("file", file[0]);
       }
 
-      const response = await axios.put(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/product/billboard/${params.id}`,
+      const response = await _http.put(
+        `/api/product/billboard/${params.id}`,
         formData,
         {
           headers: {

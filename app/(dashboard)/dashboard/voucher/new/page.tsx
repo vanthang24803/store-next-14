@@ -18,7 +18,6 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
-import axios from "axios";
 import {
   Select,
   SelectContent,
@@ -36,6 +35,7 @@ import { cn } from "@/lib/utils";
 import { differenceInDays, format, isBefore } from "date-fns";
 import { CalendarIcon } from "lucide-react";
 import { Calendar } from "@/components/ui/calendar";
+import _http from "@/utils/http";
 
 const formSchema = z.object({
   name: z.string().min(1),
@@ -75,17 +75,11 @@ export default function CreateVoucher() {
       type: data.type === "Shipping",
     };
 
-
     try {
       setLoading(true);
-      const response = await axios.post(
+      const response = await _http.post(
         `${process.env.NEXT_PUBLIC_API_URL}/api/product/voucher`,
-        dataSend,
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
+        dataSend
       );
       if (response.status == 200) {
         toast.dismiss();

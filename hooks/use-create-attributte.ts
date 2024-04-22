@@ -1,8 +1,8 @@
-import axios from "axios";
 import { useState } from "react";
 import { Attribute } from "@/types";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
+import _http from "@/utils/http";
 
 type Props = {
   attribute: Attribute;
@@ -17,15 +17,7 @@ export default function useCreateAttribute<T>({ attribute }: Props) {
     try {
       setLoading(true);
 
-      const response = await axios.post(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/product/${attribute}`,
-        data,
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
+      const response = await _http.post(`/api/product/${attribute}`, data);
       if (response.status == 200) {
         toast.dismiss();
         toast.success("Success");

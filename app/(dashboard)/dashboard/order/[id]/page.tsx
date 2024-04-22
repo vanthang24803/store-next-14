@@ -1,7 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 "use client";
 
-import axios from "axios";
 import { useState, useEffect } from "react";
 import { Heading } from "../../_components/heading";
 import { Separator } from "@/components/ui/separator";
@@ -31,6 +30,7 @@ import Link from "next/link";
 import { formatPrice, price } from "@/utils/format-price";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
+import _http from "@/utils/http";
 
 const formSchema = z.object({
   status: z.string().min(1),
@@ -60,9 +60,7 @@ export default function CategoryId({ params }: OrderIdProp) {
 
   useEffect(() => {
     const fetchData = async () => {
-      const response = await axios.get(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/order/${params.id}`
-      );
+      const response = await _http.get(`/api/order/${params.id}`);
 
       if (response.status == 200) {
         setData(response.data);
@@ -83,15 +81,7 @@ export default function CategoryId({ params }: OrderIdProp) {
     try {
       setLoading(true);
 
-      const response = await axios.put(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/order/${params.id}`,
-        data,
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
+      const response = await _http.put(`/api/order/${params.id}`, data);
       if (response.status == 200) {
         toast.dismiss();
         toast.success("Success");

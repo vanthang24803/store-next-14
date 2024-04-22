@@ -1,6 +1,6 @@
 "use client";
 
-import axios from "axios";
+import _http from "@/utils/http";
 import FileSaver from "file-saver";
 import { Sheet } from "lucide-react";
 import toast from "react-hot-toast";
@@ -12,7 +12,7 @@ interface ExportDataProps {
 
 export const ExportData = ({ url, fileName }: ExportDataProps) => {
   const downloadFile = async () => {
-    const response = await axios.get(`${url}`, {
+    const response = await _http.get(`${url}`, {
       responseType: "blob",
     });
 

@@ -3,7 +3,7 @@
 
 import { Separator } from "@/components/ui/separator";
 import { Blog } from "@/types";
-import axios from "axios";
+import _http from "@/utils/http";
 import { format } from "date-fns";
 import { vi } from "date-fns/locale";
 import { useRouter } from "next/navigation";
@@ -19,9 +19,7 @@ export const Detail = ({ blog }: Props) => {
 
   const fetchBlogs = async () => {
     try {
-      const response = await axios.get(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/blog`
-      );
+      const response = await _http.get(`/api/blog`);
 
       if (response.status == 200) {
         setBlogs(response.data);

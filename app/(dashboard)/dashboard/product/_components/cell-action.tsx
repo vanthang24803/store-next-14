@@ -1,6 +1,5 @@
 "use client";
 
-import axios from "axios";
 import { useState } from "react";
 import { Copy, Edit, MoreHorizontal, Trash } from "lucide-react";
 import { toast } from "react-hot-toast";
@@ -17,6 +16,7 @@ import {
 
 import { ProductColumn } from "./columns";
 import { AlertModal } from "@/components/modal/alert-modal";
+import _http from "@/utils/http";
 
 interface CellActionProps {
   data: ProductColumn;
@@ -32,8 +32,8 @@ export const CellAction = ({ data }: CellActionProps) => {
     toast.loading("Waiting");
     try {
       setLoading(true);
-      await axios.delete(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/product/${data.id}`
+      await _http.delete(
+        `/api/product/${data.id}`
       );
       toast.dismiss();
       toast.success("Product deleted.");

@@ -2,7 +2,6 @@
 "use client";
 
 import { Order } from "@/types";
-import axios from "axios";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
@@ -18,6 +17,7 @@ import { price } from "@/utils/format-price";
 import { format } from "date-fns";
 import { Spinner } from "@/components/spinner";
 import useClient from "@/hooks/use-client";
+import _http from "@/utils/http";
 
 const formSchema = z.object({
   id: z.string().min(1),
@@ -51,8 +51,8 @@ export default function SearchOrder() {
     setError(""); 
     const fetchData = async () => {
       try {
-        const response = await axios.get(
-          `${process.env.NEXT_PUBLIC_API_URL}/api/order/${data.id}`
+        const response = await _http.get(
+          `/api/order/${data.id}`
         );
 
         if (response.status == 200) {

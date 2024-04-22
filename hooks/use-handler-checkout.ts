@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import useCart from "./use-cart";
 import { Voucher } from "@/types";
-import axios from "axios";
+import _http from "@/utils/http";
 
 type CheckboxType = "send" | "store";
 type PaymentType = "cod" | "bank" | "momo";
@@ -21,17 +21,9 @@ export default function useHandlerCheckout() {
     try {
       setError("");
 
-      const response = await axios.post(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/product/voucher/find`,
-        {
-          code: code,
-        },
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
+      const response = await _http.post(`/api/product/voucher/find`, {
+        code: code,
+      });
 
       if (response.status === 200) {
         setVoucher(response.data.voucher);

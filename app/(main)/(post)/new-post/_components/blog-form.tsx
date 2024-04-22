@@ -22,8 +22,8 @@ import useAuth from "@/hooks/use-auth";
 import { AvatarImage, Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { format } from "date-fns";
 import useClient from "@/hooks/use-client";
-import axios from "axios";
 import toast from "react-hot-toast";
+import _http from "@/utils/http";
 
 const formSchema = z.object({
   title: z.string().min(1).max(255),
@@ -60,15 +60,7 @@ const PostForm = () => {
     try {
       setLoading(true);
       toast.loading("Waiting! ...");
-      const response = await axios.post(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/blog`,
-        dataSend,
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
+      const response = await _http.post(`/api/blog`, dataSend);
 
       if (response.status === 200) {
         toast.success("Thành công");

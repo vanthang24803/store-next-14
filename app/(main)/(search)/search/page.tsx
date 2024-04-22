@@ -6,11 +6,11 @@
 import { Spinner } from "@/components/spinner";
 import { Separator } from "@/components/ui/separator";
 import { Product } from "@/types";
-import axios from "axios";
 import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { ProductSearch } from "./_components/product-search";
 import { PaginationSearch } from "./_components/pagination-search";
+import _http from "@/utils/http";
 
 export default function SearchPage() {
   const searchParams = useSearchParams();
@@ -22,9 +22,7 @@ export default function SearchPage() {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const response = await axios.get(
-          `${process.env.NEXT_PUBLIC_API_URL}/api/product?Name=${search}`
-        );
+        const response = await _http.get(`/api/product?Name=${search}`);
         setProduct(response.data);
         const totalProducts = response.data.length;
         const totalPages = Math.ceil(totalProducts / 15);

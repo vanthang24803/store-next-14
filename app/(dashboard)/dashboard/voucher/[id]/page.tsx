@@ -17,7 +17,6 @@ import { FormProvider, useForm } from "react-hook-form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import toast from "react-hot-toast";
-import axios from "axios";
 import {
   Select,
   SelectContent,
@@ -37,6 +36,7 @@ import { CalendarIcon } from "lucide-react";
 import { Calendar } from "@/components/ui/calendar";
 import { Heading } from "../../_components/heading";
 import { Separator } from "@/components/ui/separator";
+import _http from "@/utils/http";
 
 interface VoucherIdProp {
   params: {
@@ -56,7 +56,7 @@ const formSchema = z.object({
 
 type CreateFormValue = z.infer<typeof formSchema>;
 
-export default function CategoryId({ params }: VoucherIdProp) {
+export default function VoucherPage({ params }: VoucherIdProp) {
   const router = useRouter();
 
   const [loading, setLoading] = useState(false);
@@ -91,7 +91,6 @@ export default function CategoryId({ params }: VoucherIdProp) {
     }
   }, [form, data]);
 
-
   const onSubmit = async (data: CreateFormValue) => {
     const differenceDays = differenceInDays(data.shelfLife, data.createAt) + 1;
 
@@ -100,17 +99,12 @@ export default function CategoryId({ params }: VoucherIdProp) {
       day: differenceDays,
       type: data.type === "Shipping",
     };
-    
+
     try {
       setLoading(true);
-      const response = await axios.put(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/product/voucher/${params.id}`,
-        dataSend,
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
+      const response = await _http.put(
+        `/api/product/voucher/${params.id}`,
+        dataSend
       );
       if (response.status == 200) {
         toast.dismiss();

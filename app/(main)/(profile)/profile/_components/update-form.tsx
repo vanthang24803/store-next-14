@@ -1,7 +1,6 @@
 "use client";
 
 import * as z from "zod";
-import axios from "axios";
 import toast from "react-hot-toast";
 import { Button } from "@/components/ui/button";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -10,6 +9,7 @@ import { Profile } from "@/types";
 import { useState } from "react";
 import { FormControl, FormField, FormItem } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import _http from "@/utils/http";
 
 interface UpdateFormProp {
   update: boolean;
@@ -51,8 +51,8 @@ export const UpdateForm = ({
   const onSubmit = async (data: CreateFormValue) => {
     try {
         setLoading(true);
-        const response = await axios.put(
-          `${process.env.NEXT_PUBLIC_API_URL}/api/auth/profile/${id}`,
+        const response = await _http.put(
+          `/api/auth/profile/${id}`,
           data,
           {
             headers: {

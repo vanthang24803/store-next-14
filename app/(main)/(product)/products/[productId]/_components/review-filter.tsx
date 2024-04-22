@@ -1,13 +1,13 @@
 "use client";
 
 import { Review } from "@/types";
-import axios from "axios";
 import { useEffect, useState } from "react";
 import { ListFilter } from "./list-filter-reviews";
 import { Separator } from "@/components/ui/separator";
 import Image from "next/image";
 import { ReviewContent } from "./review-content";
 import { BottomPagination } from "@/app/(main)/(collections)/collections/_components/pagination-bottom";
+import _http from "@/utils/http";
 
 export const ReviewFilter = ({ id }: { id: string | undefined }) => {
   const [reviews, setReviews] = useState<Review[] | null>(null);
@@ -24,14 +24,14 @@ export const ReviewFilter = ({ id }: { id: string | undefined }) => {
   useEffect(() => {
     const fetchReviews = async () => {
       if (id) {
-        let URL = `${process.env.NEXT_PUBLIC_API_URL}/api/product/${id}/review?Status=${status}`;
+        let URL = `/api/product/${id}/review?Status=${status}`;
 
         if (star) {
           URL += `&Star=${star}`;
         }
 
         try {
-          const response = await axios.get(URL);
+          const response = await _http.get(URL);
           if (response.status === 200) {
             setReviews(response.data);
           }

@@ -3,12 +3,12 @@
 
 import { Spinner } from "@/components/spinner";
 import { Blog } from "@/types";
-import axios from "axios";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { format } from "date-fns";
 import { vi } from "date-fns/locale";
 import { BottomPagination } from "@/app/(main)/(collections)/collections/_components/pagination-bottom";
+import _http from "@/utils/http";
 
 export const Content = () => {
   const [blogs, setBlogs] = useState<Blog[] | null>();
@@ -20,9 +20,7 @@ export const Content = () => {
   const fetchBlogs = async () => {
     try {
       setLoading(true);
-      const response = await axios.get(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/blog`
-      );
+      const response = await _http.get(`/api/blog`);
 
       if (response.status == 200) {
         setBlogs(response.data);
@@ -58,7 +56,9 @@ export const Content = () => {
         <div className="flex flex-col space-y-8">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {currentData?.map((item) => (
-              <div key={item.id} className="flex flex-col hover:cursor-pointer"
+              <div
+                key={item.id}
+                className="flex flex-col hover:cursor-pointer"
                 onClick={() => router.push(`/blogs/${item.id}`)}
               >
                 <img

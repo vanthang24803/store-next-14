@@ -111,7 +111,7 @@ export default function Checkout() {
                   )}
                 />
 
-                <div className="flex w-full justify-between md:flex-row flex-col space-y-3 md:space-y-0">
+                <div className="grid md:grid-cols-2 grid-cols-1 gap-4">
                   <FormField
                     control={form.control}
                     name="email"
@@ -122,7 +122,6 @@ export default function Checkout() {
                             placeholder="Email"
                             type="email"
                             {...field}
-                            className="lg:w-[280px]"
                           />
                         </FormControl>
                         <FormMessage />
@@ -135,7 +134,10 @@ export default function Checkout() {
                     render={({ field }) => (
                       <FormItem>
                         <FormControl>
-                          <Input placeholder="Số điện thoại" {...field} />
+                          <Input
+                            placeholder="Số điện thoại"
+                            {...field}
+                          />
                         </FormControl>
                         <FormMessage />
                       </FormItem>

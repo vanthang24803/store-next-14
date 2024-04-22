@@ -20,8 +20,8 @@ import { Button } from "@/components/ui/button";
 import { UploadDropzone } from "@/utils/uploadthing";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
-import axios from "axios";
 import { Spinner } from "@/components/spinner";
+import _http from "@/utils/http";
 
 const formSchema = z.object({
   name: z.string().min(1),
@@ -61,15 +61,7 @@ export const UpdateForm = ({ product }: UpdateFormProp) => {
     try {
       setLoading(true);
 
-      const response = await axios.put(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/product/${product?.id}`,
-        data,
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
+      const response = await _http.put(`/api/product/${product?.id}`, data);
       if (response.status == 200) {
         toast.dismiss();
         toast.success("Success");

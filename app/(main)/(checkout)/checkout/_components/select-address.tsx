@@ -1,6 +1,5 @@
 "use client";
 
-import axios from "axios";
 import { useEffect, useState } from "react";
 
 import {
@@ -12,6 +11,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import _http from "@/utils/http";
 
 type Province = {
   province_id: string;
@@ -41,8 +41,10 @@ export const SelectAddress = ({ setAddress }: SelectAddressProps) => {
   const [selectedDistrict, setSelectedDistrict] = useState<string | null>(null);
   const [selectedWard, setSelectedWard] = useState<string | null>(null);
 
+const api = "https://vapi.vnappmob.com/api/province"
+
   useEffect(() => {
-    axios.get("https://vapi.vnappmob.com/api/province/")
+    _http.get(`${api}/`)
       .then(response => {
         if (response.status === 200) {
           setProvinces(response.data.results);
@@ -52,7 +54,7 @@ export const SelectAddress = ({ setAddress }: SelectAddressProps) => {
 
   useEffect(() => {
     if (selectedProvince) {
-      axios.get(`https://vapi.vnappmob.com/api/province/district/${selectedProvince}`)
+      _http.get(`${api}/district/${selectedProvince}`)
         .then(response => {
           if (response.status === 200) {
             setDistricts(response.data.results);
@@ -63,7 +65,7 @@ export const SelectAddress = ({ setAddress }: SelectAddressProps) => {
 
   useEffect(() => {
     if (selectedDistrict) {
-      axios.get(`https://vapi.vnappmob.com/api/province/ward/${selectedDistrict}`)
+      _http.get(`${api}/ward/${selectedDistrict}`)
         .then(response => {
           if (response.status === 200) {
             setWards(response.data.results);

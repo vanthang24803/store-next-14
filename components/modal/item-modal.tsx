@@ -1,17 +1,13 @@
 /* eslint-disable @next/next/no-img-element */
 "use client";
 
-import axios from "axios";
-import {
-  Dialog,
-  DialogContent,
-  DialogTrigger,
-} from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import { Eye } from "lucide-react";
-import {  Product } from "@/types";
+import { Product } from "@/types";
 import { useEffect, useState } from "react";
 import { ListImages } from "./list-images";
 import { InforModal } from "./info-modal";
+import _http from "@/utils/http";
 
 interface ItemModal {
   productId: string;
@@ -22,9 +18,7 @@ export const ItemModal = ({ productId }: ItemModal) => {
 
   useEffect(() => {
     const fetchProduct = async () => {
-      const response = await axios.get(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/product/${productId}`
-      );
+      const response = await _http.get(`/api/product/${productId}`);
 
       if (response.status == 200) {
         setData(response.data);
@@ -35,7 +29,7 @@ export const ItemModal = ({ productId }: ItemModal) => {
   }, [productId]);
 
   return (
-    <Dialog >
+    <Dialog>
       <DialogTrigger>
         <div className="w-8 h-8 rounded-full items-center justify-center absolute top-[40%] left-[45%] bg-white text-neutral-600  hidden group-hover:flex hover:bg-black hover:text-white ">
           <Eye />

@@ -1,8 +1,7 @@
 "use client";
 
-import axios from "axios";
 import { useState } from "react";
-import { Copy, Edit, MoreHorizontal, Trash } from "lucide-react";
+import { Copy, MoreHorizontal, Trash } from "lucide-react";
 import { toast } from "react-hot-toast";
 import { useRouter } from "next/navigation";
 
@@ -17,6 +16,7 @@ import {
 
 import { ImageColumn } from "./columns";
 import { AlertModal } from "@/components/modal/alert-modal";
+import _http from "@/utils/http";
 
 interface CellActionProps {
   data: ImageColumn;
@@ -32,9 +32,7 @@ export const CellAction = ({ data }: CellActionProps) => {
     toast.loading("Waiting");
     try {
       setLoading(true);
-      await axios.delete(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/product/${data.bookId}/image/${data.id}`
-      );
+      await _http.delete(`/api/product/${data.bookId}/image/${data.id}`);
       toast.dismiss();
       toast.success("Image deleted.");
       router.refresh();

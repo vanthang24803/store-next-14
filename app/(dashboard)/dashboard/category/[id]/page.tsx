@@ -1,6 +1,5 @@
 "use client";
 
-import axios from "axios";
 import { useEffect, useState } from "react";
 
 import { useRouter } from "next/navigation";
@@ -9,7 +8,6 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { Heading } from "../../_components/heading";
-import { Label } from "@radix-ui/react-label";
 import toast from "react-hot-toast";
 import { Category } from "@/types";
 import { AlertModal } from "@/components/modal/alert-modal";
@@ -27,6 +25,7 @@ import {
 import { FormProvider, useForm } from "react-hook-form";
 import useDeleteAttribute from "@/hooks/use-delete-atribute";
 import useFetchAttribute from "@/hooks/use-fetch-attribute";
+import _http from "@/utils/http";
 
 const formSchema = z.object({
   name: z.string().min(1),
@@ -67,14 +66,9 @@ export default function CategoryId({ params }: CategoryIdProp) {
     try {
       setLoading(true);
 
-      const response = await axios.put(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/product/category/${params.id}`,
-        data,
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
+      const response = await _http.put(
+        `/api/product/category/${params.id}`,
+        data
       );
       if (response.status == 200) {
         toast.dismiss();

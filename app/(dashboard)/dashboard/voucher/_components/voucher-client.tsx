@@ -9,8 +9,8 @@ import { Separator } from "@/components/ui/separator";
 import { DataTable } from "@/components/ui/data-table";
 
 import { columns } from "./columns";
-import axios from "axios";
 import toast from "react-hot-toast";
+import _http from "@/utils/http";
 
 interface VoucherClient {
   data: Voucher[] | undefined;
@@ -20,12 +20,13 @@ export const VoucherClient = ({ data }: VoucherClient) => {
   const router = useRouter();
 
   const handlerVerifyVoucher = async () => {
-    const response = await axios.post(
-      `${process.env.NEXT_PUBLIC_API_URL}/api/product/voucher/verify`
+    const response = await _http.post(
+      `/api/product/voucher/verify`
     );
 
     if (response.status === 200) {
       toast.success("Success");
+      router.refresh();
     }
   };
 

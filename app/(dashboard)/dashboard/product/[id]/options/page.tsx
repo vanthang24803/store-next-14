@@ -2,12 +2,12 @@
 "use client";
 
 import { Product } from "@/types";
-import axios from "axios";
 import { useEffect, useState } from "react";
 import { Navigation } from "../../_components/navigation";
 import { Spinner } from "@/components/spinner";
 import { Separator } from "@/components/ui/separator";
 import { OptionsClient } from "./_components/options-client";
+import _http from "@/utils/http";
 
 interface ProductIdProp {
   params: {
@@ -19,8 +19,8 @@ export default function ProductId({ params }: ProductIdProp) {
   const [product, setProduct] = useState<Product | null>(null);
 
   const fetchData = async () => {
-    const response = await axios.get(
-      `${process.env.NEXT_PUBLIC_API_URL}/api/product/${params.id}`
+    const response = await _http.get(
+      `/api/product/${params.id}`
     );
 
     if (response.status == 200) {

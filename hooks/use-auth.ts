@@ -1,4 +1,3 @@
-import axios from "axios";
 import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
 import Cookies from "js-cookie";
@@ -6,6 +5,7 @@ import jwt from "jsonwebtoken";
 
 import { User } from "@/types";
 import toast from "react-hot-toast";
+import _http from "@/utils/http";
 
 type Store = {
   checkExpiry(): unknown;
@@ -26,18 +26,10 @@ const useAuth = create(
       isLogin: false,
       login: async (email, password) => {
         try {
-          const response = await axios.post(
-            `${process.env.NEXT_PUBLIC_API_URL}/api/auth/login`,
-            {
-              email: email,
-              password: password,
-            },
-            {
-              headers: {
-                "Content-Type": "application/json",
-              },
-            }
-          );
+          const response = await _http.post(`/api/auth/login`, {
+            email: email,
+            password: password,
+          });
 
           if (response.status === 200) {
             set({
@@ -60,10 +52,8 @@ const useAuth = create(
 
       signInWithGoogle(token) {
         if (token) {
-          axios
-            .post(
-              `${process.env.NEXT_PUBLIC_API_URL}/api/auth/google?token=${token}`
-            )
+          _http
+            .post(`/api/auth/google?token=${token}`)
             .then((response) => {
               set({
                 user: response.data.user,
@@ -97,10 +87,8 @@ const useAuth = create(
         window.location.reload();
       },
       verifyEmail: (userId, token) => {
-        axios
-          .get(
-            `${process.env.NEXT_PUBLIC_API_URL}/api/auth/verify-account?userId=${userId}&token=${token}`
-          )
+        _http
+          .get(`/api/auth/verify-account?userId=${userId}&token=${token}`)
           .then((response) => {
             set({
               user: response.data.user,

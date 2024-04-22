@@ -18,7 +18,6 @@ import { Button } from "@/components/ui/button";
 import { UploadDropzone } from "@/utils/uploadthing";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
-import axios from "axios";
 import { Category } from "@/types";
 import {
   SelectContent,
@@ -28,6 +27,7 @@ import {
   SelectItem,
 } from "@/components/ui/select";
 import { X } from "lucide-react";
+import _http from "@/utils/http";
 
 const formSchema = z.object({
   name: z.string().min(1),
@@ -43,14 +43,11 @@ const formSchema = z.object({
 type CreateFormValue = z.infer<typeof formSchema>;
 
 export const CreateForm = () => {
-
   const [data, setData] = useState<Category[] | null>(null);
 
   useEffect(() => {
     const fetchData = async () => {
-      const response = await axios.get(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/product/category`
-      );
+      const response = await _http.get(`/api/product/category`);
 
       if (response.status == 200) {
         setData(response.data);
@@ -98,15 +95,7 @@ export const CreateForm = () => {
     try {
       setLoading(true);
 
-      const response = await axios.post(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/product`,
-        dataSend,
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
+      const response = await _http.post(`/api/product`, dataSend);
       if (response.status == 200) {
         toast.dismiss();
         toast.success("Success");
@@ -175,10 +164,7 @@ export const CreateForm = () => {
                       <FormItem>
                         <FormLabel>Name</FormLabel>
                         <FormControl>
-                          <Input
-                            placeholder={"Product name"}
-                            {...field}
-                          />
+                          <Input placeholder={"Product name"} {...field} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -192,10 +178,7 @@ export const CreateForm = () => {
                       <FormItem>
                         <FormLabel>Brand</FormLabel>
                         <FormControl>
-                          <Input
-                            placeholder={"Product brand"}
-                            {...field}
-                          />
+                          <Input placeholder={"Product brand"} {...field} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -244,10 +227,7 @@ export const CreateForm = () => {
                       <FormItem>
                         <FormLabel>Option</FormLabel>
                         <FormControl>
-                          <Input
-                            placeholder={"Option"}
-                            {...field}
-                          />
+                          <Input placeholder={"Option"} {...field} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
