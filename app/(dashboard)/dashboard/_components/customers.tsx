@@ -12,12 +12,12 @@ import { BarChart, PartyPopper } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useEffect, useState } from "react";
 import { OrderUserSelling } from "@/types";
-import { get } from "@/lib/api";
-import { price } from "@/lib/format-price";
+import { price } from "@/utils/format-price";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { Spinner } from "@/components/spinner";
 import { format } from "date-fns";
 import { Separator } from "@/components/ui/separator";
+import _http from "@/utils/http";
 
 export const Customers = () => {
   const [select, setSelect] = useState("day");
@@ -28,7 +28,7 @@ export const Customers = () => {
     const fetchData = async () => {
       try {
         setLoading(true);
-        const response = await get(
+        const response = await _http.get(
           `/api/order/selling?Time=${
             select.charAt(0).toUpperCase() + select.slice(1)
           }`

@@ -1,7 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 "use client";
 
-import { formatPrice } from "@/lib/format-price";
+import { formatPrice } from "@/utils/format-price";
 import { Product } from "@/types";
 import Link from "next/link";
 import { Separator } from "./ui/separator";

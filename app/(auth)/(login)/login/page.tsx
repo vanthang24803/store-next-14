@@ -4,7 +4,12 @@ import * as z from "zod";
 import { Logo } from "@/components/logo";
 import { zodResolver } from "@hookform/resolvers/zod";
 
-import { FormControl, FormField, FormItem } from "@/components/ui/form";
+import {
+  FormControl,
+  FormField,
+  FormItem,
+  FormMessage,
+} from "@/components/ui/form";
 import { redirect, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
@@ -13,14 +18,10 @@ import { Button } from "@/components/ui/button";
 import useAuth from "@/hooks/use-auth";
 import { GoogleLogin } from "@react-oauth/google";
 import toast from "react-hot-toast";
+import { loginSchema } from "@/schema/auth";
 
 
-const formSchema = z.object({
-  email: z.string().min(1),
-  password: z.string().min(1),
-});
-
-type CreateFormValue = z.infer<typeof formSchema>;
+type CreateFormValue = z.infer<typeof loginSchema>;
 
 export default function Login() {
   const router = useRouter();
@@ -30,7 +31,7 @@ export default function Login() {
   const [loading, setLoading] = useState(false);
 
   const form = useForm({
-    resolver: zodResolver(formSchema),
+    resolver: zodResolver(loginSchema),
     defaultValues: {
       email: "",
       password: "",
@@ -88,6 +89,7 @@ export default function Login() {
                         <Input {...field} autoComplete="off" />
                       </div>
                     </FormControl>
+                    <FormMessage />
                   </FormItem>
                 )}
               />
@@ -103,6 +105,7 @@ export default function Login() {
                         <Input type="password" {...field} autoComplete="off" />
                       </div>
                     </FormControl>
+                    <FormMessage />
                   </FormItem>
                 )}
               />
@@ -110,7 +113,7 @@ export default function Login() {
               <span
                 className="text-end text-[12px] hover:cursor-pointer hover:underline"
                 onClick={() => router.push(`/forgot-password`)}
-              > 
+              >
                 Forgot password
               </span>
 

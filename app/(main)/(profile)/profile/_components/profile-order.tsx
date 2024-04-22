@@ -4,7 +4,7 @@
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { statusList } from "@/constant";
-import { price } from "@/lib/format-price";
+import { price } from "@/utils/format-price";
 import { Order } from "@/types";
 import { ShoppingBag, Trash2 } from "lucide-react";
 import { useRouter } from "next/navigation";

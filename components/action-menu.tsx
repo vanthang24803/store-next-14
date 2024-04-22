@@ -29,8 +29,8 @@ import { useEffect } from "react";
 import useClient from "@/hooks/use-client";
 import useProfile from "@/hooks/use-profile";
 import { statusRanking, statusRankingIcon } from "@/constant";
-import { price } from "@/lib/format-price";
-import { calculatePercentage } from "@/lib/exit-ranking";
+import { price } from "@/utils/format-price";
+import { calculatePercentage } from "@/utils/exit-ranking";
 
 export const ActionMenu = () => {
   const { isClient } = useClient();

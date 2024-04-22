@@ -5,7 +5,7 @@ import { Product } from "@/types";
 import { Button } from "@/components/ui/button";
 import { CartIcon } from "@/components/icons/icon-cart";
 import { ItemModal } from "./modal/item-modal";
-import { formatPrice, price } from "@/lib/format-price";
+import { formatPrice, price } from "@/utils/format-price";
 import useCart from "@/hooks/use-cart";
 import { useRouter } from "next/navigation";
 

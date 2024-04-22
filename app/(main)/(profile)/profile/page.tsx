@@ -9,7 +9,7 @@ import { AvatarUpload } from "./_components/update-avatar";
 import { Spinner } from "@/components/spinner";
 import useClient from "@/hooks/use-client";
 import useProfile from "@/hooks/use-profile";
-import { price } from "@/lib/format-price";
+import { price } from "@/utils/format-price";
 import { statusRanking, statusRankingIcon } from "@/constant";
 
 export default function Profile() {

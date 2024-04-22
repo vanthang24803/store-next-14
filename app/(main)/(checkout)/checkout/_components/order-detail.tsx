@@ -2,7 +2,7 @@
 
 import { Spinner } from "@/components/spinner";
 import { Button } from "@/components/ui/button";
-import { price } from "@/lib/format-price";
+import { price } from "@/utils/format-price";
 import { Order } from "@/types";
 import { format } from "date-fns";
 import { useRouter } from "next/navigation";

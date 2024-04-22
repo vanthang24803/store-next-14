@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { get } from "@/lib/api";
+import _http from "@/utils/http";
 import { useEffect, useState } from "react";
 
 type Props = {
@@ -15,7 +15,7 @@ export default function useFetch<T>({ url }: Props) {
   const fetchData = async () => {
     try {
       setLoading(true);
-      const response = await get(api);
+      const response = await _http.get(api);
       if (response.status === 200) {
         setData(response.data);
       }

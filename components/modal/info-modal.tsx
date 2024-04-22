@@ -5,7 +5,7 @@ import { Option, Product } from "@/types";
 import { Minus, Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Share } from "@/components/modal/share-modal";
-import { formatPrice, price } from "@/lib/format-price";
+import { formatPrice, price } from "@/utils/format-price";
 import useCart from "@/hooks/use-cart";
 
 interface InforModalProps {

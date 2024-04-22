@@ -4,26 +4,25 @@ import * as z from "zod";
 import { Logo } from "@/components/logo";
 import { zodResolver } from "@hookform/resolvers/zod";
 
-import { FormControl, FormField, FormItem } from "@/components/ui/form";
+import {
+  FormControl,
+  FormField,
+  FormItem,
+  FormMessage,
+} from "@/components/ui/form";
 import { redirect, useRouter } from "next/navigation";
 import { useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import toast from "react-hot-toast";
-import axios from "axios";
 import useAuth from "@/hooks/use-auth";
 import useClient from "@/hooks/use-client";
 import Image from "next/image";
+import { registerSchema } from "@/schema/auth";
+import _http from "@/utils/http";
 
-const formSchema = z.object({
-  firstName: z.string().min(1),
-  lastName: z.string().min(1),
-  email: z.string().min(1),
-  password: z.string().min(1),
-});
-
-type CreateFormValue = z.infer<typeof formSchema>;
+type CreateFormValue = z.infer<typeof registerSchema>;
 
 export default function Register() {
   const router = useRouter();
@@ -39,7 +38,7 @@ export default function Register() {
   const [loading, setLoading] = useState(false);
 
   const form = useForm({
-    resolver: zodResolver(formSchema),
+    resolver: zodResolver(registerSchema),
     defaultValues: {
       firstName: "",
       lastName: "",
@@ -53,15 +52,11 @@ export default function Register() {
   const onSubmit = async (data: CreateFormValue) => {
     try {
       setLoading(true);
-      const response = await axios.post(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/auth/register`,
-        data,
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
+      const response = await _http.post(`/api/auth/register`, data, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
 
       if (response.status == 200) {
         toast.success("Check your email !");
@@ -123,7 +118,7 @@ export default function Register() {
                   className="flex flex-col space-y-3"
                   onSubmit={form.handleSubmit(onSubmit)}
                 >
-                  <div className="flex items-center justify-between space-x-3">
+                  <div className="grid grid-cols-2 gap-4">
                     <FormField
                       control={form.control}
                       name="firstName"
@@ -137,6 +132,7 @@ export default function Register() {
                               <Input {...field} autoComplete="off" />
                             </div>
                           </FormControl>
+                          <FormMessage />
                         </FormItem>
                       )}
                     />
@@ -153,6 +149,7 @@ export default function Register() {
                               <Input {...field} autoComplete="off" />
                             </div>
                           </FormControl>
+                          <FormMessage />
                         </FormItem>
                       )}
                     />
@@ -171,6 +168,7 @@ export default function Register() {
                             <Input {...field} autoComplete="off" />
                           </div>
                         </FormControl>
+                        <FormMessage />
                       </FormItem>
                     )}
                   />
@@ -192,6 +190,7 @@ export default function Register() {
                             />
                           </div>
                         </FormControl>
+                        <FormMessage />
                       </FormItem>
                     )}
                   />

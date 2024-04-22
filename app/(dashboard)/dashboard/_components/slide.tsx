@@ -2,7 +2,7 @@
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Check, CreditCard, DollarSign, Package } from "lucide-react";
-import { price } from "@/lib/format-price";
+import { price } from "@/utils/format-price";
 import { Statistical } from "@/types";
 
 type Type = {

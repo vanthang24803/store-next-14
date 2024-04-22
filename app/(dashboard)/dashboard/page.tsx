@@ -9,7 +9,7 @@ import {
 import { Separator } from "@/components/ui/separator";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Heading } from "./_components/heading";
-import { price } from "@/lib/format-price";
+import { price } from "@/utils/format-price";
 import { Overview } from "./_components/overview";
 import getGraphRevenue from "@/actions/get-graph-revenue";
 import getTotalProduct from "@/actions/get-total-product";

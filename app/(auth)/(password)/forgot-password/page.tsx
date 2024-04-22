@@ -3,20 +3,23 @@
 import * as z from "zod";
 import { Logo } from "@/components/logo";
 import { zodResolver } from "@hookform/resolvers/zod";
-import axios from "axios";
-import { FormControl, FormField, FormItem } from "@/components/ui/form";
+import {
+  FormControl,
+  FormField,
+  FormItem,
+  FormMessage,
+} from "@/components/ui/form";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import toast from "react-hot-toast";
+import _http from "@/utils/http";
+import { forgotPasswordSchema } from "@/schema/auth";
 
-const formSchema = z.object({
-  email: z.string().min(1),
-});
 
-type CreateFormValue = z.infer<typeof formSchema>;
+type CreateFormValue = z.infer<typeof forgotPasswordSchema>;
 
 export default function ForgotPassword() {
   const router = useRouter();
@@ -24,7 +27,7 @@ export default function ForgotPassword() {
   const [loading, setLoading] = useState(false);
 
   const form = useForm({
-    resolver: zodResolver(formSchema),
+    resolver: zodResolver(forgotPasswordSchema),
     defaultValues: {
       email: "",
     },
@@ -33,15 +36,7 @@ export default function ForgotPassword() {
   const onSubmit = async (data: CreateFormValue) => {
     try {
       setLoading(true);
-      const response = await axios.post(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/auth/forgot-password`,
-        data,
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
+      const response = await _http.post(`/api/auth/forgot-password`, data);
 
       if (response.status == 200) {
         setLoading(false);
@@ -90,9 +85,10 @@ export default function ForgotPassword() {
                         <span className="font-medium text-sm">
                           Email address
                         </span>
-                        <Input {...field} autoComplete="off" />
+                        <Input {...field} autoComplete="off" disabled={loading} />
                       </div>
                     </FormControl>
+                    <FormMessage />
                   </FormItem>
                 )}
               />

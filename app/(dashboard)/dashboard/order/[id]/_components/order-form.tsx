@@ -9,7 +9,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { price } from "@/lib/format-price";
+import { price } from "@/utils/format-price";
 import { Order } from "@/types";
 
 interface OrderFormId {

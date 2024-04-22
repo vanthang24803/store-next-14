@@ -7,7 +7,7 @@ import useCart from "@/hooks/use-cart";
 import { Separator } from "@/components/ui/separator";
 import { UpdateCart } from "@/components/cart/update-cart";
 import { useRouter } from "next/navigation";
-import { formatPrice, price } from "@/lib/format-price";
+import { formatPrice, price } from "@/utils/format-price";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Button } from "@/components/ui/button";
 import useClient from "@/hooks/use-client";

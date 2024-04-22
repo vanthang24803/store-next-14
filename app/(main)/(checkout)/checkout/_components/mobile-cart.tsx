@@ -12,7 +12,7 @@ import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Separator } from "@/components/ui/separator";
 import useCart from "@/hooks/use-cart";
-import { formatPrice, price } from "@/lib/format-price";
+import { formatPrice, price } from "@/utils/format-price";
 import { Voucher } from "@/types";
 import { format } from "date-fns";
 import { ArrowUpRight, Check, ShoppingCart, Trash } from "lucide-react";

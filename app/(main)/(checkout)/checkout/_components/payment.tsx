@@ -10,7 +10,7 @@ import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import { Check, Copy } from "lucide-react";
 import { v4 as uuidv4 } from "uuid";
-import { price } from "@/lib/format-price";
+import { price } from "@/utils/format-price";
 import { format } from "date-fns";
 import copy from "clipboard-copy";
 import toast from "react-hot-toast";

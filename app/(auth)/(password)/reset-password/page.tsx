@@ -3,8 +3,12 @@
 import * as z from "zod";
 import { Logo } from "@/components/logo";
 import { zodResolver } from "@hookform/resolvers/zod";
-import axios from "axios";
-import { FormControl, FormField, FormItem } from "@/components/ui/form";
+import {
+  FormControl,
+  FormField,
+  FormItem,
+  FormMessage,
+} from "@/components/ui/form";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
@@ -12,12 +16,10 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import toast from "react-hot-toast";
 import useClient from "@/hooks/use-client";
+import { resetPasswordSchema } from "@/schema/auth";
+import _http from "@/utils/http";
 
-const formSchema = z.object({
-  password: z.string().min(1),
-});
-
-type CreateFormValue = z.infer<typeof formSchema>;
+type CreateFormValue = z.infer<typeof resetPasswordSchema>;
 
 export default function ResetPassword() {
   const router = useRouter();
@@ -33,7 +35,7 @@ export default function ResetPassword() {
   const [loading, setLoading] = useState(false);
 
   const form = useForm({
-    resolver: zodResolver(formSchema),
+    resolver: zodResolver(resetPasswordSchema),
     defaultValues: {
       password: "",
     },
@@ -46,10 +48,8 @@ export default function ResetPassword() {
 
     try {
       setLoading(true);
-      const response = await axios.post(
-        `${
-          process.env.NEXT_PUBLIC_API_URL
-        }/api/auth/reset-password?userId=${userId}&token=${encodeURIComponent(
+      const response = await _http.post(
+        `/api/auth/reset-password?userId=${userId}&token=${encodeURIComponent(
           tokenVerify || ""
         )}`,
         dataSend,
@@ -105,6 +105,7 @@ export default function ResetPassword() {
                         <Input {...field} autoComplete="off" type="password" />
                       </div>
                     </FormControl>
+                    <FormMessage />
                   </FormItem>
                 )}
               />

@@ -17,7 +17,7 @@ import useCart from "@/hooks/use-cart";
 import { useEffect, useState } from "react";
 import { ShoppingCart, X } from "lucide-react";
 import { UpdateCart } from "./update-cart";
-import { formatPrice, price } from "@/lib/format-price";
+import { formatPrice, price } from "@/utils/format-price";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 

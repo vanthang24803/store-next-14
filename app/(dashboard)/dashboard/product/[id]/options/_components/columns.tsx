@@ -4,7 +4,7 @@ import { ColumnDef } from "@tanstack/react-table";
 
 import { CellAction } from "./cell-action";
 import { format, parseISO } from "date-fns";
-import { price } from "@/lib/format-price";
+import { price } from "@/utils/format-price";
 
 export type OptionColumn = {
   id: string;

@@ -5,7 +5,7 @@ import { Spinner } from "@/components/spinner";
 import { Separator } from "@/components/ui/separator";
 import { PHUKIEN } from "@/constant";
 import useFetch from "@/hooks/use-fetch";
-import { price } from "@/lib/format-price";
+import { price } from "@/utils/format-price";
 import { Product } from "@/types";
 import Link from "next/link";
 

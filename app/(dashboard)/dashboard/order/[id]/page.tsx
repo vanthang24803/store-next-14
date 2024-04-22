@@ -28,7 +28,7 @@ import {
 } from "@/components/ui/select";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import Link from "next/link";
-import { formatPrice, price } from "@/lib/format-price";
+import { formatPrice, price } from "@/utils/format-price";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 

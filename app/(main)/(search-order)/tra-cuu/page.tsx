@@ -14,7 +14,7 @@ import { FormControl, FormField, FormItem } from "@/components/ui/form";
 import { FormProvider, useForm } from "react-hook-form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { price } from "@/lib/format-price";
+import { price } from "@/utils/format-price";
 import { format } from "date-fns";
 import { Spinner } from "@/components/spinner";
 import useClient from "@/hooks/use-client";

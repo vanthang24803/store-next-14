@@ -4,7 +4,7 @@
 import { Product, Option } from "@/types";
 import { Thumbnail } from "./thumbnail";
 import { useState } from "react";
-import { formatPrice, price } from "@/lib/format-price";
+import { formatPrice, price } from "@/utils/format-price";
 import { Button } from "@/components/ui/button";
 import { Minus, Plus } from "lucide-react";
 import { Policy } from "./policy";
