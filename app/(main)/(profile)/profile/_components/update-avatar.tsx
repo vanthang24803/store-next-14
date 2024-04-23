@@ -61,7 +61,10 @@ export const AvatarUpload = ({ fetchData, profile, id }: AvatarUploadProps) => {
 
     _http
       .post(`/api/auth/profile/${id}/avatar`, formData, {
-        headers: { Authorization: `Bearer ${auth.token}` },
+        headers: {
+          Authorization: `Bearer ${auth.token}`,
+          "Content-Type": "multipart/form-data",
+        },
       })
       .then((response) => {
         if (response.status == 200) {

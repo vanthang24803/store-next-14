@@ -9,7 +9,6 @@ import { Button } from "@/components/ui/button";
 import { Method } from "./_components/method";
 import { Cart } from "./_components/cart";
 import { MobileCart } from "./_components/mobile-cart";
-import useCart from "@/hooks/use-cart";
 
 import { FormProvider } from "react-hook-form";
 import {
@@ -28,7 +27,6 @@ export default function Checkout() {
   const { isClient } = useClient();
 
   const auth = useAuth();
-  const cart = useCart();
 
   const [exitAddress, setAddress] = useState("");
 
@@ -48,7 +46,7 @@ export default function Checkout() {
     voucher,
   } = useHandlerCheckout();
 
-  const { form, loading, onSubmit, priceShip } = useFormCheckOut({
+  const { form, loading, onSubmit } = useFormCheckOut({
     email: auth.user?.email,
     name: auth.user?.name,
     address: info.address,
@@ -104,7 +102,11 @@ export default function Checkout() {
                   render={({ field }) => (
                     <FormItem>
                       <FormControl>
-                        <Input placeholder="Họ và tên" {...field} />
+                        <Input
+                          disabled={loading}
+                          placeholder="Họ và tên"
+                          {...field}
+                        />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -119,6 +121,7 @@ export default function Checkout() {
                       <FormItem>
                         <FormControl>
                           <Input
+                            disabled={loading}
                             placeholder="Email"
                             type="email"
                             {...field}
@@ -135,6 +138,7 @@ export default function Checkout() {
                       <FormItem>
                         <FormControl>
                           <Input
+                            disabled={loading}
                             placeholder="Số điện thoại"
                             {...field}
                           />

@@ -5,6 +5,7 @@ import {
   specialCharRegex,
   uppercaseCharRegex,
   digitRegex,
+  textRegex,
 } from "@/utils/regex";
 
 const registerSchema = z.object({
@@ -12,6 +13,9 @@ const registerSchema = z.object({
     .string()
     .min(1, { message: "Hãy nhập họ của bạn" })
     .max(50, "Họ của bạn quá dài")
+    .refine((value) => textRegex.test(value), {
+      message: "Chỉ nhập chữ và nhập in hoa chữ cái đầu",
+    })
     .refine((value) => capitalizeRegex.test(value), {
       message: "Họ của bạn phải bắt đầu bằng chữ cái in hoa",
     }),
@@ -21,7 +25,11 @@ const registerSchema = z.object({
     .max(50, "Tên của bạn quá dài")
     .refine((value) => capitalizeRegex.test(value), {
       message: "Tên của bạn phải bắt đầu bằng chữ cái in hoa",
-    }),
+    })
+    .refine((value) => textRegex.test(value), {
+      message: "Chỉ nhập chữ và nhập in hoa chữ cái đầu",
+    })
+    ,
   email: z
     .string()
     .min(1, { message: "Email không được bỏ trống" })
@@ -84,9 +92,32 @@ const resetPasswordSchema = z.object({
     }),
 });
 
+const profileSchema = z.object({
+  firstName: z
+    .string()
+    .min(1, { message: "Hãy nhập họ của bạn" })
+    .max(50, "Họ của bạn quá dài")
+    .refine((value) => capitalizeRegex.test(value), {
+      message: "Họ của bạn phải bắt đầu bằng chữ cái in hoa",
+    }),
+  lastName: z
+    .string()
+    .min(1, { message: "Tên của bạn" })
+    .max(50, "Tên của bạn quá dài")
+    .refine((value) => capitalizeRegex.test(value), {
+      message: "Tên của bạn phải bắt đầu bằng chữ cái in hoa",
+    }),
+  email: z
+    .string()
+    .min(1, { message: "Email không được bỏ trống" })
+    .email({ message: "Email của bạn không hợp lệ" })
+    .max(255, { message: "Email quá dài hãy sử 1 email khác" }),
+});
+
 export {
   registerSchema,
   loginSchema,
   forgotPasswordSchema,
   resetPasswordSchema,
+  profileSchema,
 };

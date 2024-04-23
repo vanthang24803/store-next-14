@@ -86,7 +86,7 @@ export default function Login() {
                         <span className="font-medium text-sm">
                           Email address
                         </span>
-                        <Input {...field} autoComplete="off" />
+                        <Input {...field} autoComplete="off" placeholder="mail@example.com" />
                       </div>
                     </FormControl>
                     <FormMessage />
@@ -102,7 +102,7 @@ export default function Login() {
                     <FormControl>
                       <div className="flex flex-col space-y-1">
                         <span className="font-medium text-sm">Password</span>
-                        <Input type="password" {...field} autoComplete="off" />
+                        <Input type="password" {...field} autoComplete="off" placeholder="Password" />
                       </div>
                     </FormControl>
                     <FormMessage />

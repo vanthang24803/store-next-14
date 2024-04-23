@@ -44,7 +44,11 @@ const useAuth = create(
         } catch (error: any) {
           console.error("Login failed:", error);
           if (error.response && error.response.status === 400) {
-            toast.error(error.response.data.message);
+            toast.error("Tài khoản hoặc mật khẩu không chính xác" , {
+              style : {
+                fontSize : "14px"
+              }
+            });
           }
           throw error;
         }

@@ -7,13 +7,7 @@ import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 import { v4 as uuidv4 } from "uuid";
 import _http from "@/utils/http";
-
-const formSchema = z.object({
-  email: z.string().min(1),
-  name: z.string().min(1),
-  address: z.string().min(1),
-  numberPhone: z.string().min(1).max(10),
-});
+import { checkOutSchema } from "@/schema/checkout";
 
 type Props = {
   email: string | undefined;
@@ -28,7 +22,7 @@ type Props = {
   totalPrice: number;
 };
 
-type CreateFormValue = z.infer<typeof formSchema>;
+type CreateFormValue = z.infer<typeof checkOutSchema>;
 
 export default function useFormCheckOut({
   email,
@@ -51,7 +45,7 @@ export default function useFormCheckOut({
   const uuid = uuidv4();
 
   const form = useForm({
-    resolver: zodResolver(formSchema),
+    resolver: zodResolver(checkOutSchema),
     defaultValues: {
       email: "",
       address: "",

@@ -7,26 +7,26 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { FormProvider, useForm } from "react-hook-form";
 import { Profile } from "@/types";
 import { useState } from "react";
-import { FormControl, FormField, FormItem } from "@/components/ui/form";
+import {
+  FormControl,
+  FormField,
+  FormItem,
+  FormMessage,
+} from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import _http from "@/utils/http";
+import { profileSchema } from "@/schema/auth";
 
-interface UpdateFormProp {
+interface UpdateFormProps {
   update: boolean;
   setUpdate: (update: boolean) => void;
   profile: Profile | undefined;
   id: string | undefined;
   token: string | undefined;
-  fetchData : () => void;
+  fetchData: () => void;
 }
 
-const formSchema = z.object({
-  firstName: z.string().min(1),
-  lastName: z.string().min(1),
-  email: z.string().min(1),
-});
-
-type CreateFormValue = z.infer<typeof formSchema>;
+type CreateFormValue = z.infer<typeof profileSchema>;
 
 export const UpdateForm = ({
   update,
@@ -34,13 +34,12 @@ export const UpdateForm = ({
   profile,
   id,
   token,
-  fetchData
-}: UpdateFormProp) => {
-
+  fetchData,
+}: UpdateFormProps) => {
   const [loading, setLoading] = useState(false);
 
   const form = useForm({
-    resolver: zodResolver(formSchema),
+    resolver: zodResolver(profileSchema),
     defaultValues: {
       firstName: `${profile?.firstName}`,
       lastName: `${profile?.lastName}`,
@@ -50,31 +49,27 @@ export const UpdateForm = ({
 
   const onSubmit = async (data: CreateFormValue) => {
     try {
-        setLoading(true);
-        const response = await _http.put(
-          `/api/auth/profile/${id}`,
-          data,
-          {
-            headers: {
-              "Content-Type": "application/json",
-               Authorization: `Bearer ${token}` 
-            },
-          }
-        );
-  
-        if (response.status == 200) {
-          setLoading(false);
-          setUpdate(!update);
-          toast.success("Thành công");
-          fetchData();
-        } else {
-          toast.success("Vui lòng thử lại")
-          setLoading(false);
-        }
-      } catch (error) {
+      setLoading(true);
+      const response = await _http.put(`/api/auth/profile/${id}`, data, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (response.status == 200) {
         setLoading(false);
-        console.log(error);
+        setUpdate(!update);
+        toast.success("Thành công");
+        fetchData();
+      } else {
+        toast.success("Vui lòng thử lại");
+        setLoading(false);
       }
+    } catch (error) {
+      setLoading(false);
+      console.log(error);
+    }
   };
 
   return (
@@ -94,6 +89,7 @@ export const UpdateForm = ({
                   <Input {...field} autoComplete="off" />
                 </div>
               </FormControl>
+              <FormMessage />
             </FormItem>
           )}
         />
@@ -108,6 +104,7 @@ export const UpdateForm = ({
                   <Input {...field} autoComplete="off" />
                 </div>
               </FormControl>
+              <FormMessage />
             </FormItem>
           )}
         />
@@ -123,10 +120,10 @@ export const UpdateForm = ({
                   <Input {...field} autoComplete="off" />
                 </div>
               </FormControl>
+              <FormMessage />
             </FormItem>
           )}
         />
-
 
         <Button type="submit" disabled={loading} className="lg:w-1/3">
           Submit

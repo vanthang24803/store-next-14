@@ -3,6 +3,19 @@ const capitalizeRegex =
 
 const specialCharRegex = /[\p{S}\p{P}]/u;
 const uppercaseCharRegex = /[A-Z]/;
+const textRegex =/^[A-Z][a-zA-Z]*$/
 const digitRegex = /\d/;
+const phoneNumberRegex = /^\d{10}$/;
 
-export { capitalizeRegex, specialCharRegex, uppercaseCharRegex, digitRegex };
+const sqlInjectionRegex =
+  /(\b(AND|OR)\b[\s]*[\d]+\=[\d]+|(\bUNION\b|\bSELECT\b|\bINSERT\b|\bUPDATE\b|\bDELETE\b|\bCREATE\b|\bDROP\b|\bALTER\b)\b|(\bWHERE\b[\s]*\d+\=[\d]+))/i;
+
+export {
+  capitalizeRegex,
+  specialCharRegex,
+  uppercaseCharRegex,
+  digitRegex,
+  phoneNumberRegex,
+  sqlInjectionRegex,
+  textRegex
+};

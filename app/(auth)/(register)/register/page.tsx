@@ -129,7 +129,11 @@ export default function Register() {
                               <span className="font-medium text-sm">
                                 First name
                               </span>
-                              <Input {...field} autoComplete="off" />
+                              <Input
+                                {...field}
+                                autoComplete="off"
+                                placeholder="May"
+                              />
                             </div>
                           </FormControl>
                           <FormMessage />
@@ -146,7 +150,11 @@ export default function Register() {
                               <span className="font-medium text-sm">
                                 Last name
                               </span>
-                              <Input {...field} autoComplete="off" />
+                              <Input
+                                {...field}
+                                autoComplete="off"
+                                placeholder="Nguyen"
+                              />
                             </div>
                           </FormControl>
                           <FormMessage />
@@ -165,7 +173,11 @@ export default function Register() {
                             <span className="font-medium text-sm">
                               Email address
                             </span>
-                            <Input {...field} autoComplete="off" />
+                            <Input
+                              {...field}
+                              autoComplete="off"
+                              placeholder="mail@example.com"
+                            />
                           </div>
                         </FormControl>
                         <FormMessage />
@@ -187,6 +199,7 @@ export default function Register() {
                               type="password"
                               {...field}
                               autoComplete="off"
+                              placeholder="Password"
                             />
                           </div>
                         </FormControl>

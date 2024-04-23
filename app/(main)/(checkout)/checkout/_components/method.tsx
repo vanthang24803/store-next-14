@@ -5,7 +5,12 @@ import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import { Check, MapPin, Package2 } from "lucide-react";
 import { info } from "@/constant";
-import { FormControl, FormField, FormItem } from "@/components/ui/form";
+import {
+  FormControl,
+  FormField,
+  FormItem,
+  FormMessage,
+} from "@/components/ui/form";
 import { useFormContext } from "react-hook-form";
 import { SelectAddress } from "./select-address";
 
@@ -49,6 +54,7 @@ export const Method = ({
                   <FormControl>
                     <Input placeholder="Địa chỉ" {...field} />
                   </FormControl>
+                  <FormMessage />
                 </FormItem>
               )}
             />
