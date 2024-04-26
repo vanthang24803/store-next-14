@@ -28,19 +28,9 @@ import {
 } from "@/components/ui/select";
 import { X } from "lucide-react";
 import _http from "@/utils/http";
+import { productSchema } from "@/schema/product";
 
-const formSchema = z.object({
-  name: z.string().min(1),
-  brand: z.string().min(1),
-  thumbnail: z.string().min(1),
-  category: z.string().min(1),
-  option: z.string().min(1),
-  sale: z.coerce.number().min(0),
-  quantity: z.coerce.number().min(1),
-  price: z.coerce.number().min(1),
-});
-
-type CreateFormValue = z.infer<typeof formSchema>;
+type CreateFormValue = z.infer<typeof productSchema>;
 
 export const CreateForm = () => {
   const [data, setData] = useState<Category[] | null>(null);
@@ -62,7 +52,7 @@ export const CreateForm = () => {
   const router = useRouter();
 
   const form = useForm({
-    resolver: zodResolver(formSchema),
+    resolver: zodResolver(productSchema),
     defaultValues: {
       name: "",
       brand: "",

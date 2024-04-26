@@ -22,38 +22,37 @@ import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import { Spinner } from "@/components/spinner";
 import _http from "@/utils/http";
+import { updateProductSchema } from "@/schema/product";
 
-const formSchema = z.object({
-  name: z.string().min(1),
-  brand: z.string().min(1),
-  thumbnail: z.string().min(1),
-});
+type CreateFormValue = z.infer<typeof updateProductSchema>;
 
-type CreateFormValue = z.infer<typeof formSchema>;
-
-interface UpdateFormProp {
+interface Props {
   product: Product | null;
 }
 
-export const UpdateForm = ({ product }: UpdateFormProp) => {
+export const UpdateForm = ({ product }: Props) => {
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [image, setImage] = useState(product?.thumbnail);
+  const [image, setImage] = useState<string>("");
 
   const router = useRouter();
 
   const form = useForm({
-    resolver: zodResolver(formSchema),
+    resolver: zodResolver(updateProductSchema),
     defaultValues: {
-      name: product?.name || "",
-      brand: product?.brand || "",
+      name: "",
+      brand: "",
       thumbnail: "",
     },
   });
 
   useEffect(() => {
-    form.setValue("name", product?.name || "");
-    form.setValue("brand", product?.brand || "");
+    if (product) {
+      form.setValue("name", product?.name || "");
+      form.setValue("brand", product?.brand || "");
+      form.setValue("thumbnail", product?.thumbnail || "");
+      setImage(product?.thumbnail);
+    }
   }, [product, form]);
 
   const onSubmit = async (data: CreateFormValue) => {
@@ -89,99 +88,112 @@ export const UpdateForm = ({ product }: UpdateFormProp) => {
         {product ? (
           <>
             <div className="flex justify-between w-full space-x-4">
-              {image?.length ? (
-                <img
-                  src={image}
-                  alt={product.name}
-                  className="w-[30%] object-cover"
-                  loading="lazy"
-                />
-              ) : (
-                <img
-                  src={product?.thumbnail}
-                  alt={product.name}
-                  className="w-[30%] object-cover"
-                  loading="lazy"
-                />
-              )}
-
               <FormProvider {...form}>
                 <form
                   onSubmit={form.handleSubmit(onSubmit)}
-                  className="space-y-4 w-full"
+                  className="flex items-start gap-8"
                 >
-                  <FormField
-                    control={form.control}
-                    name="name"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Name</FormLabel>
-                        <FormControl>
-                          <Input
-                            disabled={!open}
-                            placeholder={"Product name"}
-                            {...field}
+                  <div className="basis-1/3 w-full">
+                    {image?.length ? (
+                      <div className="relative">
+                        <img
+                          src={image}
+                          alt={product.name}
+                          className="object-cover"
+                          loading="lazy"
+                        />
+                        {open && (
+                          <X
+                            className="absolute top-4 right-4 text-neutral-800 hover:cursor-pointer"
+                            onClick={() => setImage("")}
                           />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
+                        )}
+                      </div>
+                    ) : (
+                      <div className="min-h-[300px] w-full">
+                        <FormField
+                          control={form.control}
+                          name="thumbnail"
+                          render={({ field }) => (
+                            <FormItem>
+                              <UploadDropzone
+                                endpoint="imageUploader"
+                                onClientUploadComplete={(res) => {
+                                  field.onChange(res[0].url);
+                                  setImage(res[0].url);
+                                }}
+                                onUploadError={(error: Error) => {
+                                  alert(`ERROR! ${error.message}`);
+                                }}
+                              />
+                            </FormItem>
+                          )}
+                        />
+                      </div>
                     )}
-                  />
-
-                  <FormField
-                    control={form.control}
-                    name="brand"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Bard</FormLabel>
-                        <FormControl>
-                          <Input
-                            disabled={!open}
-                            placeholder={"Product brand"}
-                            {...field}
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-
-                  {open && (
+                  </div>
+                  <div
+                    className={`space-y-4 basis-2/3 ${
+                      image.length == 0 ? "w-[500px]" : "w-full"
+                    }`}
+                  >
                     <FormField
                       control={form.control}
-                      name="thumbnail"
+                      name="name"
                       render={({ field }) => (
                         <FormItem>
-                          <UploadDropzone
-                            endpoint="imageUploader"
-                            onClientUploadComplete={(res) => {
-                              field.onChange(res[0].url);
-                              setImage(res[0].url);
-                            }}
-                            onUploadError={(error: Error) => {
-                              alert(`ERROR! ${error.message}`);
-                            }}
-                          />
+                          <FormLabel>Name</FormLabel>
+                          <FormControl>
+                            <Input
+                              disabled={!open}
+                              placeholder={"Product name"}
+                              {...field}
+                            />
+                          </FormControl>
+                          <FormMessage />
                         </FormItem>
                       )}
                     />
-                  )}
-                  {open && (
-                    <Button
-                      disabled={loading}
-                      className="ml-auto"
-                      type="submit"
-                    >
-                      Update
-                    </Button>
-                  )}
+
+                    <FormField
+                      control={form.control}
+                      name="brand"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Bard</FormLabel>
+                          <FormControl>
+                            <Input
+                              disabled={!open}
+                              placeholder={"Product brand"}
+                              {...field}
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+
+                    {open && (
+                      <Button
+                        disabled={loading || image.length === 0}
+                        className="ml-auto"
+                        type="submit"
+                      >
+                        Update
+                      </Button>
+                    )}
+                  </div>
                 </form>
               </FormProvider>
               {open ? (
-                <X
-                  className="hover:cursor-pointer"
-                  onClick={() => setOpen(false)}
-                />
+                <>
+                  {image.length > 0 && (
+                    <X
+                      className="hover:cursor-pointer"
+                      onClick={() => setOpen(false)}
+                    />
+                  )}
+                </>
               ) : (
                 <Settings2
                   className="hover:cursor-pointer"

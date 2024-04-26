@@ -22,15 +22,9 @@ import {
 import { FormProvider, useForm } from "react-hook-form";
 import { Heading } from "@/app/(dashboard)/dashboard/_components/heading";
 import _http from "@/utils/http";
+import { optionSchema } from "@/schema/option";
 
-const formSchema = z.object({
-  name: z.string().min(1),
-  sale: z.coerce.number().min(0),
-  quantity: z.coerce.number().min(0),
-  price: z.coerce.number().min(1),
-});
-
-type CreateFormValue = z.infer<typeof formSchema>;
+type CreateFormValue = z.infer<typeof optionSchema>;
 
 interface ProductIdProp {
   params: {
@@ -43,7 +37,7 @@ export default function CreateOptions({ params }: ProductIdProp) {
   const [loading, setLoading] = useState(false);
 
   const form = useForm({
-    resolver: zodResolver(formSchema),
+    resolver: zodResolver(optionSchema),
     defaultValues: {
       name: "",
       sale: 0,

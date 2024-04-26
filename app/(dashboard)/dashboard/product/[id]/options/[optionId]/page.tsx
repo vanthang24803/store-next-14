@@ -24,6 +24,7 @@ import { Heading } from "@/app/(dashboard)/dashboard/_components/heading";
 import { Settings2, X } from "lucide-react";
 import { Option } from "@/types";
 import _http from "@/utils/http";
+import { optionSchema } from "@/schema/option";
 
 interface OptionIdProp {
   params: {
@@ -32,14 +33,7 @@ interface OptionIdProp {
   };
 }
 
-const formSchema = z.object({
-  name: z.string().min(1),
-  sale: z.coerce.number().min(0),
-  quantity: z.coerce.number().min(0),
-  price: z.coerce.number().min(1),
-});
-
-type CreateFormValue = z.infer<typeof formSchema>;
+type CreateFormValue = z.infer<typeof optionSchema>;
 
 export default function CreateOptions({ params }: OptionIdProp) {
   const router = useRouter();
@@ -62,7 +56,7 @@ export default function CreateOptions({ params }: OptionIdProp) {
   }, [params.id, params.optionId]);
 
   const form = useForm({
-    resolver: zodResolver(formSchema),
+    resolver: zodResolver(optionSchema),
     defaultValues: {
       name: "",
       sale: 0,
@@ -70,6 +64,15 @@ export default function CreateOptions({ params }: OptionIdProp) {
       price: 0,
     },
   });
+
+  useEffect(() => {
+    if (data) {
+      form.setValue("name", data.name);
+      form.setValue("price", data.price);
+      form.setValue("quantity", data.quantity);
+      form.setValue("sale", data.sale);
+    }
+  }, [data, form]);
 
   const onSubmit = async (data: CreateFormValue) => {
     toast.loading("Waiting");

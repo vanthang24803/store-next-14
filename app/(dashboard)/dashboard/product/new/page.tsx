@@ -1,6 +1,6 @@
 import { Separator } from "@/components/ui/separator";
 import { Heading } from "../../_components/heading";
-import { CreateForm } from "./_components/update-from";
+import { CreateForm } from "./_components/create-form";
 
 
 export default function ProductId() {
