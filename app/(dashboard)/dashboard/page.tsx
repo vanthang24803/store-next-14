@@ -21,9 +21,11 @@ import { ChartOverview } from "./_components/chart-overview";
 import { RecentSales } from "./_components/recent-sale";
 
 export default async function Dashboard() {
-  const totalRevenue = await getTotalRevenue();
-  const graphRevenue = await getGraphRevenue();
-  const totalProduct = await getTotalProduct();
+  const [totalRevenue, graphRevenue, totalProduct] = await Promise.all([
+    getTotalRevenue(),
+    getGraphRevenue(),
+    getTotalProduct(),
+  ]);
 
   const chart = Object.keys(graphRevenue).map((key) => ({
     name: key,

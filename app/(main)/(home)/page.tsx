@@ -13,11 +13,13 @@ import { Figure } from "./_components/figure";
 import { Blogs } from "./_components/blogs";
 
 export default async function Home() {
-  const billboard = await getBillboard();
-  const bestSeller = await getBestSeller();
+  const [billboard, bestSeller, newBooks, manga] = await Promise.all([
+    getBillboard(),
+    getBestSeller(),
+    getByCategory(10, SACHMOI),
+    getByCategory(10, MANGA),
+  ]);
 
-  const newBooks = await getByCategory(10, SACHMOI);
-  const manga = await getByCategory(10, MANGA);
   return (
     <main className="md:max-w-screen-xl mx-auto md:p-4 flex flex-col space-y-6 md:space-y-8">
       <Header billboard={billboard} />
