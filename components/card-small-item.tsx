@@ -8,6 +8,7 @@ import { formatPrice, price } from "@/utils/format-price";
 import { ItemModal } from "@/components/modal/item-modal";
 import useCart from "@/hooks/use-cart";
 import { useRouter } from "next/navigation";
+import { generateSlug } from "@/utils/slug";
 
 interface CardItemProps {
   product: Product;
@@ -15,7 +16,6 @@ interface CardItemProps {
 
 export const CardItemSmall = ({ product }: CardItemProps) => {
   const cart = useCart();
-
 
   const router = useRouter();
 
@@ -43,7 +43,7 @@ export const CardItemSmall = ({ product }: CardItemProps) => {
 
         <p
           onClick={() => {
-            router.push(`/products/${product.id}`);
+            router.push(`/products/${generateSlug(product.name, product.id)}`);
           }}
           className="font-semibold text-[13px] line-clamp-2"
         >

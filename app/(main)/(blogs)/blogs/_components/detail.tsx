@@ -4,6 +4,7 @@
 import { Separator } from "@/components/ui/separator";
 import { Blog } from "@/types";
 import _http from "@/utils/http";
+import { generateSlug } from "@/utils/slug";
 import { format } from "date-fns";
 import { vi } from "date-fns/locale";
 import { useRouter } from "next/navigation";
@@ -77,7 +78,9 @@ export const Detail = ({ blog }: Props) => {
             <div
               key={item.id}
               className="flex flex-col hover:cursor-pointer"
-              onClick={() => router.push(`/blogs/${item.id}`)}
+              onClick={() =>
+                router.push(`/blogs/${generateSlug(item.title, item.id)}`)
+              }
             >
               <img
                 src={item.thumbnail}

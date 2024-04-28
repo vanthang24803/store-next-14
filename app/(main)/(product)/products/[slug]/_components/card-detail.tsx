@@ -174,7 +174,7 @@ export const DetailCard = ({ product }: DetailCardProp) => {
                 </Button>
               )}
 
-              <Share productId={product?.id} />
+              {product && <Share id={product.id} name={product.name} />}
             </div>
             <Policy />
           </div>

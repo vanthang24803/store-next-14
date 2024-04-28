@@ -3,6 +3,7 @@
 import { Spinner } from "@/components/spinner";
 import { Blog } from "@/types";
 import _http from "@/utils/http";
+import { generateSlug } from "@/utils/slug";
 import { format } from "date-fns";
 import { vi } from "date-fns/locale";
 import { ChevronRight } from "lucide-react";
@@ -58,7 +59,11 @@ export const Blogs = () => {
             {firstBlog && (
               <div
                 className="md:basis-1/2 w-full flex flex-col hover:cursor-pointer"
-                onClick={() => router.push(`/blogs/${firstBlog.id}`)}
+                onClick={() =>
+                  router.push(
+                    `/blogs/${generateSlug(firstBlog.title, firstBlog.id)}`
+                  )
+                }
               >
                 <Image
                   src={firstBlog.thumbnail}
@@ -84,7 +89,9 @@ export const Blogs = () => {
                   <div
                     key={item.id}
                     className="flex space-x-4 hover:cursor-pointer"
-                    onClick={() => router.push(`/blogs/${item.id}`)}
+                    onClick={() =>
+                      router.push(`/blogs/${generateSlug(item.title, item.id)}`)
+                    }
                   >
                     <Image
                       src={item.thumbnail}

@@ -3,6 +3,7 @@
 import { Product } from "@/types";
 import Link from "next/link";
 import Image from "next/image";
+import { generateSlug } from "@/utils/slug";
 
 interface TopBookProps {
   data: Product[] | undefined;
@@ -12,7 +13,10 @@ export const TopBook = ({ data }: TopBookProps) => {
   return (
     <div className="grid lg:grid-cols-4 grid-cols-2 md:gap-8 px-2 gap-4 hover:cursor-pointer overflow-hidden">
       {data?.slice(0, 4).map((item) => (
-        <Link href={`/products/${item.id}`} key={item.id}>
+        <Link
+          href={`/products/${generateSlug(item.name, item.id)}`}
+          key={item.id}
+        >
           <div className="md:w-full md:h-[38vh] h-[220px] group relative">
             <Image
               src={item.thumbnail}

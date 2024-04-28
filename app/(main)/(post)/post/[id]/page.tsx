@@ -1,4 +1,5 @@
-import FormUpdatePost from "./_componnets/form-update";
+import { decodeSlug } from "@/utils/slug";
+import FormUpdatePost from "./_components/form-update";
 
 type Props = {
   params: {
@@ -7,5 +8,5 @@ type Props = {
 };
 
 export default function PostUpdate({ params }: Props) {
-  return <FormUpdatePost id={params.id} />;
+  return <FormUpdatePost id={decodeSlug(params.id) || ""} />;
 }

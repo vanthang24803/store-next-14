@@ -8,6 +8,7 @@ import useFetch from "@/hooks/use-fetch";
 import { price } from "@/utils/format-price";
 import { Product } from "@/types";
 import Link from "next/link";
+import { generateSlug } from "@/utils/slug";
 
 export const Figure = () => {
   const { data: products, loading } = useFetch<Product[]>({
@@ -29,7 +30,7 @@ export const Figure = () => {
           {products?.map((item) => (
             <div className="flex flex-col space-y-4" key={item.id}>
               <Link
-                href={`/products/${item.id}`}
+                href={`/products/${generateSlug(item.name, item.id)}`}
                 className="flex space-x-4 text-sm"
               >
                 <img

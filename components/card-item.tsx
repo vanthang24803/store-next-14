@@ -8,6 +8,7 @@ import { ItemModal } from "./modal/item-modal";
 import { formatPrice, price } from "@/utils/format-price";
 import useCart from "@/hooks/use-cart";
 import { useRouter } from "next/navigation";
+import { generateSlug } from "@/utils/slug";
 
 interface CardItemProps {
   product: Product;
@@ -43,7 +44,7 @@ export const CardItem = ({ product }: CardItemProps) => {
         </span>
         <p
           onClick={() => {
-            router.push(`/products/${product.id}`);
+            router.push(`/products/${generateSlug(product.name, product.id)}`);
           }}
           className="font-semibold text-sm line-clamp-2"
         >

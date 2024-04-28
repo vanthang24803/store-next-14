@@ -1,18 +1,20 @@
-import getDetailProduct from "@/actions/get-detail";
 import Link from "next/link";
+import getDetailProduct from "@/actions/get-detail";
 import { DetailCard } from "./_components/card-detail";
 import { Suggest } from "./_components/suggest";
 import { Introduce } from "./_components/introduce";
 import { Reviews } from "./_components/reviews";
+import { decodeSlug } from "@/utils/slug";
 
 interface ProductIdProp {
   params: {
-    productId: string;
+    slug: string;
   };
 }
 
-export default async function ProductId({ params }: ProductIdProp) {
-  const response = await getDetailProduct(params.productId);
+export default async function ProductDetail({ params }: ProductIdProp) {
+  const uuid = decodeSlug(params.slug);
+  const response = await getDetailProduct(uuid || "");
 
   return (
     <div className="md:max-w-screen-xl mx-auto px-4 md:p-4 flex flex-col space-y-6 pb-8 md:pb-12">
@@ -28,7 +30,7 @@ export default async function ProductId({ params }: ProductIdProp) {
 
       <Introduce data={response} />
 
-      <Reviews productId={params.productId} />
+      <Reviews productId={uuid || ""} />
 
       <Suggest category={response.categories[0].name} />
     </div>

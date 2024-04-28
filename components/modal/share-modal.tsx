@@ -1,18 +1,20 @@
 "use client";
 
+import { generateSlug } from "@/utils/slug";
 import { Link } from "lucide-react";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 
 interface ShareProps {
-  productId: string | undefined;
+  id: string;
   show?: boolean;
+  name: string;
 }
 
-export const Share = ({ productId, show }: ShareProps) => {
+export const Share = ({ id, show, name }: ShareProps) => {
   const onCopy = () => {
     navigator.clipboard.writeText(
-      `${process.env.NEXT_PUBLIC_URL}/products/${productId}` || ""
+      `${process.env.NEXT_PUBLIC_URL}/products/${generateSlug(name, id)}` || ""
     );
 
     toast.success("Url đã được copy!");
@@ -35,7 +37,7 @@ export const Share = ({ productId, show }: ShareProps) => {
       {show && (
         <span
           className="underline hover:cursor-pointer text-sm"
-          onClick={() => router.push(`/products/${productId}`)}
+          onClick={() => router.push(`/products/${generateSlug(name, id)}`)}
         >
           Xem chi tiết sản phẩm
         </span>

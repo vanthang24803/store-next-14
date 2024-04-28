@@ -144,7 +144,7 @@ export const InforModal = ({ data }: InforModalProps) => {
         </Button>
       )}
 
-      <Share productId={data?.id} show={true} />
+      {data && <Share id={data.id} name={data.name} show={true} />}
     </div>
   );
 };

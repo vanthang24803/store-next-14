@@ -9,6 +9,8 @@ import {
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
 import { Detail } from "../_components/detail";
+import { decodeSlug } from "@/utils/slug";
+import { uuidRegex } from "@/utils/regex";
 
 type Props = {
   params: {
@@ -17,15 +19,16 @@ type Props = {
 };
 
 export async function generateMetadata({ params }: { params: { id: string } }) {
-  const blog = await getDetailBlog(params.id);
-
+  const blog = await getDetailBlog(decodeSlug(params.id) || "");
   return {
-    title: blog.title || "Product",
+    title: blog.title || "Blog",
   };
 }
 
 export default async function BlogDetail({ params }: Props) {
-  const blog = await getDetailBlog(params.id);
+  const uuid = decodeSlug(params.id);
+  const blog = await getDetailBlog(uuid || "");
+
   return (
     <div className="lg:container p-4 flex flex-col space-y-4">
       <Breadcrumb>

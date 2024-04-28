@@ -3,12 +3,15 @@ const capitalizeRegex =
 
 const specialCharRegex = /[\p{S}\p{P}]/u;
 const uppercaseCharRegex = /[A-Z]/;
-const textRegex =/^[A-Z][a-zA-Z]*$/
+const textRegex = /^[A-Z][a-zA-Z]*$/;
 const digitRegex = /\d/;
 const phoneNumberRegex = /^\d{10}$/;
 
 const sqlInjectionRegex =
   /(\b(AND|OR)\b[\s]*[\d]+\=[\d]+|(\bUNION\b|\bSELECT\b|\bINSERT\b|\bUPDATE\b|\bDELETE\b|\bCREATE\b|\bDROP\b|\bALTER\b)\b|(\bWHERE\b[\s]*\d+\=[\d]+))/i;
+
+const uuidRegex =
+  /[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}/;
 
 export {
   capitalizeRegex,
@@ -17,5 +20,6 @@ export {
   digitRegex,
   phoneNumberRegex,
   sqlInjectionRegex,
-  textRegex
+  textRegex,
+  uuidRegex,
 };

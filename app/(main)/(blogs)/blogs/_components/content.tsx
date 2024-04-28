@@ -9,6 +9,7 @@ import { format } from "date-fns";
 import { vi } from "date-fns/locale";
 import { BottomPagination } from "@/app/(main)/(collections)/collections/_components/pagination-bottom";
 import _http from "@/utils/http";
+import { generateSlug } from "@/utils/slug";
 
 export const Content = () => {
   const [blogs, setBlogs] = useState<Blog[] | null>();
@@ -59,7 +60,9 @@ export const Content = () => {
               <div
                 key={item.id}
                 className="flex flex-col hover:cursor-pointer"
-                onClick={() => router.push(`/blogs/${item.id}`)}
+                onClick={() =>
+                  router.push(`/blogs/${generateSlug(item.title, item.id)}`)
+                }
               >
                 <img
                   src={item.thumbnail}

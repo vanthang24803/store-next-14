@@ -20,6 +20,7 @@ import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 import { BottomPagination } from "@/app/(main)/(collections)/collections/_components/pagination-bottom";
 import _http from "@/utils/http";
+import { generateSlug } from "@/utils/slug";
 
 export const BlogContent = () => {
   const auth = useAuth();
@@ -109,7 +110,11 @@ export const BlogContent = () => {
                           <DropdownMenuContent>
                             <DropdownMenuGroup>
                               <DropdownMenuItem
-                                onClick={() => router.push(`/post/${item.id}`)}
+                                onClick={() =>
+                                  router.push(
+                                    `/post/${generateSlug(item.title, item.id)}`
+                                  )
+                                }
                               >
                                 <Settings className="mr-2 h-4 w-4" />
                                 <span>Chỉnh sửa</span>
