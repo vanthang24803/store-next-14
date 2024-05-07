@@ -13,7 +13,7 @@ type Store = {
   token: string;
   isLogin: boolean;
   login: (email: string, password: string) => Promise<void>;
-  signInWithGoogle: (token: string | undefined) => void;
+  signInWithSocial: (token: string | undefined) => void;
   logout: () => void;
   verifyEmail: (userId: string | null, token: string | null) => void;
 };
@@ -54,7 +54,7 @@ const useAuth = create(
         }
       },
 
-       signInWithGoogle(token) {
+       signInWithSocial(token) {
         if (token) {
           _http
             .post(`/api/auth/social?token=${token}`)

@@ -18,8 +18,13 @@ import { Button } from "@/components/ui/button";
 import useAuth from "@/hooks/use-auth";
 import { loginSchema } from "@/schema/auth";
 import Image from "next/image";
-import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
+import {
+  GoogleAuthProvider,
+  signInWithPopup,
+  FacebookAuthProvider,
+} from "firebase/auth";
 import { auth } from "@/utils/firebase";
+import { SocialButton } from "@/components/social-button";
 
 type CreateFormValue = z.infer<typeof loginSchema>;
 
@@ -57,6 +62,7 @@ export default function Login() {
   };
 
   const googleProvider = new GoogleAuthProvider();
+  const fbProvider = new FacebookAuthProvider();
 
   const loginWithGoogle = async () => {
     try {
@@ -65,7 +71,20 @@ export default function Login() {
       // @ts-ignore
       const token = result._tokenResponse.idToken;
 
-      authStore.signInWithGoogle(token);
+      authStore.signInWithSocial(token);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const loginWithFacebook = async () => {
+    try {
+      const result = await signInWithPopup(auth, fbProvider);
+
+      // @ts-ignore
+      const token = result._tokenResponse.idToken;
+
+      authStore.signInWithSocial(token);
     } catch (error) {
       console.log(error);
     }
@@ -147,13 +166,19 @@ export default function Login() {
             </form>
           </FormProvider>
 
-          <Button
-            className="bg-white hover:bg-white text-black flex items-center justify-center gap-4"
-            onClick={loginWithGoogle}
-          >
-            <Image src="/google.svg" alt="google" width={18} height={18} />
-            <span>Sign In with Google</span>
-          </Button>
+          <div className="flex flex-col gap-2">
+            <SocialButton
+              provider="google"
+              size={18}
+              onClick={loginWithGoogle}
+            />
+
+            <SocialButton
+              provider="facebook"
+              size={18}
+              onClick={loginWithFacebook}
+            />
+          </div>
 
           <div className="flex items-center space-x-2 text-sm">
             <span className="mt-4 text-neutral-600">No account?</span>
