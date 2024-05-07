@@ -54,10 +54,10 @@ const useAuth = create(
         }
       },
 
-      signInWithGoogle(token) {
+       signInWithGoogle(token) {
         if (token) {
           _http
-            .post(`/api/auth/google?token=${token}`)
+            .post(`/api/auth/social?token=${token}`)
             .then((response) => {
               set({
                 user: response.data.user,

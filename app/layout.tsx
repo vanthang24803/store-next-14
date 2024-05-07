@@ -3,8 +3,6 @@ import "@uploadthing/react/styles.css";
 import "./globals.css";
 import { siteConfig } from "@/config/site";
 import { ToastProvider } from "@/components/provider/toater-provider";
-import { GoogleOAuthProvider } from "@react-oauth/google";
-
 
 export const metadata: Metadata = {
   title: {
@@ -26,12 +24,10 @@ export default function RootLayout({
 }) {
   return (
     <html lang="vi">
-      <GoogleOAuthProvider clientId={`${process.env.GOOGLE_CLIENT_ID}`}>
-        <body>
-          <ToastProvider />
-          {children}
-        </body>
-      </GoogleOAuthProvider>
+      <body>
+        <ToastProvider />
+        {children}
+      </body>
     </html>
   );
 }

@@ -16,17 +16,17 @@ import { FormProvider, useForm } from "react-hook-form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import useAuth from "@/hooks/use-auth";
-import { GoogleLogin } from "@react-oauth/google";
-import toast from "react-hot-toast";
 import { loginSchema } from "@/schema/auth";
-
+import Image from "next/image";
+import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
+import { auth } from "@/utils/firebase";
 
 type CreateFormValue = z.infer<typeof loginSchema>;
 
 export default function Login() {
   const router = useRouter();
 
-  const auth = useAuth();
+  const authStore = useAuth();
 
   const [loading, setLoading] = useState(false);
 
@@ -47,7 +47,7 @@ export default function Login() {
   const onSubmit = async (data: CreateFormValue) => {
     setLoading(true);
     try {
-      await auth.login(data.email, data.password);
+      await authStore.login(data.email, data.password);
       router.push("/");
     } catch (error) {
       console.error(error);
@@ -56,7 +56,22 @@ export default function Login() {
     }
   };
 
-  if (auth.token) {
+  const googleProvider = new GoogleAuthProvider();
+
+  const loginWithGoogle = async () => {
+    try {
+      const result = await signInWithPopup(auth, googleProvider);
+
+      // @ts-ignore
+      const token = result._tokenResponse.idToken;
+
+      authStore.signInWithGoogle(token);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  if (authStore.token) {
     redirect("/");
   }
 
@@ -86,7 +101,11 @@ export default function Login() {
                         <span className="font-medium text-sm">
                           Email address
                         </span>
-                        <Input {...field} autoComplete="off" placeholder="mail@example.com" />
+                        <Input
+                          {...field}
+                          autoComplete="off"
+                          placeholder="mail@example.com"
+                        />
                       </div>
                     </FormControl>
                     <FormMessage />
@@ -102,7 +121,12 @@ export default function Login() {
                     <FormControl>
                       <div className="flex flex-col space-y-1">
                         <span className="font-medium text-sm">Password</span>
-                        <Input type="password" {...field} autoComplete="off" placeholder="Password" />
+                        <Input
+                          type="password"
+                          {...field}
+                          autoComplete="off"
+                          placeholder="Password"
+                        />
                       </div>
                     </FormControl>
                     <FormMessage />
@@ -117,36 +141,19 @@ export default function Login() {
                 Forgot password
               </span>
 
-              <div className="w-full items-center hidden md:block">
-                <GoogleLogin
-                  size="large"
-                  width="350"
-                  onSuccess={(credentialResponse) => {
-                    auth.signInWithGoogle(credentialResponse?.credential);
-                  }}
-                  onError={() => {
-                    toast.error("Something went wrong!");
-                  }}
-                />
-              </div>
-              <div className="w-full items-center block md:hidden">
-                <GoogleLogin
-                  size="large"
-                  width="310"
-                  onSuccess={(credentialResponse) => {
-                    auth.signInWithGoogle(credentialResponse?.credential);
-                  }}
-                  onError={() => {
-                    toast.error("Something went wrong!");
-                  }}
-                />
-              </div>
-
               <Button type="submit" disabled={loading}>
                 Submit
               </Button>
             </form>
           </FormProvider>
+
+          <Button
+            className="bg-white hover:bg-white text-black flex items-center justify-center gap-4"
+            onClick={loginWithGoogle}
+          >
+            <Image src="/google.svg" alt="google" width={18} height={18} />
+            <span>Sign In with Google</span>
+          </Button>
 
           <div className="flex items-center space-x-2 text-sm">
             <span className="mt-4 text-neutral-600">No account?</span>
