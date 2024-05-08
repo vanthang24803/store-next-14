@@ -16,7 +16,7 @@ export default async function CollectionLayout({
 }) {
 
   return (
-    <html lang="en">
+    <html lang="vi">
       <body className={font.className}>
         <Navbar />
         <div className="mt-14 bg-[#f2f3f5] pb-6">{children}</div>

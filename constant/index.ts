@@ -270,14 +270,29 @@ export const Collections = {
       "https://file.hstatic.net/200000294254/collection/phu-kien-1200x628_dbee01b7158e4e0299add52c4ab27531.png",
   },
   HETHANG: {
-    name: "SoldOut",
+    name: "Hết hàng",
+    value: "SoldOut",
     thumbnail:
       "https://theme.hstatic.net/200000294254/1001077164/14/collection_banner.jpg?v=323",
   },
   GIAMGIA: {
-    name: "Sale",
+    name: "Giảm giá 50%",
+    value: "Sale",
     thumbnail:
       "https://file.hstatic.net/200000294254/collection/banner-collection-50_4cefb152aae04945bbe205504cc7c7a6.jpg",
+  },
+  BANCHAY: {
+    name: "Sách bán chạy",
+    value: "Selling",
+    thumbnail:
+      "https://theme.hstatic.net/200000294254/1001077164/14/collection_banner.jpg?v=323",
+  },
+
+  TONKHO: {
+    name: "Hàng tồn kho",
+    value: "Inventory",
+    thumbnail:
+      "https://theme.hstatic.net/200000294254/1001077164/14/collection_banner.jpg?v=323",
   },
 };
 

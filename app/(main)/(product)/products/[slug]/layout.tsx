@@ -24,7 +24,7 @@ export default function ProductLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
+    <html lang="vi">
       <body className={font.className}>
         <Navbar />
         <div className="mt-14  bg-[#f2f3f5] ">{children}</div>

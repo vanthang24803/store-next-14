@@ -11,7 +11,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { redirect, useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -29,11 +29,9 @@ export default function Register() {
 
   const auth = useAuth();
 
-  const [active, setActive] = useState(false);
+  const { isClient } = useClient();
 
-  if (auth.token) {
-    redirect("/");
-  }
+  const [active, setActive] = useState(false);
 
   const [loading, setLoading] = useState(false);
 
@@ -46,8 +44,6 @@ export default function Register() {
       password: "",
     },
   });
-
-  const { isClient } = useClient();
 
   const onSubmit = async (data: CreateFormValue) => {
     try {
@@ -72,161 +68,161 @@ export default function Register() {
     }
   };
 
+  useEffect(() => {
+    if (auth.token) {
+      redirect("/");
+    }
+  }, [auth.token]);
+
+  if (!isClient) return null;
+
   return (
-    <>
-      {isClient && (
-        <div className="md:w-[460px] w-[360px] py-4 px-6 bg-white/90 rounded-lg  flex flex-col space-y-5">
-          {active ? (
-            <div className="py-8 flex items-center justify-center flex-col space-y-6">
-              <Image
-                src="/email-send.svg"
-                alt="email-send"
-                width={250}
-                height={250}
-              />
-              <h1 className="text-center font-bold md:text-lg">
-                Account verification email has been sent!
-              </h1>
+    <div className="md:w-[460px] w-[360px] py-4 px-6 bg-white/90 rounded-lg  flex flex-col space-y-5">
+      {active ? (
+        <div className="py-8 flex items-center justify-center flex-col space-y-6">
+          <Image
+            src="/email-send.svg"
+            alt="email-send"
+            width={250}
+            height={250}
+          />
+          <h1 className="text-center font-bold md:text-lg">
+            Account verification email has been sent!
+          </h1>
 
-              <div className="flex items-center justify-center space-x-6 mt-8">
-                <Button
-                  variant="outline"
-                  className="w-[150px]"
-                  size="default"
-                  onClick={() => setActive(false)}
-                >
-                  Exit
-                </Button>
-                <Button variant="primary" className="w-[150px]" size="default">
-                  Resend Email
-                </Button>
-              </div>
-            </div>
-          ) : (
-            <>
-              <Logo />
-
-              <div className="flex flex-col">
-                <h2 className="text-xl font-semibold">Register</h2>
-                <span className="text-neutral-800 text-sm">
-                  to continue to AMAK Store
-                </span>
-              </div>
-
-              <FormProvider {...form}>
-                <form
-                  className="flex flex-col space-y-3"
-                  onSubmit={form.handleSubmit(onSubmit)}
-                >
-                  <div className="grid grid-cols-2 gap-4">
-                    <FormField
-                      control={form.control}
-                      name="firstName"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormControl>
-                            <div className="flex flex-col space-y-1">
-                              <span className="font-medium text-sm">
-                                First name
-                              </span>
-                              <Input
-                                {...field}
-                                autoComplete="off"
-                                placeholder="May"
-                              />
-                            </div>
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                    <FormField
-                      control={form.control}
-                      name="lastName"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormControl>
-                            <div className="flex flex-col space-y-1">
-                              <span className="font-medium text-sm">
-                                Last name
-                              </span>
-                              <Input
-                                {...field}
-                                autoComplete="off"
-                                placeholder="Nguyen"
-                              />
-                            </div>
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                  </div>
-
-                  <FormField
-                    control={form.control}
-                    name="email"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormControl>
-                          <div className="flex flex-col space-y-1">
-                            <span className="font-medium text-sm">
-                              Email address
-                            </span>
-                            <Input
-                              {...field}
-                              autoComplete="off"
-                              placeholder="mail@example.com"
-                            />
-                          </div>
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-
-                  <FormField
-                    control={form.control}
-                    name="password"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormControl>
-                          <div className="flex flex-col space-y-1">
-                            <span className="font-medium text-sm">
-                              Password
-                            </span>
-                            <Input
-                              type="password"
-                              {...field}
-                              autoComplete="off"
-                              placeholder="Password"
-                            />
-                          </div>
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-
-                  <Button type="submit" disabled={loading}>
-                    Submit
-                  </Button>
-                </form>
-              </FormProvider>
-
-              <div className="flex items-center space-x-2 text-sm">
-                <span className="mt-4 text-neutral-600">Have account?</span>
-                <span
-                  className="mt-4 text-blue-600 hover:cursor-pointer"
-                  onClick={() => router.push("/login")}
-                >
-                  Login now
-                </span>
-              </div>
-            </>
-          )}
+          <div className="flex items-center justify-center space-x-6 mt-8">
+            <Button
+              variant="outline"
+              className="w-[150px]"
+              size="default"
+              onClick={() => setActive(false)}
+            >
+              Exit
+            </Button>
+            <Button variant="primary" className="w-[150px]" size="default">
+              Resend Email
+            </Button>
+          </div>
         </div>
+      ) : (
+        <>
+          <Logo />
+
+          <div className="flex flex-col">
+            <h2 className="text-xl font-semibold">Register</h2>
+            <span className="text-neutral-800 text-sm">
+              to continue to AMAK Store
+            </span>
+          </div>
+
+          <FormProvider {...form}>
+            <form
+              className="flex flex-col space-y-3"
+              onSubmit={form.handleSubmit(onSubmit)}
+            >
+              <div className="grid grid-cols-2 gap-4">
+                <FormField
+                  control={form.control}
+                  name="firstName"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormControl>
+                        <div className="flex flex-col space-y-1">
+                          <span className="font-medium text-sm">
+                            First name
+                          </span>
+                          <Input
+                            {...field}
+                            autoComplete="off"
+                            placeholder="May"
+                          />
+                        </div>
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="lastName"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormControl>
+                        <div className="flex flex-col space-y-1">
+                          <span className="font-medium text-sm">Last name</span>
+                          <Input
+                            {...field}
+                            autoComplete="off"
+                            placeholder="Nguyen"
+                          />
+                        </div>
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+
+              <FormField
+                control={form.control}
+                name="email"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormControl>
+                      <div className="flex flex-col space-y-1">
+                        <span className="font-medium text-sm">
+                          Email address
+                        </span>
+                        <Input
+                          {...field}
+                          autoComplete="off"
+                          placeholder="mail@example.com"
+                        />
+                      </div>
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              <FormField
+                control={form.control}
+                name="password"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormControl>
+                      <div className="flex flex-col space-y-1">
+                        <span className="font-medium text-sm">Password</span>
+                        <Input
+                          type="password"
+                          {...field}
+                          autoComplete="off"
+                          placeholder="Password"
+                        />
+                      </div>
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              <Button type="submit" disabled={loading}>
+                Submit
+              </Button>
+            </form>
+          </FormProvider>
+
+          <div className="flex items-center space-x-2 text-sm">
+            <span className="mt-4 text-neutral-600">Have account?</span>
+            <span
+              className="mt-4 text-blue-600 hover:cursor-pointer"
+              onClick={() => router.push("/login")}
+            >
+              Login now
+            </span>
+          </div>
+        </>
       )}
-    </>
+    </div>
   );
 }

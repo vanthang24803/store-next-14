@@ -14,24 +14,20 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { Separator } from "@/components/ui/separator";
 import { CartIcon } from "@/components/icons/icon-cart";
 import useCart from "@/hooks/use-cart";
-import { useEffect, useState } from "react";
 import { ShoppingCart, X } from "lucide-react";
 import { UpdateCart } from "./update-cart";
 import { formatPrice, price } from "@/utils/format-price";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import useClient from "@/hooks/use-client";
 
 export const CartAction = () => {
   const cart = useCart();
   const router = useRouter();
 
-  const [isMounted, setIsMounted] = useState(false);
+  const { isClient } = useClient();
 
-  useEffect(() => {
-    setIsMounted(true);
-  }, []);
-
-  if (!isMounted) {
+  if (!isClient) {
     return null;
   }
 
@@ -41,11 +37,13 @@ export const CartAction = () => {
         <div className="flex items-center space-x-2 hover:cursor-pointer">
           <div className="relative">
             <CartIcon />
-            <div className="w-5 h-5 flex items-center justify-center rounded-full bg-red-500 absolute -top-2 -right-2">
-              <span className="text-white text-[12px]">
-                {cart.totalItems()}
-              </span>
-            </div>
+            {cart.totalItems() > 0 && (
+              <div className="w-5 h-5 flex items-center justify-center rounded-full bg-red-500 absolute -top-2 -right-2">
+                <span className="text-white text-[12px]">
+                  {cart.totalItems()}
+                </span>
+              </div>
+            )}
           </div>
         </div>
       </SheetTrigger>

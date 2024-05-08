@@ -1,5 +1,3 @@
-"use client";
-
 import { Billboard } from "@/types";
 import { Slider } from "./_components/slider";
 import { BillboardHeader } from "./_components/billboard";

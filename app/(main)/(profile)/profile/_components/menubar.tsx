@@ -29,39 +29,37 @@ export const Menubar = () => {
 
   const { isClient } = useClient();
 
+  if (!isClient) return null;
+
   return (
-    <>
-      {isClient && (
-        <div className="lg:flex flex-col space-y-4 md:mt-20 m-4 hidden ">
-          <h2 className="uppercase font-semibold mx-4">TÀI KHOẢN</h2>
-          {menu.map((item, _) => (
-            <Link href={item.url} key={_}>
-              <Button
-                variant={pathname === item.url ? "primary" : "ghost"}
-                className="w-full md:w-[200px] justify-start "
-              >
-                {item.name}
-              </Button>
-            </Link>
-          ))}
-          {auth.user?.role.includes("ADMIN") && (
-            <Button
-              variant={pathname === "/profile/blogs" ? "primary" : "ghost"}
-              onClick={() => router.push(`/profile/blogs`)}
-              className="w-full md:w-[200px] justify-start"
-            >
-              Bài viết
-            </Button>
-          )}
+    <div className="lg:flex flex-col space-y-4 md:mt-20 m-4 hidden ">
+      <h2 className="uppercase font-semibold mx-4">TÀI KHOẢN</h2>
+      {menu.map((item, _) => (
+        <Link href={item.url} key={_}>
           <Button
-            variant="ghost"
-            className="hover:text-[#417505] font-medium text-sm hover:cursor-pointer justify-normal"
-            onClick={() => auth.logout()}
+            variant={pathname === item.url ? "primary" : "ghost"}
+            className="w-full md:w-[200px] justify-start "
           >
-            Đăng xuất
+            {item.name}
           </Button>
-        </div>
+        </Link>
+      ))}
+      {auth.user?.role.includes("ADMIN") && (
+        <Button
+          variant={pathname === "/profile/blogs" ? "primary" : "ghost"}
+          onClick={() => router.push(`/profile/blogs`)}
+          className="w-full md:w-[200px] justify-start"
+        >
+          Bài viết
+        </Button>
       )}
-    </>
+      <Button
+        variant="ghost"
+        className="hover:text-[#417505] font-medium text-sm hover:cursor-pointer justify-normal"
+        onClick={() => auth.logout()}
+      >
+        Đăng xuất
+      </Button>
+    </div>
   );
 };

@@ -5,13 +5,7 @@ import ContactModal from "../modal/contact-modal";
 
 export const ModalProvider = () => {
   const { isClient } = useClient();
-  return (
-    <>
-      {isClient && (
-        <>
-          <ContactModal />
-        </>
-      )}
-    </>
-  );
+  if (!isClient) return null;
+
+  return <ContactModal />;
 };

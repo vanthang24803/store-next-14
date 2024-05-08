@@ -1,6 +1,6 @@
+import Image from "next/image";
 import { useEffect, useState } from "react";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
-import Image from "next/image";
 
 export default function ContactModal() {
   const [open, setOpen] = useState(false);
