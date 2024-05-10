@@ -3,8 +3,9 @@
 import { ColumnDef } from "@tanstack/react-table";
 
 import { CellAction } from "./cell-action";
-import { format, parseISO } from "date-fns";
 import { price } from "@/utils/format-price";
+import { formatDate } from "@/utils/date";
+
 
 const statusList: { [key: string]: string } = {
   PENDING: "#dc2626",
@@ -24,10 +25,6 @@ export type OrderColumn = {
   createAt: string;
 };
 
-const formatDate = (dateString: any) => {
-  const date = parseISO(dateString);
-  return format(date, "dd/MM/yyyy HH:ss");
-};
 
 export const columns: ColumnDef<OrderColumn>[] = [
   {
@@ -41,6 +38,7 @@ export const columns: ColumnDef<OrderColumn>[] = [
   {
     accessorKey: "address",
     header: "Address",
+    cell : ({row}) => <span className="line-clamp-1">{row.original.address}</span>
   },
   {
     accessorKey: "payment",

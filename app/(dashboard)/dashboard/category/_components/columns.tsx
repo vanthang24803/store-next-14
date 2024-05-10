@@ -1,9 +1,9 @@
 "use client";
 
 import { ColumnDef } from "@tanstack/react-table";
-
+import { formatDate } from "@/utils/date";
 import { CellAction } from "./cell-action";
-import { format, parseISO } from "date-fns";
+
 
 export type CategoryColumn = {
   id: string;
@@ -11,10 +11,6 @@ export type CategoryColumn = {
   createAt: string;
 };
 
-const formatDate = (dateString: any) => {
-  const date = parseISO(dateString);
-  return format(date, "dd/MM/yyyy HH:ss");
-};
 
 export const columns: ColumnDef<CategoryColumn>[] = [
   {

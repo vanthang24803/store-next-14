@@ -32,6 +32,7 @@ const columns: ColumnDef<ProductColumn>[] = [
   {
     accessorKey: "sold",
     header: "Sold",
+    cell: ({ row }) => <span className="mx-2">{row.original.sold}</span>
   },
 ];
 

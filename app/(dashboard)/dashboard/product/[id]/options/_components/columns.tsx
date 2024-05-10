@@ -3,8 +3,9 @@
 import { ColumnDef } from "@tanstack/react-table";
 
 import { CellAction } from "./cell-action";
-import { format, parseISO } from "date-fns";
 import { price } from "@/utils/format-price";
+import { formatDate } from "@/utils/date";
+
 
 export type OptionColumn = {
   id: string;
@@ -18,11 +19,6 @@ export type OptionColumn = {
 
   createAt: string;
   updateAt: string;
-};
-
-const formatDate = (dateString: any) => {
-  const date = parseISO(dateString);
-  return format(date, "dd/MM/yyyy HH:ss");
 };
 
 export const columns: ColumnDef<OptionColumn>[] = [
